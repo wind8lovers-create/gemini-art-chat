@@ -1,0 +1,31 @@
+/* ヘッダー専用のCSSデザイン */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 左右に要素を離して配置 */
+  padding: 12px 24px;
+  margin: 16px; /* 外側に少し余白を作ることで、浮いているように見せます */
+  border-radius: var(--border-radius);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  font-size: 1.8rem;
+}
+
+.logo h1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 1px; /* 文字の間隔を少しあけてカッコよく */
+}
+
+.nav {
+  display: flex;
+  gap: 12px; /* ボタン同士の間隔 */
+}

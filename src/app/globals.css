@@ -1,49 +1,108 @@
+/* src/app/globals.css */
+
+/*
+ * アプリ全体で使う「色のルール」や「デザインのルール」を定義します。
+ * ここで決めた色（変数）を色々な場所で使い回すことで、統一感のあるカッコいいデザインになります。
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 基本となる色（ダークテーマ） */
+  --bg-color: #121212;             /* 一番奥の背景色（ほぼ黒） */
+  --text-color: #e0e0e0;           /* メインの文字色（少し落ち着いた白） */
+  --text-muted: #888888;           /* 控えめな文字色（グレー） */
+  
+  /* アクセントカラー（目を引く色） */
+  --primary-color: #bb86fc;        /* 綺麗な紫系（Geminiっぽさ） */
+  --primary-hover: #9965f4;        /* マウスを乗せた時の紫 */
+  --danger-color: #cf6679;         /* エラーや削除などの赤色 */
+  
+  /* グラスモーフィズム（すりガラス風）の表現に使う色 */
+  --glass-bg: rgba(30, 30, 30, 0.6);        /* 半透明の黒 */
+  --glass-border: rgba(255, 255, 255, 0.1); /* うっすら白い枠線 */
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); /* ガラスの影 */
+  
+  /* 角の丸みやアニメーションの速さ */
+  --border-radius: 12px;           /* パネルの角丸 */
+  --border-radius-sm: 8px;         /* ボタンなどの小さな角丸 */
+  --transition: all 0.3s ease;     /* フワッと変化させるアニメーション */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
+/* 全体の基本設定（余白をゼロにするなど） */
 * {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  /* 横にスクロールバーが出ないようにする */
+  overflow-x: hidden; 
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+/* 
+ * スクロールバーのカスタマイズ（細くてカッコいいスクロールバーにします）
+ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* 
+ * 共通の「すりガラス風パネル」のスタイル（.glass-panel とつけるだけでガラス風になります）
+ */
+.glass-panel {
+  background: var(--glass-bg);
+  /* 背景をぼかす魔法のプロパティ（これがグラスモーフィズムの肝です！） */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--border-radius);
+}
+
+/* 
+ * ボタンの共通スタイル
+ */
+.btn {
+  background: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--glass-border);
+  padding: 8px 16px;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.05); /* マウスを乗せたら少し白く光る */
+}
+
+/* 主役となる目立つボタン */
+.btn-primary {
+  background: var(--primary-color);
+  color: #000;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
 }

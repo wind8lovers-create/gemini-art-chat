@@ -1,0 +1,57 @@
+[
+  {
+    "id": "e45aea8b-de43-4474-acec-5d471844d449",
+    "sender": "user",
+    "text": "猫の画像を３Dアニメ調で作って",
+    "timestamp": "2026-07-14T06:25:46.897Z"
+  },
+  {
+    "id": "4ddcc38b-cdb5-41fe-b22b-f75b073ad767",
+    "sender": "user",
+    "text": "猫の絵を描いて",
+    "timestamp": "2026-07-14T06:27:46.073Z"
+  },
+  {
+    "id": "1a9d89b1-8d36-45da-be77-f90342618fbc",
+    "sender": "user",
+    "text": "この画像を水彩画風にしてください",
+    "timestamp": "2026-07-14T07:23:03.258Z"
+  },
+  {
+    "id": "63cf5184-1695-46fc-9965-5a45c90d34f5",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-14T07:23:13.609Z",
+    "generatedImages": [
+      {
+        "id": "6e36f963-c7a5-4675-b6b8-8e1c71a932cd",
+        "filename": "6e36f963-c7a5-4675-b6b8-8e1c71a932cd.png",
+        "prompt": "この画像を水彩画風にしてください",
+        "version": 1,
+        "parentImageId": null,
+        "isFavorite": true
+      }
+    ]
+  },
+  {
+    "id": "3810ee4f-ca8e-4585-a723-7c6222d9038a",
+    "sender": "user",
+    "text": "優しいパステル調にしてください。 ",
+    "timestamp": "2026-07-14T10:35:16.181Z"
+  },
+  {
+    "id": "d41d105a-43fc-4a72-9d5c-213d505e07a9",
+    "sender": "ai",
+    "text": "承知いたしました！優しいパステル調で描いた画像をお届けします。",
+    "timestamp": "2026-07-14T10:35:29.727Z",
+    "generatedImages": [
+      {
+        "id": "d22393c1-2e8c-40f6-ae82-39364b05032c",
+        "filename": "d22393c1-2e8c-40f6-ae82-39364b05032c.png",
+        "prompt": "優しいパステル調にしてください。 ",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  }
+]

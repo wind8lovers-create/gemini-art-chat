@@ -1,0 +1,116 @@
+/* チャット画面専用のCSS */
+
+.chatWindow {
+  flex: 1; /* 余ったスペースを全てチャット画面に使う */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* はみ出たらスクロール */
+  padding: 16px;
+}
+
+.emptyChat {
+  margin: auto; /* ど真ん中に配置 */
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.emptyChat h3 {
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
+.messageList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* メッセージの吹き出し周り */
+.messageWrapper {
+  display: flex;
+  width: 100%;
+}
+
+.userWrapper {
+  justify-content: flex-end; /* ユーザーは右寄せ */
+}
+
+.aiWrapper {
+  justify-content: flex-start; /* AIは左寄せ */
+}
+
+.bubble {
+  max-width: 70%; /* 画面の7割までの幅におさめる */
+  padding: 12px 16px;
+  border-radius: var(--border-radius);
+  position: relative;
+}
+
+.userBubble {
+  background: var(--primary-color);
+  color: #000;
+  border-bottom-right-radius: 4px; /* しっぽのようなデザイン */
+}
+
+.aiBubble {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  border-bottom-left-radius: 4px; /* しっぽのようなデザイン */
+}
+
+.text {
+  line-height: 1.5;
+  white-space: pre-wrap; /* 改行をそのまま表示 */
+}
+
+/* 編集・コピーボタン */
+.actionButtons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: flex-end;
+}
+
+.actionBtn {
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.actionBtn:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* 画像の仮置き場デザイン */
+.imagePlaceholder {
+  margin-top: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+/* 生成された画像とそのコンテナ */
+.imageGrid {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.generatedImage {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  object-fit: contain;
+  transition: transform 0.2s;
+}
+
+.generatedImage:hover {
+  transform: scale(1.02);
+}

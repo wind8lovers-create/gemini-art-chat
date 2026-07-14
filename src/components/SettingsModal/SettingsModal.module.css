@@ -1,0 +1,197 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modalContent {
+  background: var(--bg-color);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s ease-out;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.closeBtn:hover {
+  color: var(--primary-color);
+}
+
+.body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.body h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.description {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.snippetList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.snippetItem {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.snippetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.snippetNumber {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: bold;
+}
+
+.deleteBtn {
+  background: transparent;
+  border: none;
+  color: #ff5555;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.deleteBtn:hover {
+  background: rgba(255, 85, 85, 0.1);
+}
+
+.inputTitle, .textareaContent {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  color: var(--text-color);
+  border-radius: 4px;
+  padding: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.inputTitle:focus, .textareaContent:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.textareaContent {
+  resize: vertical;
+}
+
+.addBtn {
+  background: transparent;
+  border: 1px dashed var(--primary-color);
+  color: var(--primary-color);
+  padding: 12px;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-weight: bold;
+  transition: var(--transition);
+}
+
+.addBtn:hover {
+  background: rgba(187, 134, 252, 0.1);
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.cancelBtn {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-color);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancelBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.saveBtn {
+  background: var(--primary-color);
+  border: none;
+  color: #000;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.saveBtn:hover {
+  background: #a370f0;
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

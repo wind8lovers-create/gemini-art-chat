@@ -1,0 +1,62 @@
+/* 画像パネル専用のCSSデザイン */
+
+.imagePanel {
+  width: 320px; /* 横幅を固定 */
+  margin: 0 16px 16px 0; /* 右と下に余白 */
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 120px);
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 12px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto; /* はみ出たらスクロール */
+  flex: 1;
+  padding-right: 4px;
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 20px;
+}
+
+/* 1枚の画像カードのデザイン */
+.imageCard {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--border-radius-sm);
+  padding: 8px;
+  border: 1px solid var(--glass-border);
+}
+
+.placeholderBox {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* 正方形にする */
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.promptText {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 長い場合は「...」で省略 */
+}

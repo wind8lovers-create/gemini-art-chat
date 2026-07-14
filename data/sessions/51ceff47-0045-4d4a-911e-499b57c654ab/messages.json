@@ -1,0 +1,40 @@
+[
+  {
+    "id": "7d8c013f-7da0-465c-a313-1905a1c40139",
+    "sender": "ai",
+    "text": "前のチャットから画像を引き継ぎました。この画像についてどのように修正しますか？",
+    "timestamp": "2026-07-14T09:56:56.154Z",
+    "generatedImages": [
+      {
+        "id": "68d34d80-4ecd-4510-a5f1-81ed5b3d6674",
+        "filename": "ed9309a2-e9df-452e-832c-0f32bd7a74ba.png",
+        "prompt": "背景を夕暮れにしてください",
+        "version": 1,
+        "parentImageId": null,
+        "isFavorite": true
+      }
+    ]
+  },
+  {
+    "id": "1c523dab-ee97-4e73-add2-ba392e9e4602",
+    "sender": "user",
+    "text": "背景を朝焼けにしてプールではなくハワイの海岸にしてください",
+    "timestamp": "2026-07-14T09:57:51.017Z"
+  },
+  {
+    "id": "6ead467b-1251-4565-b996-ea2edbf63ac4",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-14T09:58:03.971Z",
+    "generatedImages": [
+      {
+        "id": "1f9e961c-64b2-48f4-a3a5-504bdea2bc4f",
+        "filename": "1f9e961c-64b2-48f4-a3a5-504bdea2bc4f.png",
+        "prompt": "背景を朝焼けにしてプールではなくハワイの海岸にしてください",
+        "version": 1,
+        "parentImageId": null,
+        "isFavorite": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,107 @@
+[
+  {
+    "id": "cfe489d5-8e57-49b4-b71d-318d28adb8d1",
+    "sender": "user",
+    "text": "猫の絵を描いてください",
+    "timestamp": "2026-07-14T06:56:54.048Z"
+  },
+  {
+    "id": "fdaced47-d682-4008-9a1d-4337672f4a47",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-14T06:57:08.300Z",
+    "generatedImages": [
+      {
+        "id": "18db4534-04ec-41b9-a652-feb0c9508938",
+        "filename": "18db4534-04ec-41b9-a652-feb0c9508938.png",
+        "prompt": "猫の絵を描いてください",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  },
+  {
+    "id": "ee4532a2-83b4-4013-9d8c-54c94d585653",
+    "sender": "user",
+    "text": "この絵をかなり大味の白黒の水彩画風に変更できますか？",
+    "timestamp": "2026-07-14T10:49:23.590Z"
+  },
+  {
+    "id": "84693a41-9247-4178-babe-65ca6b6ea409",
+    "sender": "ai",
+    "text": "了解しました。元の絵をベースに、より力強いタッチの白黒水彩画へと表現を変更します。",
+    "timestamp": "2026-07-14T10:49:35.457Z",
+    "generatedImages": [
+      {
+        "id": "5db8b2c1-0aa7-482d-ba78-53ed41338e75",
+        "filename": "5db8b2c1-0aa7-482d-ba78-53ed41338e75.png",
+        "prompt": "この絵をかなり大味の白黒の水彩画風に変更できますか？",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  },
+  {
+    "id": "31a9dc77-825d-4405-871a-55a84ddfb1cf",
+    "sender": "user",
+    "text": "この絵を、クロッキーのデッサンのように、ざらざらの画材の質感で、左下から右上に鉛筆を走らせたような感じで表現できますか",
+    "timestamp": "2026-07-14T10:51:16.754Z"
+  },
+  {
+    "id": "c24543f3-ffe9-4443-8de9-fbc43e944543",
+    "sender": "ai",
+    "text": "はい、承知いたしました。元の水彩画の構図を活かしつつ、クロッキーのような荒々しいデッサンの質感で、左下から右上への鉛筆のタッチを強調した作品に仕上げます。",
+    "timestamp": "2026-07-14T10:51:28.935Z",
+    "generatedImages": [
+      {
+        "id": "076f42a6-ec84-473e-af2f-fe3706ff9ce6",
+        "filename": "076f42a6-ec84-473e-af2f-fe3706ff9ce6.png",
+        "prompt": "この絵を、クロッキーのデッサンのように、ざらざらの画材の質感で、左下から右上に鉛筆を走らせたような感じで表現できますか",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  },
+  {
+    "id": "6f617a79-9f08-48f3-9107-1bf6ab83cf71",
+    "sender": "user",
+    "text": "この絵をクロッキーのように、鉛筆で左下から右上の走らせたような、感じに書けますか",
+    "timestamp": "2026-07-14T10:52:46.065Z"
+  },
+  {
+    "id": "6b548635-d2fd-4da5-ae3c-e2f186118d29",
+    "sender": "ai",
+    "text": "はい、可能です。元の絵の要素を活かしつつ、左下から右上への勢いのある鉛筆のストロークを強調したクロッキー風のデッサンに仕上げます。",
+    "timestamp": "2026-07-14T10:52:58.289Z",
+    "generatedImages": [
+      {
+        "id": "9be7d550-cb90-4097-bed6-037d792d4d5b",
+        "filename": "9be7d550-cb90-4097-bed6-037d792d4d5b.png",
+        "prompt": "この絵をクロッキーのように、鉛筆で左下から右上の走らせたような、感じに書けますか",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  },
+  {
+    "id": "91346dd7-4895-415a-846a-fd7f692c6384",
+    "sender": "user",
+    "text": "パステルで実際に書いたように色を付けてください",
+    "timestamp": "2026-07-14T10:53:45.639Z"
+  },
+  {
+    "id": "fce1eabd-4d10-4e7a-bf8b-a5ab5c04eccc",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-14T10:54:05.205Z",
+    "generatedImages": [
+      {
+        "id": "8a7e5dbd-02ea-4f11-8823-70023cac335c",
+        "filename": "8a7e5dbd-02ea-4f11-8823-70023cac335c.png",
+        "prompt": "パステルで実際に書いたように色を付けてください",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  }
+]

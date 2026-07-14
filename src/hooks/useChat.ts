@@ -1,0 +1,142 @@
+'use client';
+import { useState, useEffect } from 'react';
+import { Message, GeneratedImage, Session } from '@/types';
+
+/**
+ * 【チャットの司令塔（カスタムフック）】
+ * 画面とAI（API）の橋渡しをする重要なプログラムです。
+ */
+export function useChat(currentSessionId: string | null) {
+  // 画面に表示するための「メッセージ一覧」と「画像一覧」の箱
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [images, setImages] = useState<GeneratedImage[]>([]);
+  const [isLoading, setIsLoading] = useState(false); // AIが考え中かどうか
+
+  // 選択されたセッションが変わった時、その部屋の過去のやり取りを読み込みます
+  useEffect(() => {
+    // 【修正箇所】部屋を切り替えた瞬間に、まずは前の部屋の履歴をパッと消してリセットする
+    setMessages([]);
+    setImages([]);
+
+    if (!currentSessionId) {
+      return;
+    }
+
+    // 過去のメッセージを取得
+    fetch(`/api/sessions/${currentSessionId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.messages) {
+          setMessages(data.messages);
+          
+          // メッセージの中から「AIが生成した画像」だけを集めて、右パネル用のリストを作ります
+          const loadedImages: GeneratedImage[] = [];
+          data.messages.forEach((msg: Message) => {
+            if (msg.generatedImages) {
+              loadedImages.push(...msg.generatedImages);
+            }
+          });
+          setImages(loadedImages);
+        }
+      })
+      .catch(err => console.error("メッセージ読み込みエラー:", err));
+
+    // やり直し処理のリスナーを登録
+    const handleRewind = async (e: Event) => {
+      if (!currentSessionId) return;
+      const customEvent = e as CustomEvent;
+      const { messageId, text } = customEvent.detail;
+      
+      try {
+        const res = await fetch(`/api/sessions/${currentSessionId}/rewind`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messageId })
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          setMessages(data.messages);
+          
+          // 画像リストも再計算
+          const loadedImages: GeneratedImage[] = [];
+          data.messages.forEach((msg: Message) => {
+            if (msg.generatedImages) {
+              loadedImages.push(...msg.generatedImages);
+            }
+          });
+          setImages(loadedImages);
+          
+          // ChatInputに文字をセット
+          window.dispatchEvent(new CustomEvent('editPrompt', { detail: text }));
+        }
+      } catch (err) {
+        console.error("やり直しエラー:", err);
+        alert("やり直し処理に失敗しました。");
+      }
+    };
+
+    window.addEventListener('editPromptRewind', handleRewind);
+    return () => window.removeEventListener('editPromptRewind', handleRewind);
+  }, [currentSessionId]);
+
+  // メッセージを送信する処理
+  const sendMessage = async (text: string, inputImage?: { mimeType: string, data: string }) => {
+    if (!currentSessionId) {
+      alert("まずは左側のサイドバーから「＋ 新規」を押して会話部屋を作ってください！");
+      return;
+    }
+
+    setIsLoading(true); // 考え中マークをONにする
+
+    // 1. まずはユーザーのメッセージを画面にすぐ表示する
+    const newUserMsg: Message = {
+      id: Date.now().toString(),
+      sender: 'user',
+      text,
+      timestamp: new Date().toISOString(),
+      inputImage: inputImage // ユーザーが送った画像も一緒に保存
+    };
+    setMessages(prev => [...prev, newUserMsg]);
+
+    // 2. フェーズ1で作った /api/chat にメッセージを送る
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          sessionId: currentSessionId, 
+          text: text,
+          inputImage: inputImage // ここでAPIに画像を渡す！
+        }),
+      });
+      
+      const aiMessage: Message = await res.json();
+      
+      if (res.ok) {
+        // 3. 成功したら、AIからの返答を画面に追加する
+        setMessages(prev => [...prev, aiMessage]);
+        
+        // もしAIが画像を作ってくれていたら、右パネルの画像リストにも追加する
+        if (aiMessage.generatedImages) {
+          setImages(prev => [...prev, ...aiMessage.generatedImages!]);
+        }
+      } else {
+        console.error("AIからの返答エラー:", (aiMessage as any).error);
+        alert("エラーが発生しました: " + (aiMessage as any).error);
+      }
+    } catch (err) {
+      console.error("通信エラー:", err);
+      alert("通信に失敗しました。");
+    } finally {
+      setIsLoading(false); // 考え中マークをOFFにする
+    }
+  };
+
+  return { 
+    messages, 
+    images, 
+    isLoading, 
+    sendMessage 
+  };
+}

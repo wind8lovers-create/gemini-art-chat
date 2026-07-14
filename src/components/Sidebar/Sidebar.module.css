@@ -1,0 +1,205 @@
+/* サイドバー専用のCSSデザイン */
+
+.sidebar {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 16px 16px;
+  padding: 16px;
+  height: calc(100vh - 120px); 
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 12px;
+}
+
+.header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.headerButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.iconBtn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border);
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 6px;
+  transition: var(--transition);
+  font-size: 0.9rem;
+}
+
+.iconBtn:hover {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 4px;
+}
+
+/* フォルダのデザイン */
+.folderContainer {
+  margin-bottom: 4px;
+}
+
+.folderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  border: 1px dashed transparent;
+}
+
+.folderHeader:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dragOver {
+  background: rgba(187, 134, 252, 0.2);
+  border-color: var(--primary-color);
+}
+
+.folderTitleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.folderIcon {
+  font-size: 1rem;
+}
+
+.folderTitle {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.folderContent {
+  margin-left: 16px; /* インデント */
+  padding-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding-left: 8px;
+}
+
+.emptyFolder {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 8px;
+  text-align: center;
+}
+
+/* 1つ1つの履歴ブロックのデザイン */
+.sessionItem {
+  padding: 8px 12px;
+  border-radius: var(--border-radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: grab;
+  transition: var(--transition);
+}
+
+.sessionItem:active {
+  cursor: grabbing;
+}
+
+.dragging {
+  opacity: 0.5;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sessionItem:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.active {
+  background: rgba(187, 134, 252, 0.15);
+  border-color: var(--primary-color);
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sessionTitle {
+  font-size: 0.85rem;
+  font-weight: normal;
+  color: var(--text-color);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.sessionItem:hover .editBtn, .folderHeader:hover .editBtn {
+  opacity: 1;
+}
+
+.editBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+}
+
+.titleInput {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--primary-color);
+  color: var(--text-color);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.85rem;
+  outline: none;
+  width: 100%;
+}
+
+.rootSessions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 20px;
+}

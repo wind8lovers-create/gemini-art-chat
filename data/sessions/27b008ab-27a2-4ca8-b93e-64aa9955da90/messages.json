@@ -1,0 +1,66 @@
+[
+  {
+    "id": "e67edecd-811d-4bf6-8d2e-52802d67e637",
+    "sender": "user",
+    "text": "猫の絵を描いてください。",
+    "timestamp": "2026-07-14T07:10:15.078Z"
+  },
+  {
+    "id": "8576cb44-d5f7-46db-934b-547ad15616ab",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-14T07:10:25.527Z",
+    "generatedImages": [
+      {
+        "id": "9d66b4b3-7cbd-4466-8df9-e8e667f022c3",
+        "filename": "9d66b4b3-7cbd-4466-8df9-e8e667f022c3.png",
+        "prompt": "猫の絵を描いてください。",
+        "version": 1,
+        "parentImageId": null,
+        "isFavorite": false
+      }
+    ]
+  },
+  {
+    "id": "bc0cc279-9892-44b9-87d0-a0bba551168c",
+    "sender": "user",
+    "text": "この絵をベースに水彩画風に仕上げてください",
+    "timestamp": "2026-07-14T07:10:45.225Z"
+  },
+  {
+    "id": "502c71b7-8b21-4ab1-bb33-bc6113f73c93",
+    "sender": "ai",
+    "text": "では、水彩画の柔らかな質感で、温かみのある仕上がりにしました。",
+    "timestamp": "2026-07-14T07:10:59.039Z",
+    "generatedImages": [
+      {
+        "id": "238d23b3-f044-4168-aec1-dee6ef892efd",
+        "filename": "238d23b3-f044-4168-aec1-dee6ef892efd.png",
+        "prompt": "この絵をベースに水彩画風に仕上げてください",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  },
+  {
+    "id": "bd4f1156-3e4d-45e5-9909-eb50d16af141",
+    "sender": "user",
+    "text": "この絵を、水彩画風にしてください",
+    "timestamp": "2026-07-14T07:16:26.001Z"
+  },
+  {
+    "id": "5862886a-4cba-4a42-9312-692c3f14a9a8",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-14T07:16:41.111Z",
+    "generatedImages": [
+      {
+        "id": "4aa2c9a1-2813-4be6-ab47-9ad16c6fdce9",
+        "filename": "4aa2c9a1-2813-4be6-ab47-9ad16c6fdce9.png",
+        "prompt": "この絵を、水彩画風にしてください",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  }
+]
