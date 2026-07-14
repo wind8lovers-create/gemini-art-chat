@@ -29,3 +29,34 @@
   display: flex;
   gap: 12px; /* ボタン同士の間隔 */
 }
+
+/* -------------------------------------
+ * スマホ向けのレイアウト調整
+ * ------------------------------------- */
+@media (max-width: 768px) {
+  .header {
+    padding: 6px 12px;
+    margin: 8px;
+  }
+
+  .logo h1 {
+    font-size: 1.1rem;
+    letter-spacing: 0;
+  }
+
+  /* アイコンの説明テキストや不要な表示を隠す */
+  .hideOnMobile,
+  .navText {
+    display: none;
+  }
+
+  .nav {
+    gap: 8px;
+  }
+
+  /* ボタン自体の余白も少し減らす */
+  .header button, 
+  .header a.btn {
+    padding: 6px 10px;
+  }
+}

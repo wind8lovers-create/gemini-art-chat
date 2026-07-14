@@ -5,10 +5,14 @@ import { Session, SessionFolder } from '@/types';
 
 export default function Sidebar({ 
   currentSessionId, 
-  onSelectSession 
+  onSelectSession,
+  isVisible = true,
+  onClose
 }: { 
   currentSessionId: string | null, 
-  onSelectSession: (id: string) => void 
+  onSelectSession: (id: string) => void,
+  isVisible?: boolean,
+  onClose?: () => void
 }) {
   const [sessions, setSessions] = useState<Session[]>([]);
   const [folders, setFolders] = useState<SessionFolder[]>([]);
@@ -229,10 +233,11 @@ export default function Sidebar({
   );
 
   return (
-    <aside className={`${styles.sidebar} glass-panel`}>
+    <aside className={`${styles.sidebar} ${!isVisible ? styles.hidden : ''} glass-panel`}>
       <div className={styles.header}>
         <h2>📁 履歴</h2>
         <div className={styles.headerButtons}>
+          <button className={styles.iconBtn} onClick={onClose} title="サイドバーを隠す">←</button>
           <button className={styles.iconBtn} onClick={createNewFolder} title="新しいフォルダ">📁+</button>
           <button className={styles.iconBtn} onClick={createNewSession} title="新しいチャット">💬+</button>
         </div>

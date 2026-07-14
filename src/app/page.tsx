@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Header from '@/components/Header/Header';
 import Sidebar from '@/components/Sidebar/Sidebar';
@@ -17,19 +17,31 @@ export default function Home() {
   // 「いま拡大表示している画像」を記憶する箱
   const [enlargedImage, setEnlargedImage] = useState<{img: GeneratedImage, url: string, sessionId: string} | null>(null);
   
+  // サイドバーの表示・非表示を記憶する箱（デフォルトはPC向けに開いておく）
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+
+  // 画面が最初に読み込まれたとき、スマホ画面の幅なら最初からサイドバーを閉じる
+  useEffect(() => {
+    if (window.innerWidth <= 768) {
+      setIsSidebarVisible(false);
+    }
+  }, []);
+
   // 先ほど作った「司令塔（useChat）」を呼び出します
   // 現在の部屋IDを渡すと、その部屋のメッセージや画像、送信用の機能を返してくれます
   const { messages, images, isLoading, sendMessage } = useChat(currentSessionId);
 
   return (
     <>
-      <Header />
+      <Header onLogoClick={() => setIsSidebarVisible(true)} />
       
       <div className={styles.mainLayout}>
-        {/* サイドバーには「今の部屋のID」と「部屋を切り替える機能」を渡します */}
+        {/* サイドバーには「今の部屋のID」と「部屋を切り替える機能」などを渡します */}
         <Sidebar 
           currentSessionId={currentSessionId} 
           onSelectSession={setCurrentSessionId} 
+          isVisible={isSidebarVisible}
+          onClose={() => setIsSidebarVisible(false)}
         />
         
         <main className={styles.centerArea}>

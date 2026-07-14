@@ -182,3 +182,30 @@
   border-radius: var(--border-radius-sm);
   padding: 8px 24px;
 }
+
+/* -------------------------------------
+ * スマホ向けのレイアウト調整
+ * ------------------------------------- */
+@media (max-width: 768px) {
+  .inputContainer {
+    flex-wrap: wrap; /* 横幅が足りない時は折り返す */
+    gap: 8px;
+  }
+
+  .inputArea {
+    /* 入力エリアを一番上にし、横幅いっぱいに広げる */
+    width: 100%;
+    flex: none;
+    order: -1; 
+  }
+
+  .attachBtn, .snippetWrapper {
+    /* ボタンのサイズはそのまま */
+    flex: 0 0 auto;
+  }
+
+  .sendBtn {
+    /* 送信ボタンは余ったスペースを埋めるように広げる */
+    flex: 1;
+  }
+}
