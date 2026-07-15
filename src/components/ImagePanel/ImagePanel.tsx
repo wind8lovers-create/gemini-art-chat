@@ -8,15 +8,17 @@ export default function ImagePanel({
   images, 
   currentSessionId,
   onImageClick,
-  onFork
+  onFork,
+  isVisible = true
 }: { 
   images: GeneratedImage[], 
   currentSessionId: string | null,
   onImageClick: (img: GeneratedImage, url: string, sessionId: string) => void,
-  onFork?: (id: string) => void
+  onFork?: (id: string) => void,
+  isVisible?: boolean
 }) {
   return (
-    <aside className={`${styles.imagePanel} glass-panel`}>
+    <aside className={`${styles.imagePanel} ${!isVisible ? styles.hidden : ''} glass-panel`}>
       <h2 className={styles.title}>🖼️ セッション内の画像</h2>
       
       <div className={styles.grid}>

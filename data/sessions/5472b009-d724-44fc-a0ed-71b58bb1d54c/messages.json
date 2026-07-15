@@ -1,0 +1,87 @@
+[
+  {
+    "id": "72b731d3-0137-4a9e-842d-f8039bd9f44e",
+    "sender": "user",
+    "text": "夏のハワイ、トロピカルドリンク、砂浜、おしゃれな水着を着た１６歳の女の子たちがビーチバレーをしている。昼下がり、3Dアニメ　で、画像を生成してください。",
+    "timestamp": "2026-07-15T00:39:33.400Z"
+  },
+  {
+    "id": "585b6879-4ea8-4f33-9c7b-02b1f6eb419c",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-15T00:39:42.993Z",
+    "generatedImages": [
+      {
+        "id": "e47ce6f1-c994-46dc-8176-b23e4645b2dc",
+        "filename": "e47ce6f1-c994-46dc-8176-b23e4645b2dc.png",
+        "prompt": "夏のハワイ、トロピカルドリンク、砂浜、おしゃれな水着を着た１６歳の女の子たちがビーチバレーをしている。昼下がり、3Dアニメ　で、画像を生成してください。",
+        "version": 1,
+        "parentImageId": null,
+        "isFavorite": false
+      }
+    ]
+  },
+  {
+    "id": "429ffd5a-de2c-44f8-bc4d-5497520212ea",
+    "sender": "user",
+    "text": "この、女の子たちの顔を日本人に寄せてください",
+    "timestamp": "2026-07-15T00:40:34.202Z"
+  },
+  {
+    "id": "cee7632a-da40-465d-ac2b-c034c2d66023",
+    "sender": "ai",
+    "text": "了解いたしました！3Dアニメスタイルを維持しつつ、女の子たちの顔立ちをより日本人の女の子らしく調整しました。賑やかな夏のハワイの雰囲気をご堪能ください。",
+    "timestamp": "2026-07-15T00:40:44.964Z",
+    "generatedImages": [
+      {
+        "id": "4213f769-8a91-4e6b-b719-75f971400ed4",
+        "filename": "4213f769-8a91-4e6b-b719-75f971400ed4.png",
+        "prompt": "この、女の子たちの顔を日本人に寄せてください",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  },
+  {
+    "id": "d92eb5c3-05d7-4448-9adf-b3c0a748193a",
+    "sender": "user",
+    "text": "夕暮れの空にしてください",
+    "timestamp": "2026-07-15T00:41:54.570Z"
+  },
+  {
+    "id": "d07c06d8-dc77-4a2f-99d7-508aa0922cd6",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-15T00:42:05.307Z",
+    "generatedImages": [
+      {
+        "id": "d0f613f7-06fc-4be3-80d3-4e270059432f",
+        "filename": "d0f613f7-06fc-4be3-80d3-4e270059432f.png",
+        "prompt": "夕暮れの空にしてください",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  },
+  {
+    "id": "2a23a98a-f766-4d82-a6f7-fb027166e8a1",
+    "sender": "user",
+    "text": "ありがとう！！とっても素敵です。",
+    "timestamp": "2026-07-15T00:42:22.185Z"
+  },
+  {
+    "id": "e4d712da-412b-4f45-a967-bc44d75e840b",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-15T00:42:34.003Z",
+    "generatedImages": [
+      {
+        "id": "d86aa27c-f666-41fb-92be-001860d2ee14",
+        "filename": "d86aa27c-f666-41fb-92be-001860d2ee14.png",
+        "prompt": "ありがとう！！とっても素敵です。",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  }
+]

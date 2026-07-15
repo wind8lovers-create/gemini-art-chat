@@ -24,6 +24,10 @@ import { Message, PromptSnippet } from '@/types';
   const fileInputRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   
+  // 音声入力用の状態と参照
+  const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef<any>(null);
+  
   // 定型文用の状態
   const [snippets, setSnippets] = useState<PromptSnippet[]>([]);
   const [isSnippetMenuOpen, setIsSnippetMenuOpen] = useState(false);
@@ -113,6 +117,57 @@ import { Message, PromptSnippet } from '@/types';
       e.preventDefault(); // 改行を防ぐ
       handleSend();
     }
+  };
+
+  // ----------------------------------------
+  // 音声入力（マイク）の処理
+  // ----------------------------------------
+  const toggleListening = () => {
+    if (isListening) {
+      // 録音中なら止める
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+      setIsListening(false);
+      return;
+    }
+
+    // ブラウザが音声入力に対応しているかチェック
+    const SpeechRecognition = typeof window !== 'undefined' ? (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition : null;
+    
+    if (!SpeechRecognition) {
+      alert("お使いのブラウザは音声入力に対応していません。ChromeやEdgeなどの最新版をご利用ください。");
+      return;
+    }
+
+    // 音声入力の準備
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'ja-JP'; // 日本語を聞き取る
+    recognition.interimResults = false; // 確定した言葉だけを受け取る
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    // 声を聞き取って文字になった時
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      // 今ある文章の後ろに、スペースを空けて付け足す
+      setText(prev => prev ? `${prev} ${transcript}` : transcript);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error("音声認識エラー:", event.error);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    // 録音スタート！
+    recognition.start();
+    recognitionRef.current = recognition;
   };
 
   // ----------------------------------------
@@ -213,6 +268,16 @@ import { Message, PromptSnippet } from '@/types';
           </div>
         )}
       </div>
+
+      {/* マイク（音声入力）ボタン */}
+      <button 
+        className={`${styles.micBtn} ${isListening ? styles.listening : ''}`}
+        onClick={toggleListening}
+        title={isListening ? "音声入力を停止する" : "音声入力で文字を打つ"}
+        disabled={isSending}
+      >
+        🎤
+      </button>
 
       {/* 入力エリア全体を縦に並べる箱 */}
       <div className={styles.inputArea}>

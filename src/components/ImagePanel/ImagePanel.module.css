@@ -60,3 +60,7 @@
   overflow: hidden;
   text-overflow: ellipsis; /* 長い場合は「...」で省略 */
 }
+
+.hidden {
+  display: none !important;
+}

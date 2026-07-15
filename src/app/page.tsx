@@ -63,6 +63,7 @@ export default function Home() {
           currentSessionId={currentSessionId} 
           onImageClick={(img, url, sid) => setEnlargedImage({img, url, sessionId: sid})}
           onFork={(id) => { setCurrentSessionId(id); setEnlargedImage(null); }}
+          isVisible={isSidebarVisible}
         />
       </div>
 
