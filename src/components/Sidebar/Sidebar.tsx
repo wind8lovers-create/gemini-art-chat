@@ -237,7 +237,7 @@ export default function Sidebar({
       <div className={styles.header}>
         <h2>📁 履歴</h2>
         <div className={styles.headerButtons}>
-          <button className={styles.iconBtn} onClick={onClose} title="サイドバーを隠す">←</button>
+          <button className={styles.iconBtn} onClick={onClose} title="スマホ画面にする（サイドバーを隠す）">📱</button>
           <button className={styles.iconBtn} onClick={createNewFolder} title="新しいフォルダ">📁+</button>
           <button className={styles.iconBtn} onClick={createNewSession} title="新しいチャット">💬+</button>
         </div>
