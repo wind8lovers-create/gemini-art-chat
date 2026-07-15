@@ -1,0 +1,23 @@
+[
+  {
+    "id": "6d1c137b-0a3e-4ea7-aee0-72498198abaf",
+    "sender": "user",
+    "text": "小鳥の絵を書いてください",
+    "timestamp": "2026-07-15T01:18:07.648Z"
+  },
+  {
+    "id": "419a0ab0-4345-4936-ba19-dabf1ff2a26a",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-15T01:18:17.291Z",
+    "generatedImages": [
+      {
+        "id": "8ac9295c-37fa-44fc-b1b4-773855849844",
+        "filename": "8ac9295c-37fa-44fc-b1b4-773855849844.png",
+        "prompt": "小鳥の絵を書いてください",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  }
+]
