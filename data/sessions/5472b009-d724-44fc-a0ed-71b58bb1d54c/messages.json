@@ -43,42 +43,21 @@
     ]
   },
   {
-    "id": "d92eb5c3-05d7-4448-9adf-b3c0a748193a",
+    "id": "12aac236-6e00-4054-bf99-73e862a20677",
     "sender": "user",
-    "text": "夕暮れの空にしてください",
-    "timestamp": "2026-07-15T00:41:54.570Z"
+    "text": "背景をハワイの高級プールにしてくたさい",
+    "timestamp": "2026-07-15T01:51:39.360Z"
   },
   {
-    "id": "d07c06d8-dc77-4a2f-99d7-508aa0922cd6",
+    "id": "385a09af-d855-4816-a527-dfa746105663",
     "sender": "ai",
     "text": "画像を生成しました！",
-    "timestamp": "2026-07-15T00:42:05.307Z",
+    "timestamp": "2026-07-15T01:51:54.179Z",
     "generatedImages": [
       {
-        "id": "d0f613f7-06fc-4be3-80d3-4e270059432f",
-        "filename": "d0f613f7-06fc-4be3-80d3-4e270059432f.png",
-        "prompt": "夕暮れの空にしてください",
-        "version": 1,
-        "parentImageId": null
-      }
-    ]
-  },
-  {
-    "id": "2a23a98a-f766-4d82-a6f7-fb027166e8a1",
-    "sender": "user",
-    "text": "ありがとう！！とっても素敵です。",
-    "timestamp": "2026-07-15T00:42:22.185Z"
-  },
-  {
-    "id": "e4d712da-412b-4f45-a967-bc44d75e840b",
-    "sender": "ai",
-    "text": "画像を生成しました！",
-    "timestamp": "2026-07-15T00:42:34.003Z",
-    "generatedImages": [
-      {
-        "id": "d86aa27c-f666-41fb-92be-001860d2ee14",
-        "filename": "d86aa27c-f666-41fb-92be-001860d2ee14.png",
-        "prompt": "ありがとう！！とっても素敵です。",
+        "id": "e5e23985-f297-4b2f-851e-28532118dcb9",
+        "filename": "e5e23985-f297-4b2f-851e-28532118dcb9.png",
+        "prompt": "背景をハワイの高級プールにしてくたさい",
         "version": 1,
         "parentImageId": null
       }
