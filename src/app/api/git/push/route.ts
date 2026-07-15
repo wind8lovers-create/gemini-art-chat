@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     // 1. 全ての変更をステージング
     await execAsync('git add .');
-    
+
     // 2. コミットする
     try {
       // コミットメッセージの中にダブルクォーテーションが含まれているとエラーになるためエスケープ
@@ -23,10 +23,10 @@ export async function POST(req: Request) {
         throw commitErr;
       }
     }
-    
+
     // 3. GitHubへプッシュ
     // ※ ユーザーのローカル環境で現在のブランチ（通常はmain）にpushします
-    const { stdout, stderr } = await execAsync('git push');
+    const { stdout, stderr } = await execAsync('git push -u origin HEAD');
 
     return NextResponse.json({ success: true, output: stdout || stderr });
   } catch (error: any) {
