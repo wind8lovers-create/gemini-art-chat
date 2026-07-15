@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       }
     }
 
-    // 3. GitHubへプッシュ
+    // 3. GitHubへプッシュ 追加で、-u origin HEAD　を入れました。
     // ※ ユーザーのローカル環境で現在のブランチ（通常はmain）にpushします
     const { stdout, stderr } = await execAsync('git push -u origin HEAD');
 
