@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Gemini API キーが設定されていません。' }, { status: 500 });
     }
 
-    const { sessionId, text, inputImage } = await req.json();
+    const { sessionId, text, inputImage, messageId } = await req.json();
 
     if (!sessionId) {
       return NextResponse.json({ error: 'セッションIDがありません。' }, { status: 400 });
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
     // 1. ユーザーのメッセージを履歴に保存
     const userMessage: Message = {
-      id: uuidv4(),
+      id: messageId || uuidv4(),
       sender: "user",
       text: text || "",
       timestamp: new Date().toISOString(),

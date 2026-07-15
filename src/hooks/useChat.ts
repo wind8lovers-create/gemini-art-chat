@@ -90,8 +90,9 @@ export function useChat(currentSessionId: string | null) {
     setIsLoading(true); // 考え中マークをONにする
 
     // 1. まずはユーザーのメッセージを画面にすぐ表示する
+    const userMessageId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString();
     const newUserMsg: Message = {
-      id: Date.now().toString(),
+      id: userMessageId,
       sender: 'user',
       text,
       timestamp: new Date().toISOString(),
@@ -107,7 +108,8 @@ export function useChat(currentSessionId: string | null) {
         body: JSON.stringify({ 
           sessionId: currentSessionId, 
           text: text,
-          inputImage: inputImage // ここでAPIに画像を渡す！
+          inputImage: inputImage, // ここでAPIに画像を渡す！
+          messageId: userMessageId // サーバー側でも同じIDを使わせる
         }),
       });
       
