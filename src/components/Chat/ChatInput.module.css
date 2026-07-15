@@ -10,6 +10,19 @@
   align-items: flex-end; /* 入力欄とボタンの下端を揃える */
 }
 
+.rightActions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.topButtons {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
 /* ドラッグ中のエフェクト */
 .dragging {
   border-color: var(--primary-color);
@@ -35,9 +48,10 @@
   color: var(--text-color);
   font-size: 1.2rem;
   cursor: pointer;
-  padding: 8px;
   border-radius: 50%;
   transition: var(--transition);
+  height: 36px;
+  width: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,10 +121,14 @@
   color: var(--text-muted);
   font-size: 1.2rem;
   cursor: pointer;
-  padding: 8px;
+  padding: 4px;
   border-radius: var(--border-radius);
   transition: all 0.2s ease;
-  height: 44px; /* 入力欄の高さに合わせる */
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .attachBtn:hover:not(:disabled) {
@@ -171,6 +189,8 @@
   font-size: 1rem;
   padding: 8px 12px;
   outline: none; /* クリックした時の青い枠線を消す */
+  resize: none; /* ユーザーがサイズを変更できないようにする */
+  font-family: inherit;
 }
 
 /* プレースホルダー（入力前の薄い文字）の色 */
@@ -184,10 +204,14 @@
   color: var(--text-muted);
   font-size: 1.2rem;
   cursor: pointer;
-  padding: 8px;
+  padding: 4px;
   border-radius: var(--border-radius);
   transition: all 0.2s ease;
-  height: 44px;
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .micBtn:hover:not(:disabled) {
@@ -216,24 +240,21 @@
  * ------------------------------------- */
 @media (max-width: 768px) {
   .inputContainer {
-    flex-wrap: wrap; /* 横幅が足りない時は折り返す */
-    gap: 8px;
+    flex-direction: column;
   }
 
-  .inputArea {
-    /* 入力エリアを一番上にし、横幅いっぱいに広げる */
+  .rightActions {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    flex: none;
-    order: -1; 
   }
 
-  .attachBtn, .snippetWrapper, .micBtn {
-    /* ボタンのサイズはそのまま */
-    flex: 0 0 auto;
+  .topButtons {
+    justify-content: flex-start;
   }
 
   .sendBtn {
-    /* 送信ボタンは余ったスペースを埋めるように広げる */
-    flex: 1;
+    flex: none;
   }
 }

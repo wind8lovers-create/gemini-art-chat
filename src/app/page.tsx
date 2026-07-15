@@ -20,11 +20,26 @@ export default function Home() {
   // サイドバーの表示・非表示を記憶する箱（デフォルトはPC向けに開いておく）
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
+  // 待機中動画のURLを記憶する箱
+  const [loadingVideoUrl, setLoadingVideoUrl] = useState<string>('');
+
   // 画面が最初に読み込まれたとき、スマホ画面の幅なら最初からサイドバーを閉じる
   useEffect(() => {
     if (window.innerWidth <= 768) {
       setIsSidebarVisible(false);
     }
+    
+    // 設定から待機中動画のURLを読み込む
+    const savedUrl = localStorage.getItem('loadingVideoUrl');
+    if (savedUrl) setLoadingVideoUrl(savedUrl);
+
+    // 設定が更新された時に再読み込みする
+    const handleSettingsUpdate = () => {
+      const url = localStorage.getItem('loadingVideoUrl');
+      if (url) setLoadingVideoUrl(url);
+    };
+    window.addEventListener('settingsUpdated', handleSettingsUpdate);
+    return () => window.removeEventListener('settingsUpdated', handleSettingsUpdate);
   }, []);
 
   // 先ほど作った「司令塔（useChat）」を呼び出します
@@ -49,6 +64,8 @@ export default function Home() {
           <ChatWindow 
             messages={messages} 
             currentSessionId={currentSessionId} 
+            isLoading={isLoading}
+            loadingVideoUrl={loadingVideoUrl}
             onImageClick={(img, url, sid) => setEnlargedImage({img, url, sessionId: sid})}
             onFork={(id) => { setCurrentSessionId(id); setEnlargedImage(null); }}
           />

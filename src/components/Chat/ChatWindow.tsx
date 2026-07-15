@@ -2,17 +2,22 @@
 import React from 'react';
 import styles from './ChatWindow.module.css';
 import MessageBubble from './MessageBubble';
+import LoadingOverlay from '../LoadingOverlay/LoadingOverlay';
 import { Message, GeneratedImage } from '@/types';
 
 // currentSessionId も親からもらうようにします
 export default function ChatWindow({ 
   messages, 
   currentSessionId,
+  isLoading,
+  loadingVideoUrl,
   onImageClick,
   onFork
 }: { 
   messages: Message[], 
   currentSessionId: string | null,
+  isLoading?: boolean,
+  loadingVideoUrl?: string,
   onImageClick: (img: GeneratedImage, url: string, sessionId: string) => void,
   onFork?: (id: string) => void
 }) {
@@ -40,6 +45,7 @@ export default function ChatWindow({
           ))}
         </div>
       )}
+      {isLoading && <LoadingOverlay isVisible={isLoading} videoUrl={loadingVideoUrl} />}
     </div>
   );
 }

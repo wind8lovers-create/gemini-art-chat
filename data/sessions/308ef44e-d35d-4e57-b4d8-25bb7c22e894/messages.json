@@ -1,0 +1,86 @@
+[
+  {
+    "id": "73c4591f-f7a4-4ef4-9e76-9d03c7e4b975",
+    "sender": "user",
+    "text": "かわいい猫の動画",
+    "timestamp": "2026-07-15T13:42:44.035Z"
+  },
+  {
+    "id": "1a92df85-1730-48ec-83d8-f42d7c5cee21",
+    "sender": "ai",
+    "text": "動画を生成しました！",
+    "timestamp": "2026-07-15T13:43:49.505Z",
+    "generatedImages": [
+      {
+        "id": "bc49e4c6-2f7e-4d18-8c97-c488b7d1f177",
+        "filename": "bc49e4c6-2f7e-4d18-8c97-c488b7d1f177.mp4",
+        "prompt": "かわいい猫の動画",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "video",
+        "isFavorite": false
+      }
+    ]
+  },
+  {
+    "id": "a767c462-9d36-4e64-a67f-b24666d76f7b",
+    "sender": "user",
+    "text": "この動画をパステル調の絵にしてください。",
+    "timestamp": "2026-07-15T14:09:44.714Z"
+  },
+  {
+    "id": "b3dabc0d-2c86-4cd4-8035-e5bae549b260",
+    "sender": "ai",
+    "text": "もちろんです！パステル調の絵のビデオを生成しました！",
+    "timestamp": "2026-07-15T14:11:00.694Z",
+    "generatedImages": [
+      {
+        "id": "84e3191c-170c-494c-b928-8ed389ce3477",
+        "filename": "84e3191c-170c-494c-b928-8ed389ce3477.png",
+        "prompt": "この動画をパステル調の絵にしてください。",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "image"
+      }
+    ]
+  },
+  {
+    "id": "1e2c125d-d9ca-46a2-986a-1f00b27dd720",
+    "sender": "user",
+    "text": "この猫を水彩画で動画にしてください。",
+    "timestamp": "2026-07-15T14:12:17.474Z"
+  },
+  {
+    "id": "0c2194d5-ea84-41d1-9ffa-089751e3e442",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-15T14:12:27.754Z",
+    "generatedImages": [
+      {
+        "id": "5bb7b353-3153-44a7-a10d-a5004dd97419",
+        "filename": "5bb7b353-3153-44a7-a10d-a5004dd97419.png",
+        "prompt": "この動画をパステル調の絵にしてください。",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "image"
+      }
+    ]
+  },
+  {
+    "id": "bdc9ad6a-24a5-41c7-84bf-096817761279",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-15T14:12:30.747Z",
+    "generatedImages": [
+      {
+        "id": "11fa7801-839f-4426-8f33-bda2b67f6da5",
+        "filename": "11fa7801-839f-4426-8f33-bda2b67f6da5.png",
+        "prompt": "この猫を水彩画で動画にしてください。",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "image",
+        "isFavorite": false
+      }
+    ]
+  }
+]

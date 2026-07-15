@@ -100,6 +100,10 @@ export function useChat(currentSessionId: string | null) {
     };
     setMessages(prev => [...prev, newUserMsg]);
 
+    // 動画機能のON/OFF状態をローカルストレージから読み込む
+    const savedVideoToggle = localStorage.getItem('isVideoEnabled');
+    const isVideoEnabled = savedVideoToggle !== 'false'; // デフォルトは true
+
     // 2. フェーズ1で作った /api/chat にメッセージを送る
     try {
       const res = await fetch('/api/chat', {
@@ -109,29 +113,78 @@ export function useChat(currentSessionId: string | null) {
           sessionId: currentSessionId, 
           text: text,
           inputImage: inputImage, // ここでAPIに画像を渡す！
-          messageId: userMessageId // サーバー側でも同じIDを使わせる
+          messageId: userMessageId, // サーバー側でも同じIDを使わせる
+          isVideoEnabled: isVideoEnabled // 動画生成がONかどうかをAPIに伝える
         }),
       });
       
-      const aiMessage: Message = await res.json();
+      
+      const data = await res.json();
       
       if (res.ok) {
-        // 3. 成功したら、AIからの返答を画面に追加する
-        setMessages(prev => [...prev, aiMessage]);
-        
-        // もしAIが画像を作ってくれていたら、右パネルの画像リストにも追加する
-        if (aiMessage.generatedImages) {
-          setImages(prev => [...prev, ...aiMessage.generatedImages!]);
+        // 3. 動画生成で非同期ポーリングが必要な場合
+        if (data.isPollingRequired) {
+          await pollVideoStatus(data.operationId, data.sessionId, data.prompt);
+        } else {
+          // 通常の画像生成・テキスト生成の場合
+          const aiMessage: Message = data;
+          setMessages(prev => [...prev, aiMessage]);
+          if (aiMessage.generatedImages) {
+            setImages(prev => [...prev, ...aiMessage.generatedImages!]);
+          }
+          setIsLoading(false); // 考え中マークをOFFにする
         }
       } else {
-        console.error("AIからの返答エラー:", (aiMessage as any).error);
-        alert("エラーが発生しました: " + (aiMessage as any).error);
+        console.error("AIからの返答エラー:", data.error);
+        alert("エラーが発生しました: " + data.error);
+        setIsLoading(false);
       }
     } catch (err) {
       console.error("通信エラー:", err);
       alert("通信に失敗しました。");
-    } finally {
-      setIsLoading(false); // 考え中マークをOFFにする
+      setIsLoading(false);
+    }
+    // 注意: ポーリングの場合は pollVideoStatus 側で setIsLoading(false) を呼ぶため、ここでは呼ばない
+  };
+
+  // 動画生成のステータスを定期的に確認する関数
+  const pollVideoStatus = async (operationId: string, sessionId: string, prompt: string) => {
+    try {
+      // 10秒おきにステータスを確認
+      const checkStatus = async () => {
+        try {
+          const res = await fetch(`/api/chat/poll?operationId=${encodeURIComponent(operationId)}&sessionId=${encodeURIComponent(sessionId)}&prompt=${encodeURIComponent(prompt)}`);
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.error || 'ステータス確認エラー');
+          }
+
+          if (data.done) {
+            // 生成完了！メッセージを画面に追加
+            const aiMessage: Message = data.message;
+            setMessages(prev => [...prev, aiMessage]);
+            if (aiMessage.generatedImages) {
+              setImages(prev => [...prev, ...aiMessage.generatedImages!]);
+            }
+            setIsLoading(false); // ようやく考え中マークをOFFにする
+          } else {
+            // まだ生成中の場合は、10秒後に再確認
+            setTimeout(checkStatus, 10000);
+          }
+        } catch (err) {
+          console.error("ポーリング中のエラー:", err);
+          alert("動画の生成中にエラーが発生しました。");
+          setIsLoading(false);
+        }
+      };
+
+      // 最初の確認をスタート（少し待ってから）
+      setTimeout(checkStatus, 10000);
+      
+    } catch (err) {
+      console.error("ポーリング開始エラー:", err);
+      setIsLoading(false);
     }
   };
 

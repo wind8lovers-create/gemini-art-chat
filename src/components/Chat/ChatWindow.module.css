@@ -6,6 +6,7 @@
   flex-direction: column;
   overflow-y: auto; /* はみ出たらスクロール */
   padding: 16px;
+  position: relative; /* LoadingOverlay用 */
 }
 
 .emptyChat {

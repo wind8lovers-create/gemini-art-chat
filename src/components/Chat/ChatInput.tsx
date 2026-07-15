@@ -22,7 +22,7 @@ import { Message, PromptSnippet } from '@/types';
   
   // 隠しファイル入力用の参照
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   
   // 音声入力用の状態と参照
   const [isListening, setIsListening] = useState(false);
@@ -112,8 +112,11 @@ import { Message, PromptSnippet } from '@/types';
   };
 
   // エンターキーが押された時の処理
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
+      // 変換確定時のEnterと区別するためnativeEventを利用（今回はシンプルな実装にとどめる）
+      // 日本語入力中（IME変換中）のEnterを無視するために e.nativeEvent.isComposing も利用するのがベター
+      if (e.nativeEvent.isComposing) return;
       e.preventDefault(); // 改行を防ぐ
       handleSend();
     }
@@ -232,54 +235,7 @@ import { Message, PromptSnippet } from '@/types';
         onChange={handleFileChange}
       />
 
-      {/* クリップマーク（画像添付ボタン） */}
-      <button 
-        className={styles.attachBtn} 
-        onClick={() => fileInputRef.current?.click()}
-        title="画像を添付する"
-        disabled={isSending}
-      >
-        📎
-      </button>
-
-      {/* 定型文ボタンとドロップダウン */}
-      <div className={styles.snippetWrapper} ref={snippetMenuRef}>
-        <button 
-          className={styles.snippetBtn}
-          onClick={() => setIsSnippetMenuOpen(!isSnippetMenuOpen)}
-          title="定型文を選ぶ"
-          disabled={isSending || snippets.length === 0}
-        >
-          ✨
-        </button>
-        
-        {isSnippetMenuOpen && snippets.length > 0 && (
-          <div className={styles.snippetMenu}>
-            {snippets.map(snippet => (
-              <div 
-                key={snippet.id} 
-                className={styles.snippetMenuItem}
-                onClick={() => handleSelectSnippet(snippet.content)}
-              >
-                <span className={styles.snippetTitle}>{snippet.title}</span>
-                <span className={styles.snippetContentPreview}>{snippet.content}</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* マイク（音声入力）ボタン */}
-      <button 
-        className={`${styles.micBtn} ${isListening ? styles.listening : ''}`}
-        onClick={toggleListening}
-        title={isListening ? "音声入力を停止する" : "音声入力で文字を打つ"}
-        disabled={isSending}
-      >
-        🎤
-      </button>
-
-      {/* 入力エリア全体を縦に並べる箱 */}
+      {/* 入力エリア（左側に広く配置） */}
       <div className={styles.inputArea}>
         {/* 選んだ画像の小さなプレビュー */}
         {selectedImage && (
@@ -289,25 +245,77 @@ import { Message, PromptSnippet } from '@/types';
           </div>
         )}
 
-        <input
+        <textarea
           ref={inputRef}
-          type="text"
           className={styles.inputField}
           placeholder="AIにメッセージを送信する（「猫の絵を描いて」など）..."
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={isSending}
+          rows={3}
         />
       </div>
 
-      <button 
-        className={`${styles.sendBtn} ${isSending ? styles.sending : ''}`}
-        onClick={handleSend}
-        disabled={isSending || (!text.trim() && !selectedImage)}
-      >
-        {isSending ? '考え中...' : '送信 🚀'}
-      </button>
+      {/* 右側のボタンエリア（送信ボタンとその上のアイコン群） */}
+      <div className={styles.rightActions}>
+        <div className={styles.topButtons}>
+          {/* クリップマーク（画像添付ボタン） */}
+          <button 
+            className={styles.attachBtn} 
+            onClick={() => fileInputRef.current?.click()}
+            title="画像を添付する"
+            disabled={isSending}
+          >
+            📎
+          </button>
+
+          {/* 定型文ボタンとドロップダウン */}
+          <div className={styles.snippetWrapper} ref={snippetMenuRef}>
+            <button 
+              className={styles.snippetBtn}
+              onClick={() => setIsSnippetMenuOpen(!isSnippetMenuOpen)}
+              title="定型文を選ぶ"
+              disabled={isSending || snippets.length === 0}
+            >
+              ✨
+            </button>
+            
+            {isSnippetMenuOpen && snippets.length > 0 && (
+              <div className={styles.snippetMenu}>
+                {snippets.map(snippet => (
+                  <div 
+                    key={snippet.id} 
+                    className={styles.snippetMenuItem}
+                    onClick={() => handleSelectSnippet(snippet.content)}
+                  >
+                    <span className={styles.snippetTitle}>{snippet.title}</span>
+                    <span className={styles.snippetContentPreview}>{snippet.content}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* マイク（音声入力）ボタン */}
+          <button 
+            className={`${styles.micBtn} ${isListening ? styles.listening : ''}`}
+            onClick={toggleListening}
+            title={isListening ? "音声入力を停止する" : "音声入力で文字を打つ"}
+            disabled={isSending}
+          >
+            🎤
+          </button>
+        </div>
+
+        <button 
+          className={`${styles.sendBtn} ${isSending ? styles.sending : ''}`}
+          onClick={handleSend}
+          disabled={isSending || (!text.trim() && !selectedImage)}
+        >
+          {isSending ? '考え中...' : '送信 🚀'}
+        </button>
+      </div>
     </div>
   );
 }

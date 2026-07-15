@@ -63,44 +63,24 @@
     ]
   },
   {
-    "id": "6f617a79-9f08-48f3-9107-1bf6ab83cf71",
+    "id": "a753cb3f-beb6-4546-99ee-b5d952fd3c50",
     "sender": "user",
-    "text": "この絵をクロッキーのように、鉛筆で左下から右上の走らせたような、感じに書けますか",
-    "timestamp": "2026-07-14T10:52:46.065Z"
+    "text": "この絵をククレヨンで書いた感じにできますか？",
+    "timestamp": "2026-07-15T13:01:34.161Z"
   },
   {
-    "id": "6b548635-d2fd-4da5-ae3c-e2f186118d29",
-    "sender": "ai",
-    "text": "はい、可能です。元の絵の要素を活かしつつ、左下から右上への勢いのある鉛筆のストロークを強調したクロッキー風のデッサンに仕上げます。",
-    "timestamp": "2026-07-14T10:52:58.289Z",
-    "generatedImages": [
-      {
-        "id": "9be7d550-cb90-4097-bed6-037d792d4d5b",
-        "filename": "9be7d550-cb90-4097-bed6-037d792d4d5b.png",
-        "prompt": "この絵をクロッキーのように、鉛筆で左下から右上の走らせたような、感じに書けますか",
-        "version": 1,
-        "parentImageId": null
-      }
-    ]
-  },
-  {
-    "id": "91346dd7-4895-415a-846a-fd7f692c6384",
-    "sender": "user",
-    "text": "パステルで実際に書いたように色を付けてください",
-    "timestamp": "2026-07-14T10:53:45.639Z"
-  },
-  {
-    "id": "fce1eabd-4d10-4e7a-bf8b-a5ab5c04eccc",
+    "id": "61a1c2de-4a03-4e97-ad1f-6c6d00b56d94",
     "sender": "ai",
     "text": "画像を生成しました！",
-    "timestamp": "2026-07-14T10:54:05.205Z",
+    "timestamp": "2026-07-15T13:01:47.434Z",
     "generatedImages": [
       {
-        "id": "8a7e5dbd-02ea-4f11-8823-70023cac335c",
-        "filename": "8a7e5dbd-02ea-4f11-8823-70023cac335c.png",
-        "prompt": "パステルで実際に書いたように色を付けてください",
+        "id": "58531c85-c3a3-4f3b-ab22-c00f4598e067",
+        "filename": "58531c85-c3a3-4f3b-ab22-c00f4598e067.png",
+        "prompt": "この絵をククレヨンで書いた感じにできますか？",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "mediaType": "image"
       }
     ]
   }

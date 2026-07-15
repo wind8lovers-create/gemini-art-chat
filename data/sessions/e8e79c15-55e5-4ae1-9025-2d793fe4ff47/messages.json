@@ -19,5 +19,27 @@
         "parentImageId": null
       }
     ]
+  },
+  {
+    "id": "c47a589d-d16b-4840-b0a8-eac21087f1bc",
+    "sender": "user",
+    "text": "「おまたせ」と言って首をかしげる動画にしてください",
+    "timestamp": "2026-07-15T13:48:12.389Z"
+  },
+  {
+    "id": "e0b3dca9-581c-4e5a-9b86-6cf4261ce28a",
+    "sender": "ai",
+    "text": "動画を生成しました！",
+    "timestamp": "2026-07-15T13:49:28.511Z",
+    "generatedImages": [
+      {
+        "id": "0aed2643-da7c-4c1f-b8f2-f21e198ca7c6",
+        "filename": "0aed2643-da7c-4c1f-b8f2-f21e198ca7c6.mp4",
+        "prompt": "「おまたせ」と言って首をかしげる動画にしてください",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "video"
+      }
+    ]
   }
 ]

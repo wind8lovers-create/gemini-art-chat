@@ -291,7 +291,11 @@ export default function Sidebar({
             
             {/* フォルダの中身（展開時のみ表示） */}
             {openFolders.has(folder.id) && (
-              <div className={styles.folderContent}>
+              <div 
+                className={styles.folderContent}
+                onDragOver={(e) => handleDragOver(e, folder.id)}
+                onDrop={(e) => handleDrop(e, folder.id)}
+              >
                 {sessionsByFolder[folder.id].length > 0 ? (
                   sessionsByFolder[folder.id].map(renderSession)
                 ) : (
@@ -303,7 +307,11 @@ export default function Sidebar({
         ))}
 
         {/* フォルダに入っていないセッション（ルート） */}
-        <div className={styles.rootSessions}>
+        <div 
+          className={styles.rootSessions}
+          onDragOver={(e) => handleDragOver(e, null)}
+          onDrop={(e) => handleDrop(e, null)}
+        >
           {sessionsByFolder['root'].map(renderSession)}
         </div>
 

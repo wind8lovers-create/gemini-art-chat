@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './ImageWithActions.module.css';
 import { GeneratedImage } from '@/types';
+import VideoPlayer from '../VideoPlayer/VideoPlayer';
 
 export default function ImageWithActions({
   image,
@@ -83,7 +84,11 @@ export default function ImageWithActions({
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
     >
-      <img src={imageUrl} alt={image.prompt} className={styles.image} />
+      {image.mediaType === 'video' ? (
+        <VideoPlayer src={imageUrl} className={styles.image} />
+      ) : (
+        <img src={imageUrl} alt={image.prompt} className={styles.image} />
+      )}
       
       {/* ホバー時またはお気に入り済みの時にオーバーレイを表示 */}
       <div className={`${styles.overlay} ${(isHovered || isFav) ? styles.visible : ''}`}>

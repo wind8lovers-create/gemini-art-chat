@@ -28,14 +28,15 @@ export interface PromptSnippet {
   content: string; // 例: "細かいジャギを補正して..."
 }
 
-// 生成された画像（メタデータ）の型定義
+// 生成された画像（または動画）のメタデータの型定義
 export interface GeneratedImage {
-  id: string;             // 画像の一意なID
+  id: string;             // メディアの一意なID
   filename: string;       // 保存されたファイル名
-  prompt: string;         // この画像を生成した時の指示文
+  prompt: string;         // このメディアを生成した時の指示文
   version: number;        // バージョン番号
-  parentImageId: string | null; // 元になった画像のID（修正画像の場合）
+  parentImageId: string | null; // 元になった画像のID（修正の場合）
   isFavorite?: boolean;   // お気に入りに追加されているかどうか（フェーズ4）
+  mediaType?: 'image' | 'video'; // 画像か動画かの判定フラグ（フェーズ7）
 }
 
 // ギャラリー用に使う拡張画像データ型（どのセッションの画像かわかるようにする）
