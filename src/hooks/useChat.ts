@@ -12,6 +12,34 @@ export function useChat(currentSessionId: string | null) {
   const [images, setImages] = useState<GeneratedImage[]>([]);
   const [isLoading, setIsLoading] = useState(false); // AIが考え中かどうか
 
+  // 画像生成中（isLoadingがtrue）の時にスマホ画面が暗転しないようにする処理 (WakeLock API)
+  useEffect(() => {
+    let wakeLock: any = null; // WakeLockSentinel
+
+    const requestWakeLock = async () => {
+      try {
+        if ('wakeLock' in navigator) {
+          wakeLock = await (navigator as any).wakeLock.request('screen');
+        }
+      } catch (err) {
+        console.error("Wake Lock error:", err);
+      }
+    };
+
+    if (isLoading) {
+      requestWakeLock();
+    } else {
+      if (wakeLock) {
+        wakeLock.release().then(() => { wakeLock = null; });
+      }
+    }
+
+    // コンポーネントのアンマウント時にもリリースする
+    return () => {
+      if (wakeLock) wakeLock.release();
+    };
+  }, [isLoading]);
+
   // 選択されたセッションが変わった時、その部屋の過去のやり取りを読み込みます
   useEffect(() => {
     // 【修正箇所】部屋を切り替えた瞬間に、まずは前の部屋の履歴をパッと消してリセットする

@@ -80,3 +80,51 @@
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
+
+/* ローディング画面（AI考え中）のオーバーレイ */
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 50; /* チャット画面の他の要素より上に表示 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.loadingImage {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  /* くるくる回るアニメーション */
+  animation: spinY 2s linear infinite;
+  margin-bottom: 16px;
+}
+
+.loadingText {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  animation: pulseText 1.5s ease-in-out infinite;
+}
+
+/* Y軸でくるくる回るキーフレーム */
+@keyframes spinY {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+@keyframes pulseText {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}

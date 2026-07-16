@@ -2,12 +2,44 @@
 
 .inputContainer {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
   padding: 12px;
   margin-top: 16px;
   border: 1px solid transparent;
   transition: all 0.3s ease;
-  align-items: flex-end; /* 入力欄とボタンの下端を揃える */
+}
+
+/* 1行目: 入力エリア全体（プレビュー＋テキストボックス） */
+.inputArea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 2行目: アイコン3つと送信ボタンを並べる行 */
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* 2行目の左側: アイコンをまとめるグループ */
+.iconGroup {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px; /* アイコン同士の間隔を少し広めに */
+  padding-left: 4px;
+}
+
+/* 2行目の右側: 送信ボタン */
+.sendBtn {
+  padding: 12px 24px; /* 押しやすく大きめに */
+  border-radius: var(--border-radius-sm);
+  min-width: 120px; /* 送信ボタンが小さくなりすぎないように */
 }
 
 /* ドラッグ中のエフェクト */
@@ -118,14 +150,6 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* 入力エリア全体（プレビュー＋テキストボックス） */
-.inputArea {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 /* 画像プレビューの枠 */
 .imagePreviewContainer {
   position: relative;
@@ -204,36 +228,4 @@
   0% { transform: scale(1); text-shadow: 0 0 0 rgba(239, 68, 68, 0.7); }
   50% { transform: scale(1.15); text-shadow: 0 0 10px rgba(239, 68, 68, 0.7); }
   100% { transform: scale(1); text-shadow: 0 0 0 rgba(239, 68, 68, 0.7); }
-}
-
-.sendBtn {
-  border-radius: var(--border-radius-sm);
-  padding: 8px 24px;
-}
-
-/* -------------------------------------
- * スマホ向けのレイアウト調整
- * ------------------------------------- */
-@media (max-width: 768px) {
-  .inputContainer {
-    flex-wrap: wrap; /* 横幅が足りない時は折り返す */
-    gap: 8px;
-  }
-
-  .inputArea {
-    /* 入力エリアを一番上にし、横幅いっぱいに広げる */
-    width: 100%;
-    flex: none;
-    order: -1; 
-  }
-
-  .attachBtn, .snippetWrapper, .micBtn {
-    /* ボタンのサイズはそのまま */
-    flex: 0 0 auto;
-  }
-
-  .sendBtn {
-    /* 送信ボタンは余ったスペースを埋めるように広げる */
-    flex: 1;
-  }
 }

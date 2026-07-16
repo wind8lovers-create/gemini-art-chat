@@ -232,54 +232,7 @@ import { Message, PromptSnippet } from '@/types';
         onChange={handleFileChange}
       />
 
-      {/* クリップマーク（画像添付ボタン） */}
-      <button 
-        className={styles.attachBtn} 
-        onClick={() => fileInputRef.current?.click()}
-        title="画像を添付する"
-        disabled={isSending}
-      >
-        📎
-      </button>
-
-      {/* 定型文ボタンとドロップダウン */}
-      <div className={styles.snippetWrapper} ref={snippetMenuRef}>
-        <button 
-          className={styles.snippetBtn}
-          onClick={() => setIsSnippetMenuOpen(!isSnippetMenuOpen)}
-          title="定型文を選ぶ"
-          disabled={isSending || snippets.length === 0}
-        >
-          ✨
-        </button>
-        
-        {isSnippetMenuOpen && snippets.length > 0 && (
-          <div className={styles.snippetMenu}>
-            {snippets.map(snippet => (
-              <div 
-                key={snippet.id} 
-                className={styles.snippetMenuItem}
-                onClick={() => handleSelectSnippet(snippet.content)}
-              >
-                <span className={styles.snippetTitle}>{snippet.title}</span>
-                <span className={styles.snippetContentPreview}>{snippet.content}</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* マイク（音声入力）ボタン */}
-      <button 
-        className={`${styles.micBtn} ${isListening ? styles.listening : ''}`}
-        onClick={toggleListening}
-        title={isListening ? "音声入力を停止する" : "音声入力で文字を打つ"}
-        disabled={isSending}
-      >
-        🎤
-      </button>
-
-      {/* 入力エリア全体を縦に並べる箱 */}
+      {/* 入力エリア全体を一番上に配置 */}
       <div className={styles.inputArea}>
         {/* 選んだ画像の小さなプレビュー */}
         {selectedImage && (
@@ -301,13 +254,66 @@ import { Message, PromptSnippet } from '@/types';
         />
       </div>
 
-      <button 
-        className={`${styles.sendBtn} ${isSending ? styles.sending : ''}`}
-        onClick={handleSend}
-        disabled={isSending || (!text.trim() && !selectedImage)}
-      >
-        {isSending ? '考え中...' : '送信 🚀'}
-      </button>
+      {/* アイコンと送信ボタンを横一列に並べるグループ */}
+      <div className={styles.bottomRow}>
+        {/* アイコン3つをまとめるグループ */}
+        <div className={styles.iconGroup}>
+          {/* クリップマーク（画像添付ボタン） */}
+          <button 
+            className={styles.attachBtn} 
+            onClick={() => fileInputRef.current?.click()}
+            title="画像を添付する"
+            disabled={isSending}
+          >
+            📎
+          </button>
+
+          {/* 定型文ボタンとドロップダウン */}
+          <div className={styles.snippetWrapper} ref={snippetMenuRef}>
+            <button 
+              className={styles.snippetBtn}
+              onClick={() => setIsSnippetMenuOpen(!isSnippetMenuOpen)}
+              title="定型文を選ぶ"
+              disabled={isSending || snippets.length === 0}
+            >
+              ✨
+            </button>
+            
+            {isSnippetMenuOpen && snippets.length > 0 && (
+              <div className={styles.snippetMenu}>
+                {snippets.map(snippet => (
+                  <div 
+                    key={snippet.id} 
+                    className={styles.snippetMenuItem}
+                    onClick={() => handleSelectSnippet(snippet.content)}
+                  >
+                    <span className={styles.snippetTitle}>{snippet.title}</span>
+                    <span className={styles.snippetContentPreview}>{snippet.content}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* マイク（音声入力）ボタン */}
+          <button 
+            className={`${styles.micBtn} ${isListening ? styles.listening : ''}`}
+            onClick={toggleListening}
+            title={isListening ? "音声入力を停止する" : "音声入力で文字を打つ"}
+            disabled={isSending}
+          >
+            🎤
+          </button>
+        </div>
+
+        <button 
+          className={`${styles.sendBtn} ${isSending ? styles.sending : ''}`}
+          onClick={handleSend}
+          disabled={isSending || (!text.trim() && !selectedImage)}
+        >
+          {isSending ? '考え中...' : '送信 🚀'}
+        </button>
+      </div>
     </div>
   );
 }

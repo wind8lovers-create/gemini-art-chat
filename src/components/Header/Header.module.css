@@ -4,8 +4,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between; /* 左右に要素を離して配置 */
-  padding: 12px 24px;
-  margin: 16px; /* 外側に少し余白を作ることで、浮いているように見せます */
+  padding: 4px 16px; /* 上下の幅を極限まで狭く */
+  margin: 8px 16px; /* 浮いているような余白も少し狭く */
   border-radius: var(--border-radius);
 }
 
@@ -30,6 +30,11 @@
   gap: 12px; /* ボタン同士の間隔 */
 }
 
+/* PC・スマホ問わず、アイコンの説明テキストは隠す */
+.navText {
+  display: none;
+}
+
 /* -------------------------------------
  * スマホ向けのレイアウト調整
  * ------------------------------------- */
@@ -45,8 +50,7 @@
   }
 
   /* アイコンの説明テキストや不要な表示を隠す */
-  .hideOnMobile,
-  .navText {
+  .hideOnMobile {
     display: none;
   }
 

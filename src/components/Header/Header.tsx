@@ -18,6 +18,27 @@ export default function Header({ onLogoClick }: { onLogoClick?: () => void }) {
       <header className={`${styles.header} glass-panel`}>
         {/* 左側のロゴ部分 */}
         <div className={styles.logo}>
+          <div 
+            className={`${styles.icon} ${styles.hideOnMobile}`} 
+            onClick={async (e) => {
+              e.stopPropagation();
+              try {
+                const res = await fetch('/api/git/branch');
+                const data = await res.json();
+                if (data.branch) {
+                  alert(`現在のGitブランチは「${data.branch}」です。`);
+                } else {
+                  alert(`ブランチの取得に失敗しました: ${data.error}`);
+                }
+              } catch (err) {
+                alert('通信エラーが発生しました。');
+              }
+            }}
+            title="現在のGitブランチを確認する"
+            style={{ cursor: 'pointer' }}
+          >
+            🤖
+          </div>
           <Link 
             href="/" 
             style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '12px' }}
@@ -25,7 +46,6 @@ export default function Header({ onLogoClick }: { onLogoClick?: () => void }) {
               if (onLogoClick) onLogoClick();
             }}
           >
-            <span className={`${styles.icon} ${styles.hideOnMobile}`}>🤖</span>
             <h1>GeminiArtChat</h1>
           </Link>
         </div>

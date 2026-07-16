@@ -250,12 +250,15 @@ export default function Sidebar({
       >
         {/* フォルダ一覧の表示 */}
         {folders.map(folder => (
-          <div key={folder.id} className={styles.folderContainer}>
+          <div 
+            key={folder.id} 
+            className={styles.folderContainer}
+            onDragOver={(e) => handleDragOver(e, folder.id)}
+            onDrop={(e) => handleDrop(e, folder.id)}
+          >
             <div 
               className={`${styles.folderHeader} ${dragOverFolderId === folder.id ? styles.dragOver : ''}`}
               onClick={() => toggleFolder(folder.id)}
-              onDragOver={(e) => handleDragOver(e, folder.id)}
-              onDrop={(e) => handleDrop(e, folder.id)}
             >
               <div className={styles.folderTitleWrapper}>
                 <span className={styles.folderIcon}>{openFolders.has(folder.id) ? '📂' : '📁'}</span>

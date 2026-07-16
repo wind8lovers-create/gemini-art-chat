@@ -45,13 +45,24 @@ export default function Home() {
         />
         
         <main className={styles.centerArea}>
-          {/* チャット画面には「メッセージ一覧」と「今の部屋のID（画像表示用）」を渡します */}
-          <ChatWindow 
-            messages={messages} 
-            currentSessionId={currentSessionId} 
-            onImageClick={(img, url, sid) => setEnlargedImage({img, url, sessionId: sid})}
-            onFork={(id) => { setCurrentSessionId(id); setEnlargedImage(null); }}
-          />
+          {/* チャット画面コンテナ */}
+          <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            {/* チャット画面には「メッセージ一覧」と「今の部屋のID（画像表示用）」を渡します */}
+            <ChatWindow 
+              messages={messages} 
+              currentSessionId={currentSessionId} 
+              onImageClick={(img, url, sid) => setEnlargedImage({img, url, sessionId: sid})}
+              onFork={(id) => { setCurrentSessionId(id); setEnlargedImage(null); }}
+            />
+            
+            {/* ローディング中の可愛いアニメーション */}
+            {isLoading && (
+              <div className={styles.loadingOverlay}>
+                <img src="/loading_girl.png" alt="画像生成中..." className={styles.loadingImage} />
+                <p className={styles.loadingText}>画像を生成中だよ！</p>
+              </div>
+            )}
+          </div>
           
           {/* 入力欄には「送信する機能」と「AIが考え中かどうかの状態」を渡します */}
           <ChatInput onSendMessage={sendMessage} isLoading={isLoading} />

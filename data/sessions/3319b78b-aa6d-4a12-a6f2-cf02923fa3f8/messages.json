@@ -1,0 +1,23 @@
+[
+  {
+    "id": "bd7bbdb6-20e0-4236-ac32-275508c45d2a",
+    "sender": "user",
+    "text": "湯煙のある露天風呂の温泉に浸かる水着を着た同窓生が日本酒を楽しそうに飲んでいるところお願いします。",
+    "timestamp": "2026-07-16T04:54:36.075Z"
+  },
+  {
+    "id": "ad9b6073-f491-4b24-b5a3-a6dc874e2aa4",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-16T04:55:04.261Z",
+    "generatedImages": [
+      {
+        "id": "858f8e05-e790-4caf-bce6-aebc5265e509",
+        "filename": "858f8e05-e790-4caf-bce6-aebc5265e509.png",
+        "prompt": "湯煙のある露天風呂の温泉に浸かる水着を着た同窓生が日本酒を楽しそうに飲んでいるところお願いします。",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  }
+]
