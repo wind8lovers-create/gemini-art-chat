@@ -22,7 +22,19 @@ export default function RootLayout({
 }>) {
   return (
     // htmlの言語を日本語(ja)に設定します
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var theme = localStorage.getItem('app-theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+              } catch(e) {}
+            `,
+          }}
+        />
+      </head>
       <body className={inter.className}>
         {/* ここに page.tsx の内容が差し込まれます */}
         {children}

@@ -7,6 +7,7 @@
 :root {
   /* 基本となる色（ダークテーマ） */
   --bg-color: #121212;             /* 一番奥の背景色（ほぼ黒） */
+  --bg-gradient: none;             /* 通常はグラデーションなし */
   --text-color: #e0e0e0;           /* メインの文字色（少し落ち着いた白） */
   --text-muted: #888888;           /* 控えめな文字色（グレー） */
   
@@ -26,6 +27,13 @@
   --transition: all 0.3s ease;     /* フワッと変化させるアニメーション */
 }
 
+/* 紫基調テーマ（鎧の色をイメージした青みの強い紫） */
+[data-theme='purple'] {
+  --bg-color: #1F1543; /* フォールバック用の青紫 */
+  --bg-gradient: linear-gradient(135deg, #180D35 0%, #40237C 100%); /* 深い青紫〜少し明るく鮮やかな青紫 */
+  --glass-bg: rgba(42, 25, 84, 0.4); /* ガラスパネルも青紫に合わせる */
+}
+
 /* 全体の基本設定（余白をゼロにするなど） */
 * {
   box-sizing: border-box;
@@ -35,6 +43,8 @@
 
 body {
   background-color: var(--bg-color);
+  background-image: var(--bg-gradient); /* グラデーションがあれば適用 */
+  background-attachment: fixed; /* スクロールしても背景を固定する */
   color: var(--text-color);
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;

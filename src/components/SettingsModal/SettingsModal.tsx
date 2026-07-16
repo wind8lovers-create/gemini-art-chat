@@ -5,10 +5,17 @@ import { PromptSnippet } from '@/types';
 
 export default function SettingsModal({ onClose }: { onClose: () => void }) {
   const [snippets, setSnippets] = useState<PromptSnippet[]>([]);
+  const [theme, setTheme] = useState<'dark' | 'purple'>('dark');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
+    // テーマをローカルストレージから読み込む
+    const savedTheme = localStorage.getItem('app-theme');
+    if (savedTheme === 'purple') {
+      setTheme('purple');
+    }
+
     fetch('/api/snippets')
       .then(res => res.json())
       .then(data => {
@@ -41,13 +48,18 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
   const handleSave = async () => {
     setIsSaving(true);
     try {
+      // 1. 定型文の保存
       await fetch('/api/snippets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(snippets)
       });
-      // 保存完了時にイベントを発火して、チャット入力欄などがリロードできるようにする
       window.dispatchEvent(new Event('snippetsUpdated'));
+
+      // 2. テーマの保存と適用
+      localStorage.setItem('app-theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
+
       onClose();
     } catch (error) {
       console.error('保存エラー:', error);
@@ -66,10 +78,48 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className={styles.body}>
-          <h3>✨ 定型文（プロンプト・スニペット）</h3>
-          <p className={styles.description}>
-            チャット入力欄で素早く呼び出せる「よく使う指示（呪文）」を登録できます。
-          </p>
+          {/* テーマ設定セクション */}
+          <div className={styles.section}>
+            <h3>🎨 テーマ（背景色）設定</h3>
+            <p className={styles.description}>
+              アプリ全体の背景色を変更できます。
+            </p>
+            <div className={styles.themeSelector}>
+              <label className={`${styles.themeOption} ${theme === 'dark' ? styles.activeTheme : ''}`}>
+                <input 
+                  type="radio" 
+                  name="theme" 
+                  value="dark" 
+                  checked={theme === 'dark'}
+                  onChange={() => setTheme('dark')}
+                  className={styles.hiddenRadio}
+                />
+                <span className={styles.themePreview} style={{ background: '#121212' }}></span>
+                ダーク（黒基調）
+              </label>
+              <label className={`${styles.themeOption} ${theme === 'purple' ? styles.activeTheme : ''}`}>
+                <input 
+                  type="radio" 
+                  name="theme" 
+                  value="purple" 
+                  checked={theme === 'purple'}
+                  onChange={() => setTheme('purple')}
+                  className={styles.hiddenRadio}
+                />
+                <span className={styles.themePreview} style={{ background: 'linear-gradient(135deg, #180D35 0%, #40237C 100%)' }}></span>
+                パープル（紫基調）
+              </label>
+            </div>
+          </div>
+
+          <hr className={styles.divider} />
+
+          {/* 定型文設定セクション */}
+          <div className={styles.section}>
+            <h3>✨ 定型文（プロンプト・スニペット）</h3>
+            <p className={styles.description}>
+              チャット入力欄で素早く呼び出せる「よく使う指示（呪文）」を登録できます。
+            </p>
 
           {isLoading ? (
             <p>読み込み中...</p>
@@ -106,6 +156,7 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
               </button>
             </div>
           )}
+          </div>
         </div>
 
         <div className={styles.footer}>

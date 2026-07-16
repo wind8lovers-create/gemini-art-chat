@@ -195,3 +195,54 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* 追加: セクション区切りなど */
+.section {
+  margin-bottom: 24px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--glass-border);
+  margin: 24px 0;
+}
+
+/* テーマ切り替え用のスタイル */
+.themeSelector {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.themeOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: var(--border-radius-sm);
+  border: 2px solid transparent;
+  transition: var(--transition);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.themeOption:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.activeTheme {
+  border-color: var(--primary-color);
+  background: rgba(187, 134, 252, 0.1);
+}
+
+.hiddenRadio {
+  display: none;
+}
+
+.themePreview {
+  width: 60px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid var(--glass-border);
+}
