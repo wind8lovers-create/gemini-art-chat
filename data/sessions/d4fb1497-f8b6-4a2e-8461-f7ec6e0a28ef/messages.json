@@ -20,7 +20,8 @@
         "filename": "95d9b536-f96c-424b-82eb-797cee04656d.png",
         "prompt": "この絵の腰からたれているヤマブキ色のローブの色を少し黄色に近づけて下さい",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "isFavorite": true
       }
     ]
   }

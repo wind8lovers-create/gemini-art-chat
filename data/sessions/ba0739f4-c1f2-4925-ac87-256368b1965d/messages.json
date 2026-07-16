@@ -20,7 +20,8 @@
         "filename": "a104e18c-528e-4d68-9f9c-a17c481c064d.png",
         "prompt": "この絵をベースに修正していきます、腰からたれているヤマブキ色のローブの色を少し濃くしてください",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "isFavorite": true
       }
     ]
   },
