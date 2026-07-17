@@ -62,7 +62,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  padding: 4px 8px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: var(--border-radius-sm);
   cursor: pointer;
@@ -115,7 +115,7 @@
 
 /* 1つ1つの履歴ブロックのデザイン */
 .sessionItem {
-  padding: 8px 12px;
+  padding: 4px 8px;
   border-radius: var(--border-radius-sm);
   background: transparent;
   border: 1px solid transparent;

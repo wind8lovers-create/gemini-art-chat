@@ -29,7 +29,7 @@
         "prompt": "この画像を水彩画風にしてください",
         "version": 1,
         "parentImageId": null,
-        "isFavorite": true
+        "isFavorite": false
       }
     ]
   },

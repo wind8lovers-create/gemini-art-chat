@@ -11,7 +11,7 @@
         "prompt": "背景を夕暮れにしてください",
         "version": 1,
         "parentImageId": null,
-        "isFavorite": true
+        "isFavorite": false
       }
     ]
   },
@@ -33,7 +33,7 @@
         "prompt": "背景を朝焼けにしてプールではなくハワイの海岸にしてください",
         "version": 1,
         "parentImageId": null,
-        "isFavorite": true
+        "isFavorite": false
       }
     ]
   }

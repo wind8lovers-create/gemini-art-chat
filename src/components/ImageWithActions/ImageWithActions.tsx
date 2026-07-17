@@ -8,7 +8,9 @@ export default function ImageWithActions({
   imageUrl,
   className,
   onClick,
-  onFork
+  onFork,
+  onToggleFavorite,
+  hideFavorite
 }: {
   image: GeneratedImage;
   sessionId: string;
@@ -16,6 +18,8 @@ export default function ImageWithActions({
   className?: string;
   onClick?: () => void;
   onFork?: (newSessionId: string) => void;
+  onToggleFavorite?: (newFavState: boolean) => Promise<void>;
+  hideFavorite?: boolean;
 }) {
   const [isFav, setIsFav] = useState(image.isFavorite || false);
   const [isHovered, setIsHovered] = useState(false);
@@ -24,14 +28,19 @@ export default function ImageWithActions({
   const toggleFavorite = async (e: React.MouseEvent) => {
     e.stopPropagation();
     // すぐにUIを切り替えてサクサク動くように見せる
-    setIsFav(!isFav);
+    const newFav = !isFav;
+    setIsFav(newFav);
     
     try {
-      await fetch(`/api/images/${sessionId}/${image.id}/favorite`, { method: 'POST' });
+      if (onToggleFavorite) {
+        await onToggleFavorite(newFav);
+      } else {
+        await fetch(`/api/images/${sessionId}/${image.id}/favorite`, { method: 'POST' });
+      }
     } catch (error) {
       console.error('お気に入り登録エラー:', error);
       // 失敗したら元に戻す
-      setIsFav(isFav);
+      setIsFav(!newFav);
     }
   };
 
@@ -86,16 +95,18 @@ export default function ImageWithActions({
       <img src={imageUrl} alt={image.prompt} className={styles.image} />
       
       {/* ホバー時またはお気に入り済みの時にオーバーレイを表示 */}
-      <div className={`${styles.overlay} ${(isHovered || isFav) ? styles.visible : ''}`}>
-        <div className={styles.topActions}>
-          <button 
-            className={`${styles.actionBtn} ${isFav ? styles.favoriteActive : ''}`} 
-            onClick={toggleFavorite}
-            title={isFav ? "お気に入りを解除" : "お気に入りに登録"}
-          >
-            {isFav ? '★' : '☆'}
-          </button>
-        </div>
+      <div className={`${styles.overlay} ${(isHovered || (isFav && !hideFavorite)) ? styles.visible : ''}`}>
+        {!hideFavorite && (
+          <div className={styles.topActions}>
+            <button 
+              className={`${styles.actionBtn} ${isFav ? styles.favoriteActive : ''}`} 
+              onClick={toggleFavorite}
+              title={isFav ? "お気に入りを解除" : "お気に入りに登録"}
+            >
+              {isFav ? '★' : '☆'}
+            </button>
+          </div>
+        )}
         
         {/* ホバー時のみ下部ボタンを表示 */}
         {isHovered && (

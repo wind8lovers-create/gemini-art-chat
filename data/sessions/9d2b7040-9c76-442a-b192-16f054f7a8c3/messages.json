@@ -16,7 +16,8 @@
         "filename": "8ac9295c-37fa-44fc-b1b4-773855849844.png",
         "prompt": "小鳥の絵を書いてください",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "isFavorite": false
       }
     ]
   }

@@ -56,6 +56,10 @@ export default function Header({ onLogoClick }: { onLogoClick?: () => void }) {
             <span className={styles.navIcon}>🖼️</span>
             <span className={styles.navText}>ギャラリー</span>
           </Link>
+          <Link href="/uploads" className="btn btn-secondary">
+            <span className={styles.navIcon}>📎</span>
+            <span className={styles.navText}>アップ画像</span>
+          </Link>
           <button className="btn btn-secondary" onClick={() => setIsSettingsOpen(true)}>
             <span className={styles.navIcon}>⚙️</span>
             <span className={styles.navText}>設定</span>

@@ -30,6 +30,8 @@ export default function Sidebar({
   // ドラッグ中かどうかを判定するための状態
   const [draggedSessionId, setDraggedSessionId] = useState<string | null>(null);
   const [dragOverFolderId, setDragOverFolderId] = useState<string | null>(null);
+  
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const loadData = async () => {
     try {
@@ -235,7 +237,28 @@ export default function Sidebar({
   return (
     <aside className={`${styles.sidebar} ${!isVisible ? styles.hidden : ''} glass-panel`}>
       <div className={styles.header}>
-        <h2>📁 履歴</h2>
+        <div style={{ position: 'relative' }}>
+          <h2 
+            onClick={() => setIsMenuOpen(!isMenuOpen)} 
+            style={{ cursor: 'pointer', margin: 0, display: 'flex', alignItems: 'center', gap: '4px' }}
+            title="メニューを開く"
+          >
+            📁 履歴 <span style={{ fontSize: '12px', opacity: 0.7 }}>▼</span>
+          </h2>
+          {isMenuOpen && (
+            <>
+              <div style={{ position: 'fixed', inset: 0, zIndex: 90 }} onClick={() => setIsMenuOpen(false)}></div>
+              <div style={{ position: 'absolute', top: '100%', left: 0, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px', zIndex: 100, width: 'max-content', display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>
+                <button className="btn btn-secondary" onClick={() => { setIsMenuOpen(false); fetch('/api/explorer'); }} style={{ width: '100%', textAlign: 'left', padding: '8px', fontSize: '14px', color: 'pink' }}>
+                  📁 履歴エクスプローラ
+                </button>
+                <button className="btn btn-secondary" onClick={() => { setIsMenuOpen(false); window.location.href = '/api/download-all'; }} style={{ width: '100%', textAlign: 'left', padding: '8px', fontSize: '14px', color: 'pink' }}>
+                  📦 全履歴完全バックアップ-DL-
+                </button>
+              </div>
+            </>
+          )}
+        </div>
         <div className={styles.headerButtons}>
           <button className={styles.iconBtn} onClick={onClose} title="スマホ画面にする（サイドバーを隠す）">📱</button>
           <button className={styles.iconBtn} onClick={createNewFolder} title="新しいフォルダ">📁+</button>

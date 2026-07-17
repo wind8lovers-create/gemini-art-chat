@@ -69,7 +69,9 @@ export interface Message {
   
   // ユーザーが画像をアップロードして修正を頼んだ場合、この項目に画像データが入ります
   inputImage?: {
+    id?: string;
     mimeType: string;
     data: string; // base64形式のデータ
+    isFavorite?: boolean;
   };
 }

@@ -20,15 +20,36 @@ export default function MessageBubble({
   return (
     <div className={`${styles.messageWrapper} ${isUser ? styles.userWrapper : styles.aiWrapper}`}>
       <div className={`${styles.bubble} ${isUser ? styles.userBubble : styles.aiBubble}`}>
-        {/* ユーザーが画像をアップロードしていたら、吹き出しの中に小さく表示する */}
-        {msg.inputImage && (
-          <img 
-            src={msg.inputImage.data} 
-            alt="アップロードされた画像" 
-            style={{ maxWidth: '200px', borderRadius: '4px', marginBottom: '8px', display: 'block' }} 
-            // アップロードした画像にはメタデータがないためアクションボタンは付けない
-          />
-        )}
+        {/* ユーザーが画像をアップロードしていたら、吹き出しの中に表示する */}
+        {msg.inputImage && (() => {
+          const dummyImg: GeneratedImage = {
+            id: msg.id,
+            filename: 'uploaded_image.png',
+            prompt: 'アップロード画像',
+            version: 1,
+            parentImageId: null,
+            isFavorite: msg.inputImage.isFavorite || false
+          };
+          
+          return (
+            <div style={{ maxWidth: '300px', marginBottom: '8px' }}>
+              <ImageWithActions 
+                image={dummyImg}
+                sessionId={currentSessionId}
+                imageUrl={msg.inputImage.data}
+                onToggleFavorite={async (newFavState) => {
+                  const res = await fetch(`/api/messages/${currentSessionId}/${msg.id}/favorite`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ isFavorite: newFavState })
+                  });
+                  if (!res.ok) throw new Error('お気に入り登録に失敗しました');
+                }}
+                onClick={() => onImageClick(dummyImg, msg.inputImage!.data, currentSessionId)}
+              />
+            </div>
+          );
+        })()}
         <div className={styles.text}>{msg.text}</div>
         
         {/* 画像があれば、さっき作った画像配信用APIを使って本物の画像を表示します */}

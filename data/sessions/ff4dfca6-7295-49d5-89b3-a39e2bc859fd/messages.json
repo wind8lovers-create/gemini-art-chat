@@ -1,0 +1,39 @@
+[
+  {
+    "id": "200d50ca-9d1c-4580-932d-d5f09bda70be",
+    "sender": "ai",
+    "text": "前のチャットから画像を引き継ぎました。この画像についてどのように修正しますか？",
+    "timestamp": "2026-07-17T05:58:33.476Z",
+    "generatedImages": [
+      {
+        "id": "7d598873-fa1b-4479-8c58-98b4dfe19231",
+        "filename": "ed9309a2-e9df-452e-832c-0f32bd7a74ba.png",
+        "prompt": "背景を夕暮れにしてください",
+        "version": 1,
+        "parentImageId": null,
+        "isFavorite": false
+      }
+    ]
+  },
+  {
+    "id": "180e3a30-f8dc-47a2-8299-5f5c76e2633e",
+    "sender": "user",
+    "text": "両脇に、「青色」の水着を着た「五等分の花嫁」の中野美玖と、「緑色」の水着を着た「五等分の花嫁」の中野四葉をならべてください。",
+    "timestamp": "2026-07-17T06:02:35.567Z"
+  },
+  {
+    "id": "a1d40ee2-c12f-469e-b30b-877ae4737556",
+    "sender": "ai",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-17T06:02:51.086Z",
+    "generatedImages": [
+      {
+        "id": "06fc78df-8d39-47a5-94ee-11a2d01e6c4a",
+        "filename": "06fc78df-8d39-47a5-94ee-11a2d01e6c4a.png",
+        "prompt": "両脇に、「青色」の水着を着た「五等分の花嫁」の中野美玖と、「緑色」の水着を着た「五等分の花嫁」の中野四葉をならべてください。",
+        "version": 1,
+        "parentImageId": null
+      }
+    ]
+  }
+]

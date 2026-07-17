@@ -53,7 +53,7 @@ export async function POST(
     const newSessionId = crypto.randomUUID();
     const newSession: Session = {
       id: newSessionId,
-      title: `${originalPrompt.slice(0, 10)}... (派生)`,
+      title: `→${originalSession.title}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       imageCount: 1,

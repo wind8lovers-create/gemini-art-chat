@@ -37,6 +37,7 @@ export default function ImagePanel({
                       imageUrl={imageUrl}
                       onClick={() => onImageClick(img, imageUrl, currentSessionId)}
                       onFork={onFork}
+                      hideFavorite={true}
                     />
                   ) : (
                     `画像 v${img.version}`

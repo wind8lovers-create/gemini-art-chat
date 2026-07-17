@@ -38,7 +38,8 @@
         "filename": "639288c4-78e4-482d-9650-cc7e8d2afa12.png",
         "prompt": "背景を地中海風にしてください。",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "isFavorite": true
       }
     ]
   }
