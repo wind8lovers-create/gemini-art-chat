@@ -6,6 +6,7 @@ import { PromptSnippet } from '@/types';
 export default function SettingsModal({ onClose }: { onClose: () => void }) {
   const [snippets, setSnippets] = useState<PromptSnippet[]>([]);
   const [theme, setTheme] = useState<'dark' | 'purple'>('dark');
+  const [isVideoEnabled, setIsVideoEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -14,6 +15,10 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
     const savedTheme = localStorage.getItem('app-theme');
     if (savedTheme === 'purple') {
       setTheme('purple');
+    }
+    const savedVideo = localStorage.getItem('isVideoEnabled');
+    if (savedVideo === 'false') {
+      setIsVideoEnabled(false);
     }
 
     fetch('/api/snippets')
@@ -56,9 +61,10 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
       });
       window.dispatchEvent(new Event('snippetsUpdated'));
 
-      // 2. テーマの保存と適用
+      // 2. テーマとその他の保存と適用
       localStorage.setItem('app-theme', theme);
       document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('isVideoEnabled', isVideoEnabled ? 'true' : 'false');
 
       onClose();
     } catch (error) {
@@ -108,6 +114,40 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
                 />
                 <span className={styles.themePreview} style={{ background: 'linear-gradient(135deg, #180D35 0%, #40237C 100%)' }}></span>
                 パープル（紫基調）
+              </label>
+            </div>
+          </div>
+
+          <hr className={styles.divider} />
+
+          {/* 動画生成設定セクション */}
+          <div className={styles.section}>
+            <h3>🎥 動画生成（Veo 3.1）設定</h3>
+            <p className={styles.description}>
+              プロンプトに「動画」というキーワードが含まれる場合、動画生成モデルを使用するかどうかを設定します。
+            </p>
+            <div className={styles.themeSelector}>
+              <label className={`${styles.themeOption} ${isVideoEnabled ? styles.activeTheme : ''}`}>
+                <input 
+                  type="radio" 
+                  name="videoEnabled" 
+                  value="on" 
+                  checked={isVideoEnabled}
+                  onChange={() => setIsVideoEnabled(true)}
+                  className={styles.hiddenRadio}
+                />
+                オン（有効）
+              </label>
+              <label className={`${styles.themeOption} ${!isVideoEnabled ? styles.activeTheme : ''}`}>
+                <input 
+                  type="radio" 
+                  name="videoEnabled" 
+                  value="off" 
+                  checked={!isVideoEnabled}
+                  onChange={() => setIsVideoEnabled(false)}
+                  className={styles.hiddenRadio}
+                />
+                オフ（画像のみ）
               </label>
             </div>
           </div>

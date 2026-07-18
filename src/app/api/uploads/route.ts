@@ -36,6 +36,7 @@ export async function GET() {
                   version: 1,
                   parentImageId: null,
                   isFavorite: true,
+                  mediaType: message.inputImage.mimeType?.startsWith('video/') ? 'video' : 'image',
                   sessionId: metadata.id,
                   sessionTitle: metadata.title,
                   // @ts-ignore (特別なプロパティとして dataURI を付与)

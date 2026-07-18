@@ -5,7 +5,7 @@ import Header from '@/components/Header/Header';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import ChatWindow from '@/components/Chat/ChatWindow';
 import ChatInput from '@/components/Chat/ChatInput';
-import ImagePanel from '@/components/ImagePanel/ImagePanel';
+
 import { useChat } from '@/hooks/useChat';
 import { GeneratedImage } from '@/types';
 import ImageWithActions from '@/components/ImageWithActions/ImageWithActions';
@@ -68,14 +68,6 @@ export default function Home() {
           <ChatInput onSendMessage={sendMessage} isLoading={isLoading} />
         </main>
         
-        {/* 画像パネルには「画像一覧」と「今の部屋のID」を渡します */}
-        <ImagePanel 
-          images={images} 
-          currentSessionId={currentSessionId} 
-          onImageClick={(img, url, sid) => setEnlargedImage({img, url, sessionId: sid})}
-          onFork={(id) => { setCurrentSessionId(id); setEnlargedImage(null); }}
-          isVisible={isSidebarVisible}
-        />
       </div>
 
       {/* 拡大画像を表示する黒い背景（モーダル） */}

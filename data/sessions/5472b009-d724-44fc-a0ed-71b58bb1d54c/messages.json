@@ -22,23 +22,24 @@
     ]
   },
   {
-    "id": "53bf05d5-fb48-42a9-82bf-2b019b824871",
+    "id": "756b0052-d008-4fd1-a620-ffb5f5be2d70",
     "sender": "user",
-    "text": "背景を地中海風にしてください。",
-    "timestamp": "2026-07-16T03:52:23.787Z"
+    "text": "海中で魚が泳ぐ中ビーチバレーしている感じにしてください。",
+    "timestamp": "2026-07-18T05:17:23.291Z"
   },
   {
-    "id": "0e4c3405-7609-4da2-b5d2-53484b5000ed",
+    "id": "024500fc-0bb9-4b76-a4a0-7f9a3838590f",
     "sender": "ai",
-    "text": "了解しました。背景を地中海風に変更しました。",
-    "timestamp": "2026-07-16T03:52:35.624Z",
+    "text": "画像を生成しました！",
+    "timestamp": "2026-07-18T05:17:37.985Z",
     "generatedImages": [
       {
-        "id": "639288c4-78e4-482d-9650-cc7e8d2afa12",
-        "filename": "639288c4-78e4-482d-9650-cc7e8d2afa12.png",
-        "prompt": "背景を地中海風にしてください。",
+        "id": "8ee88f2c-5f4e-4354-9c2b-527c53ea8fe8",
+        "filename": "8ee88f2c-5f4e-4354-9c2b-527c53ea8fe8.png",
+        "prompt": "海中で魚が泳ぐ中ビーチバレーしている感じにしてください。",
         "version": 1,
         "parentImageId": null,
+        "mediaType": "image",
         "isFavorite": true
       }
     ]

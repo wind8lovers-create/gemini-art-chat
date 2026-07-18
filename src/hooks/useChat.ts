@@ -130,6 +130,8 @@ export function useChat(currentSessionId: string | null) {
 
     // 2. フェーズ1で作った /api/chat にメッセージを送る
     try {
+      const isVideoEnabled = localStorage.getItem('isVideoEnabled') !== 'false';
+      
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -137,23 +139,54 @@ export function useChat(currentSessionId: string | null) {
           sessionId: currentSessionId, 
           text: text,
           inputImage: inputImage, // ここでAPIに画像を渡す！
-          messageId: userMessageId // サーバー側でも同じIDを使わせる
+          messageId: userMessageId, // サーバー側でも同じIDを使わせる
+          isVideoEnabled
         }),
       });
       
-      const aiMessage: Message = await res.json();
+      const data: any = await res.json();
       
       if (res.ok) {
+        if (data.isPollingRequired) {
+          // 動画生成の非同期処理のポーリング
+          const pollInterval = setInterval(async () => {
+            try {
+              const pollRes = await fetch(`/api/chat/poll?operationId=${data.operationId}&sessionId=${data.sessionId}&prompt=${encodeURIComponent(data.prompt)}`);
+              const pollData = await pollRes.json();
+              
+              if (pollData.done) {
+                clearInterval(pollInterval);
+                setMessages(prev => [...prev, pollData.message]);
+                if (pollData.message.generatedImages) {
+                  setImages(prev => [...prev, ...pollData.message.generatedImages]);
+                }
+                setIsLoading(false);
+              } else if (pollData.error) {
+                clearInterval(pollInterval);
+                alert("エラーが発生しました: " + pollData.error);
+                setIsLoading(false);
+              }
+            } catch (err) {
+              clearInterval(pollInterval);
+              console.error("ポーリング通信エラー:", err);
+              alert("通信に失敗しました。");
+              setIsLoading(false);
+            }
+          }, 10000);
+          return; // isLoadingはtrueのままで待機
+        }
+
+        const aiMessage: Message = data;
         // 3. 成功したら、AIからの返答を画面に追加する
         setMessages(prev => [...prev, aiMessage]);
         
-        // もしAIが画像を作ってくれていたら、右パネルの画像リストにも追加する
+        // もしAIがメディアを作ってくれていたらリストに追加する
         if (aiMessage.generatedImages) {
           setImages(prev => [...prev, ...aiMessage.generatedImages!]);
         }
       } else {
-        console.error("AIからの返答エラー:", (aiMessage as any).error);
-        alert("エラーが発生しました: " + (aiMessage as any).error);
+        console.error("AIからの返答エラー:", data.error);
+        alert("エラーが発生しました: " + data.error);
       }
     } catch (err) {
       console.error("通信エラー:", err);

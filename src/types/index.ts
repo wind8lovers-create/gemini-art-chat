@@ -36,6 +36,7 @@ export interface GeneratedImage {
   version: number;        // バージョン番号
   parentImageId: string | null; // 元になった画像のID（修正画像の場合）
   isFavorite?: boolean;   // お気に入りに追加されているかどうか（フェーズ4）
+  mediaType?: 'image' | 'video'; // 動画か画像か
 }
 
 // ギャラリー用に使う拡張画像データ型（どのセッションの画像かわかるようにする）

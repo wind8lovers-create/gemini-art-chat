@@ -187,25 +187,25 @@ import { Message, PromptSnippet } from '@/types';
     e.preventDefault();
     setIsDragging(false);
     
-    // ドロップされたファイルの中から最初の画像を取り出す
+    // ドロップされたファイルの中から最初の画像/動画を取り出す
     const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-      handleImageSelection(file);
+    if (file && (file.type.startsWith('image/') || file.type.startsWith('video/'))) {
+      handleMediaSelection(file);
     }
   };
 
   // クリップマークが押されてファイルが選択された時
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      handleImageSelection(file);
+    if (file && (file.type.startsWith('image/') || file.type.startsWith('video/'))) {
+      handleMediaSelection(file);
     }
     // 続けて同じファイルを選べるようにリセット
     e.target.value = '';
   };
 
   // ファイルを読み込んでプレビューを表示する処理
-  const handleImageSelection = (file: File) => {
+  const handleMediaSelection = (file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       setSelectedImage({
@@ -226,7 +226,7 @@ import { Message, PromptSnippet } from '@/types';
       {/* 隠しファイル入力欄 */}
       <input 
         type="file" 
-        accept="image/*" 
+        accept="image/*,video/*" 
         style={{ display: 'none' }} 
         ref={fileInputRef}
         onChange={handleFileChange}
@@ -234,10 +234,14 @@ import { Message, PromptSnippet } from '@/types';
 
       {/* 入力エリア全体を一番上に配置 */}
       <div className={styles.inputArea}>
-        {/* 選んだ画像の小さなプレビュー */}
+        {/* 選んだメディアの小さなプレビュー */}
         {selectedImage && (
           <div className={styles.imagePreviewContainer}>
-            <img src={selectedImage.url} alt="選択された画像" className={styles.imagePreview} />
+            {selectedImage.file.type.startsWith('video/') ? (
+              <video src={selectedImage.url} className={styles.imagePreview} autoPlay muted loop />
+            ) : (
+              <img src={selectedImage.url} alt="選択された画像" className={styles.imagePreview} />
+            )}
             <button className={styles.removeImageBtn} onClick={() => setSelectedImage(null)}>✕</button>
           </div>
         )}

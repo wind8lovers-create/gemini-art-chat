@@ -24,11 +24,12 @@ export default function MessageBubble({
         {msg.inputImage && (() => {
           const dummyImg: GeneratedImage = {
             id: msg.id,
-            filename: 'uploaded_image.png',
+            filename: msg.inputImage.mimeType?.startsWith('video/') ? 'uploaded_video.mp4' : 'uploaded_image.png',
             prompt: 'アップロード画像',
             version: 1,
             parentImageId: null,
-            isFavorite: msg.inputImage.isFavorite || false
+            isFavorite: msg.inputImage.isFavorite || false,
+            mediaType: msg.inputImage.mimeType?.startsWith('video/') ? 'video' : 'image'
           };
           
           return (

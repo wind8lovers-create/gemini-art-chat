@@ -20,7 +20,12 @@ export default function ChatWindow({
     <div className={styles.chatWindow}>
       {messages.length === 0 ? (
         <div className={styles.emptyChat}>
-          <h3>👋 Gemini Art Chat へようこそ！</h3>
+          <img 
+            src="/feeling-gallery.jpg" 
+            alt="Feeling Gallery" 
+            style={{ maxWidth: '300px', borderRadius: '12px', marginBottom: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }} 
+          />
+          <h3>👋 Feeling Gallery へようこそ♪</h3>
           <p>
             まずは左側の「＋ 新規」を押して会話をスタートしてください。<br/>
             下の入力欄からAIに「猫の絵を描いて」などと話しかけてみましょう。

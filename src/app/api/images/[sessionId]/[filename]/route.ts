@@ -25,11 +25,15 @@ export async function GET(
     // 画像ファイルを読み込みます
     const imageBuffer = await fs.readFile(imagePath);
     
-    // ブラウザに「これはPNG画像ですよ」と教えてあげて、画像データを返します
+    // ファイルの拡張子によってContent-Typeを出し分ける
+    const isVideo = filename.toLowerCase().endsWith('.mp4');
+    const contentType = isVideo ? 'video/mp4' : 'image/png';
+
+    // ブラウザに「これはPNG画像ですよ（または動画ですよ）」と教えてあげて、データを返します
     return new NextResponse(imageBuffer, {
       headers: {
-        'Content-Type': 'image/png',
-        'Cache-Control': 'public, max-age=31536000', // 画像を1年間キャッシュ（高速化）
+        'Content-Type': contentType,
+        'Cache-Control': 'public, max-age=31536000', // 1年間キャッシュ（高速化）
       },
     });
   } catch (error) {

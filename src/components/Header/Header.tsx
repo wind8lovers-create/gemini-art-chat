@@ -46,7 +46,7 @@ export default function Header({ onLogoClick }: { onLogoClick?: () => void }) {
               if (onLogoClick) onLogoClick();
             }}
           >
-            <h1>GeminiArtChat</h1>
+            <h1>Feeling Gallery</h1>
           </Link>
         </div>
         
