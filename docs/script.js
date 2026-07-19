@@ -6,20 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
     
-    // サイドバー切り替え機能
-    const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
-    const sidebar = document.querySelector('.sidebar');
-    
-    toggleSidebarBtn.addEventListener('click', () => {
-        // PC画面では hidden をトグル、スマホ画面では show をトグルする
-        if (window.innerWidth <= 768) {
-            sidebar.classList.toggle('show');
-        } else {
-            sidebar.classList.toggle('hidden');
-        }
-    });
+    // トースト通知（ポップアップ）用要素の作成
+    let toast = document.createElement('div');
+    toast.id = 'toast';
+    document.body.appendChild(toast);
 
-    let currentCategory = 'all';
+    function showToast(message) {
+        toast.innerText = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    let currentCategory = 'media'; // 初期表示を生成画像・動画に変更
 
     function renderGallery() {
         grid.innerHTML = '';
@@ -88,6 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
             categoryItems.forEach(i => i.classList.remove('active'));
             // 選択されたカテゴリと同じ data-category を持つものをすべてアクティブにする
             document.querySelectorAll(`[data-category="${selectedCategory}"]`).forEach(i => i.classList.add('active'));
+            
+            // スマホなどの幅が狭い画面ではポップアップで説明を表示
+            if (window.innerWidth <= 768) {
+                const title = item.getAttribute('title') || item.innerText.split('\n')[0];
+                showToast(title);
+            }
             
             currentCategory = selectedCategory;
             renderGallery();

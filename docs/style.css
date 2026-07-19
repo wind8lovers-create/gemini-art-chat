@@ -98,16 +98,22 @@ body {
 
 @media (max-width: 768px) {
   .layout { flex-direction: column; }
-  /* スマホではデフォルトで左のサイドバーを隠す */
-  .sidebar { display: none; width: 100%; height: auto; position: static; padding: 16px; }
-  .sidebar.show { display: block !important; }
-  .category-list { display: flex; overflow-x: auto; gap: 8px; }
-  .category-item { flex: 0 0 auto; margin-bottom: 0; white-space: nowrap; }
+  /* スマホでは完全に左のサイドバーを隠す */
+  .sidebar { display: none !important; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
   /* ヘッダーのGitHubボタンを隠してスペースを確保する（アイコンを優先） */
   .github-btn { display: none; }
   .logo h1 { font-size: 1.1rem; }
   .header { padding: 12px 8px; }
-  .nav-btn { padding: 6px 8px; font-size: 1.1rem; }
+  .nav-btn { padding: 8px 12px; font-size: 1.4rem; } /* スマホでアイコンを押しやすく少し大きく */
 }
+/* トースト通知（ポップアップ）のスタイル */
+#toast {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+  background: rgba(233, 30, 99, 0.9); color: white; padding: 12px 24px;
+  border-radius: 30px; font-weight: bold; font-size: 1rem;
+  z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+#toast.show { opacity: 1; }

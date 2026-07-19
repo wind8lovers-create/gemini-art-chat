@@ -126,19 +126,18 @@ async function generateStaticFiles() {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feeling Gallery</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=\${Date.now()}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="header glass-panel">
         <div class="logo" style="display: flex; align-items: center; gap: 12px;">
             <h1>🤖 Feeling Gallery</h1>
-            <button id="toggle-sidebar-btn" class="nav-btn" title="サイドバーの表示/非表示" style="font-size: 1.2rem; padding: 4px 8px;">📱</button>
         </div>
         <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
         <nav class="nav">
-            <button class="nav-btn active" data-category="all" title="すべて表示">🏠</button>
-            <button class="nav-btn" data-category="media" title="生成画像・動画">🖼️</button>
+            <button class="nav-btn" data-category="all" title="すべて表示">🏠</button>
+            <button class="nav-btn active" data-category="media" title="生成画像・動画">🖼️</button>
             <button class="nav-btn" data-category="prompt" title="プロンプト考察">💡</button>
             <button class="nav-btn" data-category="story" title="ある一つの物語">📖</button>
             <a href="https://github.com/wind8lovers-create/gemini-art-chat" class="btn github-btn" target="_blank" rel="noopener">GitHub</a>
@@ -150,8 +149,8 @@ async function generateStaticFiles() {
         <aside class="sidebar glass-panel">
             <h2 class="sidebar-title">📑 目次</h2>
             <ul class="category-list">
-                <li class="category-item active" data-category="all">すべて表示</li>
-                <li class="category-item" data-category="media">生成画像・動画<br><small>(AI Generated Media)</small></li>
+                <li class="category-item" data-category="all">すべて表示</li>
+                <li class="category-item active" data-category="media">生成画像・動画<br><small>(AI Generated Media)</small></li>
                 <li class="category-item" data-category="prompt">プロンプト考察<br><small>(Prompt Analysis)</small></li>
                 <li class="category-item" data-category="story">ある一つの物語<br><small>(A Single Story)</small></li>
             </ul>
@@ -181,8 +180,8 @@ async function generateStaticFiles() {
         </div>
     </div>
 
-    <script src="data.js"></script>
-    <script src="script.js"></script>
+    <script src="data.js?v=${Date.now()}"></script>
+    <script src="script.js?v=${Date.now()}"></script>
 </body>
 </html>`;
 
@@ -286,19 +285,25 @@ body {
 
 @media (max-width: 768px) {
   .layout { flex-direction: column; }
-  /* スマホではデフォルトで左のサイドバーを隠す */
-  .sidebar { display: none; width: 100%; height: auto; position: static; padding: 16px; }
-  .sidebar.show { display: block !important; }
-  .category-list { display: flex; overflow-x: auto; gap: 8px; }
-  .category-item { flex: 0 0 auto; margin-bottom: 0; white-space: nowrap; }
+  /* スマホでは完全に左のサイドバーを隠す */
+  .sidebar { display: none !important; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
   /* ヘッダーのGitHubボタンを隠してスペースを確保する（アイコンを優先） */
   .github-btn { display: none; }
   .logo h1 { font-size: 1.1rem; }
   .header { padding: 12px 8px; }
-  .nav-btn { padding: 6px 8px; font-size: 1.1rem; }
+  .nav-btn { padding: 8px 12px; font-size: 1.4rem; } /* スマホでアイコンを押しやすく少し大きく */
 }
+/* トースト通知（ポップアップ）のスタイル */
+#toast {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+  background: rgba(233, 30, 99, 0.9); color: white; padding: 12px 24px;
+  border-radius: 30px; font-weight: bold; font-size: 1rem;
+  z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+#toast.show { opacity: 1; }
 `;
 
   const scriptJs = `
@@ -309,20 +314,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
     
-    // サイドバー切り替え機能
-    const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
-    const sidebar = document.querySelector('.sidebar');
-    
-    toggleSidebarBtn.addEventListener('click', () => {
-        // PC画面では hidden をトグル、スマホ画面では show をトグルする
-        if (window.innerWidth <= 768) {
-            sidebar.classList.toggle('show');
-        } else {
-            sidebar.classList.toggle('hidden');
-        }
-    });
+    // トースト通知（ポップアップ）用要素の作成
+    let toast = document.createElement('div');
+    toast.id = 'toast';
+    document.body.appendChild(toast);
 
-    let currentCategory = 'all';
+    function showToast(message) {
+        toast.innerText = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    let currentCategory = 'media'; // 初期表示を生成画像・動画に変更
 
     function renderGallery() {
         grid.innerHTML = '';
@@ -391,6 +394,12 @@ document.addEventListener('DOMContentLoaded', () => {
             categoryItems.forEach(i => i.classList.remove('active'));
             // 選択されたカテゴリと同じ data-category を持つものをすべてアクティブにする
             document.querySelectorAll(\`[data-category="\${selectedCategory}"]\`).forEach(i => i.classList.add('active'));
+            
+            // スマホなどの幅が狭い画面ではポップアップで説明を表示
+            if (window.innerWidth <= 768) {
+                const title = item.getAttribute('title') || item.innerText.split('\\n')[0];
+                showToast(title);
+            }
             
             currentCategory = selectedCategory;
             renderGallery();

@@ -4,19 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feeling Gallery</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=${Date.now()}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="header glass-panel">
         <div class="logo" style="display: flex; align-items: center; gap: 12px;">
             <h1>🤖 Feeling Gallery</h1>
-            <button id="toggle-sidebar-btn" class="nav-btn" title="サイドバーの表示/非表示" style="font-size: 1.2rem; padding: 4px 8px;">📱</button>
         </div>
         <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
         <nav class="nav">
-            <button class="nav-btn active" data-category="all" title="すべて表示">🏠</button>
-            <button class="nav-btn" data-category="media" title="生成画像・動画">🖼️</button>
+            <button class="nav-btn" data-category="all" title="すべて表示">🏠</button>
+            <button class="nav-btn active" data-category="media" title="生成画像・動画">🖼️</button>
             <button class="nav-btn" data-category="prompt" title="プロンプト考察">💡</button>
             <button class="nav-btn" data-category="story" title="ある一つの物語">📖</button>
             <a href="https://github.com/wind8lovers-create/gemini-art-chat" class="btn github-btn" target="_blank" rel="noopener">GitHub</a>
@@ -28,8 +27,8 @@
         <aside class="sidebar glass-panel">
             <h2 class="sidebar-title">📑 目次</h2>
             <ul class="category-list">
-                <li class="category-item active" data-category="all">すべて表示</li>
-                <li class="category-item" data-category="media">生成画像・動画<br><small>(AI Generated Media)</small></li>
+                <li class="category-item" data-category="all">すべて表示</li>
+                <li class="category-item active" data-category="media">生成画像・動画<br><small>(AI Generated Media)</small></li>
                 <li class="category-item" data-category="prompt">プロンプト考察<br><small>(Prompt Analysis)</small></li>
                 <li class="category-item" data-category="story">ある一つの物語<br><small>(A Single Story)</small></li>
             </ul>
@@ -59,7 +58,7 @@
         </div>
     </div>
 
-    <script src="data.js"></script>
-    <script src="script.js"></script>
+    <script src="data.js?v=1784446799855"></script>
+    <script src="script.js?v=1784446799855"></script>
 </body>
 </html>
