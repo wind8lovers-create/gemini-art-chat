@@ -134,8 +134,13 @@ async function generateStaticFiles() {
         <div class="logo">
             <h1>🤖 Feeling Gallery</h1>
         </div>
+        <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
         <nav class="nav">
-            <a href="https://github.com/wind8lovers-create/gemini-art-chat" class="btn" target="_blank" rel="noopener">GitHub</a>
+            <button class="nav-btn active" data-category="all" title="すべて表示">🏠</button>
+            <button class="nav-btn" data-category="media" title="生成画像・動画">🖼️</button>
+            <button class="nav-btn" data-category="prompt" title="プロンプト考察">💡</button>
+            <button class="nav-btn" data-category="story" title="ある一つの物語">📖</button>
+            <a href="https://github.com/wind8lovers-create/gemini-art-chat" class="btn github-btn" target="_blank" rel="noopener">GitHub</a>
         </nav>
     </header>
 
@@ -197,7 +202,17 @@ body {
   display: flex; justify-content: space-between; align-items: center;
   padding: 12px 24px;
 }
-.logo h1 { margin: 0; font-size: 1.5rem; letter-spacing: 1px; }
+.nav {
+  display: flex; gap: 8px; align-items: center;
+}
+.nav-btn {
+  background: rgba(255,255,255,0.1); color: #fff; border: none;
+  padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: 0.2s;
+  font-size: 1.2rem; display: flex; justify-content: center; align-items: center;
+}
+.nav-btn:hover { background: rgba(255,255,255,0.2); }
+.nav-btn.active { background: var(--accent-color); }
+
 .btn {
   background: rgba(255,255,255,0.1); color: #fff; text-decoration: none;
   padding: 8px 16px; border-radius: 8px; transition: 0.2s;
@@ -260,16 +275,22 @@ body {
 .modal-body img, .modal-body video { max-width: 100%; max-height: 90vh; object-fit: contain; }
 @media (max-width: 768px) {
   .layout { flex-direction: column; }
-  .sidebar { width: 100%; height: auto; position: static; padding: 16px; }
-  .category-list { display: flex; overflow-x: auto; gap: 8px; }
-  .category-item { flex: 0 0 auto; margin-bottom: 0; white-space: nowrap; }
+  /* スマホでは左のサイドバーを完全に隠す */
+  .sidebar { display: none; }
+  .main-content { padding: 12px; }
+  .grid { gap: 16px; grid-template-columns: 1fr; }
+  /* ヘッダーのGitHubボタンを隠してスペースを確保する（アイコンを優先） */
+  .github-btn { display: none; }
+  .logo h1 { font-size: 1.2rem; }
+  .header { padding: 12px 8px; }
+  .nav-btn { padding: 8px 10px; font-size: 1.1rem; }
 }
 `;
 
   const scriptJs = `
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('gallery-grid');
-    const categoryItems = document.querySelectorAll('.category-item');
+    const categoryItems = document.querySelectorAll('.category-item, .nav-btn');
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
@@ -337,9 +358,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     categoryItems.forEach(item => {
         item.addEventListener('click', () => {
+            const selectedCategory = item.getAttribute('data-category');
+            // すべてのボタン・アイテムのアクティブを外す
             categoryItems.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-            currentCategory = item.getAttribute('data-category');
+            // 選択されたカテゴリと同じ data-category を持つものをすべてアクティブにする
+            document.querySelectorAll(\`[data-category="\${selectedCategory}"]\`).forEach(i => i.classList.add('active'));
+            
+            currentCategory = selectedCategory;
             renderGallery();
         });
     });

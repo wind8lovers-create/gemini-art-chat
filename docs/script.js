@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('gallery-grid');
-    const categoryItems = document.querySelectorAll('.category-item');
+    const categoryItems = document.querySelectorAll('.category-item, .nav-btn');
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
@@ -69,9 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     categoryItems.forEach(item => {
         item.addEventListener('click', () => {
+            const selectedCategory = item.getAttribute('data-category');
+            // すべてのボタン・アイテムのアクティブを外す
             categoryItems.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-            currentCategory = item.getAttribute('data-category');
+            // 選択されたカテゴリと同じ data-category を持つものをすべてアクティブにする
+            document.querySelectorAll(`[data-category="${selectedCategory}"]`).forEach(i => i.classList.add('active'));
+            
+            currentCategory = selectedCategory;
             renderGallery();
         });
     });
