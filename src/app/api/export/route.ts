@@ -156,6 +156,11 @@ async function generateStaticFiles() {
                 <li class="category-item" data-category="story">ある一つの物語<br><small>(A Single Story)</small></li>
             </ul>
 
+            <div class="mascot-container" style="margin-top: auto; padding-top: 24px; text-align: center;">
+                <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 8px;">👑 イメージキャラクター</p>
+                <img src="assets/a104e18c-528e-4d68-9f9c-a17c481c064d.png" alt="Feeling Gallery キャラクター" style="width: 100%; max-width: 140px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />
+            </div>
+
             <div class="sidebar-footer">
                 <p><strong>制作環境</strong></p>
                 <p>Next.js / React<br>Gemini Pro Vision<br>Antigravity AI</p>
@@ -234,8 +239,8 @@ body {
 .category-item:hover { background: rgba(255, 255, 255, 0.05); }
 .category-item.active { background: var(--accent-color); }
 .sidebar-footer {
-  margin-top: auto; font-size: 0.85rem; color: #888;
-  border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px;
+  margin-top: 16px; font-size: 0.85rem; color: #888;
+  border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; text-align: center;
 }
 .main-content { flex: 1; padding: 24px; }
 .grid {

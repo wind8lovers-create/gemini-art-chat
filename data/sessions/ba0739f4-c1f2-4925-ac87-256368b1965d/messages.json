@@ -23,7 +23,7 @@
         "version": 1,
         "parentImageId": null,
         "isFavorite": true,
-        "publishStatus": "published"
+        "publishStatus": "hidden"
       }
     ]
   },
