@@ -156,8 +156,8 @@ async function generateStaticFiles() {
             </ul>
 
             <div class="mascot-container" style="margin-top: auto; padding-top: 24px; text-align: center;">
-                <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 8px;">👑 イメージキャラクター</p>
-                <img src="assets/a104e18c-528e-4d68-9f9c-a17c481c064d.png" alt="Feeling Gallery キャラクター" style="width: 100%; max-width: 140px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />
+                <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 8px;">👑 Hazuki-kiz-</p>
+                <img src="assets/a104e18c-528e-4d68-9f9c-a17c481c064d.png" alt="Hazuki" style="width: 100%; max-width: 140px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />
             </div>
 
             <div class="sidebar-footer">
