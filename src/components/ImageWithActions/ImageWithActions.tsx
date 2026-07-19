@@ -13,7 +13,8 @@ export default function ImageWithActions({
   onToggleFavorite,
   onTogglePublish,
   hideFavorite,
-  hidePublish
+  hidePublish,
+  isGenerated
 }: {
   image: GeneratedImage;
   sessionId: string;

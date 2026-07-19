@@ -1,10 +1,24 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('gallery-grid');
-    const categoryItems = document.querySelectorAll('.category-item, .nav-btn');
+    const categoryItems = document.querySelectorAll('.category-item, .nav-btn[data-category]');
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
+    
+    // サイドバー切り替え機能
+    const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+    const sidebar = document.querySelector('.sidebar');
+    
+    toggleSidebarBtn.addEventListener('click', () => {
+        // PC画面では hidden をトグル、スマホ画面では show をトグルする
+        if (window.innerWidth <= 768) {
+            sidebar.classList.toggle('show');
+        } else {
+            sidebar.classList.toggle('hidden');
+        }
+    });
+
     let currentCategory = 'all';
 
     function renderGallery() {

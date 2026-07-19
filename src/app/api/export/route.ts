@@ -131,8 +131,9 @@ async function generateStaticFiles() {
 </head>
 <body>
     <header class="header glass-panel">
-        <div class="logo">
+        <div class="logo" style="display: flex; align-items: center; gap: 12px;">
             <h1>🤖 Feeling Gallery</h1>
+            <button id="toggle-sidebar-btn" class="nav-btn" title="サイドバーの表示/非表示" style="font-size: 1.2rem; padding: 4px 8px;">📱</button>
         </div>
         <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
         <nav class="nav">
@@ -273,27 +274,49 @@ body {
   border: none; color: white; font-size: 2rem; cursor: pointer;
 }
 .modal-body img, .modal-body video { max-width: 100%; max-height: 90vh; object-fit: contain; }
+/* スマホレイアウト切り替え用のクラス */
+.sidebar.hidden {
+  display: none !important;
+}
+
 @media (max-width: 768px) {
   .layout { flex-direction: column; }
-  /* スマホでは左のサイドバーを完全に隠す */
-  .sidebar { display: none; }
+  /* スマホではデフォルトで左のサイドバーを隠す */
+  .sidebar { display: none; width: 100%; height: auto; position: static; padding: 16px; }
+  .sidebar.show { display: block !important; }
+  .category-list { display: flex; overflow-x: auto; gap: 8px; }
+  .category-item { flex: 0 0 auto; margin-bottom: 0; white-space: nowrap; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
   /* ヘッダーのGitHubボタンを隠してスペースを確保する（アイコンを優先） */
   .github-btn { display: none; }
-  .logo h1 { font-size: 1.2rem; }
+  .logo h1 { font-size: 1.1rem; }
   .header { padding: 12px 8px; }
-  .nav-btn { padding: 8px 10px; font-size: 1.1rem; }
+  .nav-btn { padding: 6px 8px; font-size: 1.1rem; }
 }
 `;
 
   const scriptJs = `
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('gallery-grid');
-    const categoryItems = document.querySelectorAll('.category-item, .nav-btn');
+    const categoryItems = document.querySelectorAll('.category-item, .nav-btn[data-category]');
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
+    
+    // サイドバー切り替え機能
+    const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+    const sidebar = document.querySelector('.sidebar');
+    
+    toggleSidebarBtn.addEventListener('click', () => {
+        // PC画面では hidden をトグル、スマホ画面では show をトグルする
+        if (window.innerWidth <= 768) {
+            sidebar.classList.toggle('show');
+        } else {
+            sidebar.classList.toggle('hidden');
+        }
+    });
+
     let currentCategory = 'all';
 
     function renderGallery() {

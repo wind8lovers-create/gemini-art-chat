@@ -1,5 +1,13 @@
 const galleryData = [
   {
+    "id": "a1b851bb-5750-4fef-b52d-c36e406b6dac",
+    "filename": "a1b851bb-5750-4fef-b52d-c36e406b6dac.mp4",
+    "prompt": "確認登録してます。",
+    "mediaType": "video",
+    "sessionTitle": "新しいチャット",
+    "category": "media"
+  },
+  {
     "id": "a104e18c-528e-4d68-9f9c-a17c481c064d",
     "filename": "a104e18c-528e-4d68-9f9c-a17c481c064d.png",
     "prompt": "この絵をベースに修正していきます、腰からたれているヤマブキ色のローブの色を少し濃くしてください",

@@ -91,15 +91,23 @@ body {
   border: none; color: white; font-size: 2rem; cursor: pointer;
 }
 .modal-body img, .modal-body video { max-width: 100%; max-height: 90vh; object-fit: contain; }
+/* スマホレイアウト切り替え用のクラス */
+.sidebar.hidden {
+  display: none !important;
+}
+
 @media (max-width: 768px) {
   .layout { flex-direction: column; }
-  /* スマホでは左のサイドバーを完全に隠す */
-  .sidebar { display: none; }
+  /* スマホではデフォルトで左のサイドバーを隠す */
+  .sidebar { display: none; width: 100%; height: auto; position: static; padding: 16px; }
+  .sidebar.show { display: block !important; }
+  .category-list { display: flex; overflow-x: auto; gap: 8px; }
+  .category-item { flex: 0 0 auto; margin-bottom: 0; white-space: nowrap; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
   /* ヘッダーのGitHubボタンを隠してスペースを確保する（アイコンを優先） */
   .github-btn { display: none; }
-  .logo h1 { font-size: 1.2rem; }
+  .logo h1 { font-size: 1.1rem; }
   .header { padding: 12px 8px; }
-  .nav-btn { padding: 8px 10px; font-size: 1.1rem; }
+  .nav-btn { padding: 6px 8px; font-size: 1.1rem; }
 }
