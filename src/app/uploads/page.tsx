@@ -12,26 +12,6 @@ export default function UploadsPage() {
   const [images, setImages] = useState<ManagedImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [enlargedImage, setEnlargedImage] = useState<ManagedImage | null>(null);
-  const [isExporting, setIsExporting] = useState(false);
-
-  const handleExport = async () => {
-    if (confirm('現在「↑（公開ON）」になっている画像を、GitHub Pages 用の静的HPとして書き出しますか？\n（ONのファイルだけが追加・更新されます）')) {
-      setIsExporting(true);
-      try {
-        const res = await fetch('/api/export', { method: 'POST' });
-        const data = await res.json();
-        if (data.success) {
-          alert(`書き出しが完了しました！\n（${data.count}件の画像・動画をエクスポートしました）\n\n「Git」ボタンから push を行うと Pages に反映されます。`);
-        } else {
-          alert(`エラーが発生しました: ${data.error}`);
-        }
-      } catch (err) {
-        alert('通信エラーが発生しました。');
-      } finally {
-        setIsExporting(false);
-      }
-    }
-  };
 
   useEffect(() => {
     fetch('/api/manage')
@@ -61,17 +41,6 @@ export default function UploadsPage() {
           チャット画面で「↑」を押した公開候補画像や、自動で取り込まれた画像の一覧です。<br/>
           画像の「↑」マークをクリックして、公開・非公開を一括管理できます。
         </p>
-
-        <div style={{ marginBottom: '24px', display: 'flex', gap: '12px' }}>
-          <button 
-            className="btn btn-primary" 
-            onClick={handleExport}
-            disabled={isExporting || isLoading}
-            style={{ padding: '12px 24px', fontSize: '1.1rem', background: '#e91e63', color: '#fff', border: 'none', borderRadius: '8px', cursor: isExporting ? 'wait' : 'pointer', fontWeight: 'bold' }}
-          >
-            {isExporting ? '⏳ 書き出し中...' : '🚀 GitHub Pages用に書き出す'}
-          </button>
-        </div>
 
         {isLoading ? (
           <div className={styles.loading}>読み込み中...</div>
