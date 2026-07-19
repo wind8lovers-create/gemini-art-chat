@@ -29,6 +29,7 @@ export default function MessageBubble({
             version: 1,
             parentImageId: null,
             isFavorite: msg.inputImage.isFavorite || false,
+            publishStatus: msg.inputImage.publishStatus || 'none',
             mediaType: msg.inputImage.mimeType?.startsWith('video/') ? 'video' : 'image'
           };
           
@@ -38,6 +39,7 @@ export default function MessageBubble({
                 image={dummyImg}
                 sessionId={currentSessionId}
                 imageUrl={msg.inputImage.data}
+                isGenerated={false}
                 onToggleFavorite={async (newFavState) => {
                   const res = await fetch(`/api/messages/${currentSessionId}/${msg.id}/favorite`, {
                     method: 'POST',
@@ -45,6 +47,22 @@ export default function MessageBubble({
                     body: JSON.stringify({ isFavorite: newFavState })
                   });
                   if (!res.ok) throw new Error('お気に入り登録に失敗しました');
+                }}
+                onTogglePublish={async (newPublishStatus) => {
+                  const res = await fetch('/api/publish', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                      sessionId: currentSessionId, 
+                      imageId: msg.id, 
+                      publishStatus: newPublishStatus,
+                      isGenerated: false
+                    })
+                  });
+                  if (!res.ok) {
+                    const err = await res.json().catch(()=>({}));
+                    throw new Error(`公開登録に失敗しました: ${err.error || res.status}`);
+                  }
                 }}
                 onClick={() => onImageClick(dummyImg, msg.inputImage!.data, currentSessionId)}
               />
@@ -65,6 +83,7 @@ export default function MessageBubble({
                   sessionId={currentSessionId}
                   imageUrl={imageUrl}
                   className={styles.generatedImage}
+                  isGenerated={true}
                   onClick={() => onImageClick(img, imageUrl, currentSessionId)}
                   onFork={onFork}
                 />

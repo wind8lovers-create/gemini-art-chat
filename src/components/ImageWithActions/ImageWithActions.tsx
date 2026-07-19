@@ -11,7 +11,9 @@ export default function ImageWithActions({
   onClick,
   onFork,
   onToggleFavorite,
-  hideFavorite
+  onTogglePublish,
+  hideFavorite,
+  hidePublish
 }: {
   image: GeneratedImage;
   sessionId: string;
@@ -20,14 +22,22 @@ export default function ImageWithActions({
   onClick?: () => void;
   onFork?: (newSessionId: string) => void;
   onToggleFavorite?: (newFavState: boolean) => Promise<void>;
+  onTogglePublish?: (newPublishStatus: 'none' | 'published' | 'hidden') => Promise<void>;
   hideFavorite?: boolean;
+  hidePublish?: boolean;
+  isGenerated?: boolean; // AI生成画像かどうかを正確に判定するフラグ
 }) {
   const [isFav, setIsFav] = useState(image.isFavorite || false);
+  const [pubStatus, setPubStatus] = useState<'none' | 'published' | 'hidden'>(image.publishStatus || 'none');
   const [isHovered, setIsHovered] = useState(false);
   const [isForking, setIsForking] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [isFavoriting, setIsFavoriting] = useState(false);
 
   const toggleFavorite = async (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isFavoriting) return;
+    setIsFavoriting(true);
     // すぐにUIを切り替えてサクサク動くように見せる
     const newFav = !isFav;
     setIsFav(newFav);
@@ -42,6 +52,46 @@ export default function ImageWithActions({
       console.error('お気に入り登録エラー:', error);
       // 失敗したら元に戻す
       setIsFav(!newFav);
+    } finally {
+      setIsFavoriting(false);
+    }
+  };
+
+  const togglePublish = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isPublishing) return;
+    setIsPublishing(true);
+    // 現在のステータスから次のステータスを決定
+    // none -> published, published -> hidden, hidden -> published
+    const newStatus = pubStatus === 'published' ? 'hidden' : 'published';
+    const oldStatus = pubStatus;
+    setPubStatus(newStatus);
+    
+    try {
+      if (onTogglePublish) {
+        await onTogglePublish(newStatus);
+      } else {
+        const res = await fetch('/api/publish', { 
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            sessionId, 
+            imageId: image.id, 
+            publishStatus: newStatus,
+            // propsで明示的に渡されていればそれを使い、無ければ古い簡易判定をフォールバックとして使う
+            isGenerated: isGenerated !== undefined ? isGenerated : image.parentImageId !== undefined
+          })
+        });
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(`API Error: ${res.status} ${errData.error || ''}`);
+        }
+      }
+    } catch (error) {
+      console.error('公開ステータス更新エラー:', error);
+      setPubStatus(oldStatus);
+    } finally {
+      setIsPublishing(false);
     }
   };
 
@@ -88,7 +138,7 @@ export default function ImageWithActions({
 
   return (
     <div 
-      className={`${styles.container} ${className || ''}`}
+      className={`${styles.container} ${className || ''} ${pubStatus === 'published' ? styles.isPublished : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
@@ -99,10 +149,10 @@ export default function ImageWithActions({
         <img src={imageUrl} alt={image.prompt} className={styles.image} />
       )}
       
-      {/* ホバー時またはお気に入り済みの時にオーバーレイを表示 */}
-      <div className={`${styles.overlay} ${(isHovered || (isFav && !hideFavorite)) ? styles.visible : ''}`}>
-        {!hideFavorite && (
-          <div className={styles.topActions}>
+      {/* ホバー時またはお気に入り/公開済みの時にオーバーレイを表示 */}
+      <div className={`${styles.overlay} ${(isHovered || (isFav && !hideFavorite) || (pubStatus === 'published' && !hidePublish)) ? styles.visible : ''}`}>
+        <div className={styles.topActions}>
+          {!hideFavorite && (
             <button 
               className={`${styles.actionBtn} ${isFav ? styles.favoriteActive : ''}`} 
               onClick={toggleFavorite}
@@ -110,8 +160,18 @@ export default function ImageWithActions({
             >
               {isFav ? '★' : '☆'}
             </button>
-          </div>
-        )}
+          )}
+          {!hidePublish && (
+            <button 
+              className={`${styles.actionBtn} ${pubStatus === 'published' ? styles.publishActive : ''}`} 
+              onClick={togglePublish}
+              disabled={isPublishing}
+              title={pubStatus === 'published' ? "編集長室で非表示にする" : "編集長室に送る（公開ON）"}
+            >
+              {isPublishing ? '⏳' : '↑'}
+            </button>
+          )}
+        </div>
         
         {/* ホバー時のみ下部ボタンを表示 */}
         {isHovered && (

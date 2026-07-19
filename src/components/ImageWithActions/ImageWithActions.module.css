@@ -72,3 +72,13 @@
 .favoriteActive {
   color: #FFD700; /* 星を金色に */
 }
+
+.publishActive {
+  color: #FF1493; /* 矢印をピンク色に */
+  font-weight: bold;
+}
+
+.isPublished {
+  outline: 3px solid #FF1493; /* 公開中の画像はピンクの枠線をつける */
+  outline-offset: -3px;
+}

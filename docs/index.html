@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feeling Gallery</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header glass-panel">
+        <div class="logo">
+            <h1>🤖 Feeling Gallery</h1>
+        </div>
+        <nav class="nav">
+            <a href="https://github.com/wind8lovers-create/gemini-art-chat" class="btn" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+    </header>
+
+    <div class="layout">
+        <!-- サイドバー -->
+        <aside class="sidebar glass-panel">
+            <h2 class="sidebar-title">📑 目次</h2>
+            <ul class="category-list">
+                <li class="category-item active" data-category="all">すべて表示</li>
+                <li class="category-item" data-category="media">生成画像・動画<br><small>(AI Generated Media)</small></li>
+                <li class="category-item" data-category="prompt">プロンプト考察<br><small>(Prompt Analysis)</small></li>
+                <li class="category-item" data-category="story">ある一つの物語<br><small>(A Single Story)</small></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <p><strong>制作環境</strong></p>
+                <p>Next.js / React<br>Gemini Pro Vision<br>Antigravity AI</p>
+            </div>
+        </aside>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <div id="gallery-grid" class="grid"></div>
+        </main>
+    </div>
+
+    <!-- モーダル -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="modal-close" class="modal-close">✕</button>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

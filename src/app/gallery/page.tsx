@@ -50,14 +50,18 @@ export default function GalleryPage() {
         ) : (
           <div className={styles.grid}>
             {images.map((img) => {
-              const imageUrl = `/api/images/${img.sessionId}/${img.filename}`;
+              // @ts-ignore
+              const imageUrl = img.isGenerated !== false ? `/api/images/${img.sessionId}/${img.filename}` : (img.dataUri || '');
+              const uniqueKey = `${img.sessionId}_${img.id}`;
               return (
-                <div key={img.id} className={styles.imageCard}>
+                <div key={uniqueKey} className={styles.imageCard}>
                   <ImageWithActions
                     image={img}
                     sessionId={img.sessionId}
                     imageUrl={imageUrl}
                     className={styles.imageWrapper}
+                    // @ts-ignore
+                    isGenerated={img.isGenerated !== false}
                     onClick={() => setEnlargedImage(img)}
                   />
                   <div className={styles.info}>
@@ -85,8 +89,11 @@ export default function GalleryPage() {
             <ImageWithActions 
               image={enlargedImage}
               sessionId={enlargedImage.sessionId}
-              imageUrl={`/api/images/${enlargedImage.sessionId}/${enlargedImage.filename}`}
+              // @ts-ignore
+              imageUrl={enlargedImage.isGenerated !== false ? `/api/images/${enlargedImage.sessionId}/${enlargedImage.filename}` : (enlargedImage.dataUri || '')}
               className={styles.enlargedImageWrapper}
+              // @ts-ignore
+              isGenerated={enlargedImage.isGenerated !== false}
             />
           </div>
         </div>

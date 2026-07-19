@@ -11,7 +11,8 @@
         "prompt": "背景を夕暮れにしてください",
         "version": 1,
         "parentImageId": null,
-        "isFavorite": true
+        "isFavorite": true,
+        "publishStatus": "published"
       }
     ]
   },

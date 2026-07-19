@@ -7,6 +7,11 @@
   padding: 4px 16px; /* 上下の幅を極限まで狭く */
   margin: 8px 16px; /* 浮いているような余白も少し狭く */
   border-radius: var(--border-radius);
+  
+  /* ヘッダーの固定設定 */
+  position: sticky;
+  top: 8px; /* 画面の一番上から少し余白を開ける（marginと合わせる） */
+  z-index: 100; /* 他の要素より手前に表示する */
 }
 
 .logo {

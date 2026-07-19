@@ -29,6 +29,7 @@ export async function GET() {
           // メッセージの中からお気に入り画像だけを抽出
           if (messages && Array.isArray(messages)) {
             for (const message of messages) {
+              // AI生成画像
               if (message.generatedImages) {
                 for (const img of message.generatedImages) {
                   if (img.isFavorite) {
@@ -36,9 +37,30 @@ export async function GET() {
                       ...img,
                       sessionId: metadata.id,
                       sessionTitle: metadata.title,
+                      // @ts-ignore
+                      isGenerated: true
                     });
                   }
                 }
+              }
+              // アップロード画像（動画含む）
+              if (message.inputImage && message.inputImage.isFavorite) {
+                allFavoriteImages.push({
+                  id: message.id, // messageId
+                  filename: message.id, // urlで直接 data:image を扱う
+                  prompt: message.text || 'アップロード画像',
+                  version: 1,
+                  parentImageId: null,
+                  isFavorite: true,
+                  publishStatus: message.inputImage.publishStatus,
+                  mediaType: message.inputImage.mimeType?.startsWith('video/') ? 'video' : 'image',
+                  sessionId: metadata.id,
+                  sessionTitle: metadata.title,
+                  // @ts-ignore
+                  dataUri: message.inputImage.data,
+                  // @ts-ignore
+                  isGenerated: false
+                });
               }
             }
           }

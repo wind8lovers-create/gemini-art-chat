@@ -37,6 +37,7 @@ export interface GeneratedImage {
   parentImageId: string | null; // 元になった画像のID（修正画像の場合）
   isFavorite?: boolean;   // お気に入りに追加されているかどうか（フェーズ4）
   mediaType?: 'image' | 'video'; // 動画か画像か
+  publishStatus?: 'none' | 'published' | 'hidden'; // Pages公開ステータス
 }
 
 // ギャラリー用に使う拡張画像データ型（どのセッションの画像かわかるようにする）
@@ -74,5 +75,6 @@ export interface Message {
     mimeType: string;
     data: string; // base64形式のデータ
     isFavorite?: boolean;
+    publishStatus?: 'none' | 'published' | 'hidden';
   };
 }
