@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
+    const mainContent = document.querySelector('.main-content');
     
     // トースト通知（ポップアップ）用要素の作成
     let toast = document.createElement('div');
@@ -17,37 +18,111 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    let currentCategory = 'media'; // 初期表示を生成画像・動画に変更
+    let currentCategory = 'media';
+    let currentFolderId = null;
 
     function renderGallery() {
-        grid.innerHTML = '';
-        const filteredData = currentCategory === 'all' 
-            ? galleryData 
-            : galleryData.filter(item => item.category === currentCategory);
+        let displayImages = [];
+        let displayFolders = [];
 
-        if (filteredData.length === 0) {
-            grid.innerHTML = '<div style="color: #888; padding: 24px;">このカテゴリの画像はまだありません。</div>';
-            return;
+        // galleryData.folders と galleryData.images を使用
+        const allImages = galleryData.images || [];
+        const allFolders = galleryData.folders || [];
+
+        // カテゴリによるフィルタリング
+        const categoryImages = currentCategory === 'all' ? allImages : allImages.filter(item => item.category === currentCategory);
+
+        if (currentFolderId === null) {
+            displayImages = categoryImages.filter(img => !img.folderId);
+            displayFolders = allFolders.filter(f => {
+                if (f.isPublished) return true;
+                return categoryImages.some(img => img.folderId === f.id);
+            });
+        } else {
+            displayImages = categoryImages.filter(img => img.folderId === currentFolderId);
         }
 
-        filteredData.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            const mediaHtml = item.mediaType === 'video' 
-                ? `<video src="assets/${item.filename}" controls loop playsinline class="media"></video>`
-                : `<img src="assets/${item.filename}" alt="generated image" class="media">`;
+        let html = '';
+        if (currentFolderId !== null) {
+            const currentFolder = allFolders.find(f => f.id === currentFolderId);
+            html += `
+                <div class="breadcrumb">
+                    <button class="btn" id="btn-back-root">← トップへ戻る</button>
+                    <span style="font-size:1.2rem;font-weight:bold;">${currentFolder ? currentFolder.name : ''}</span>
+                </div>
+            `;
+        }
 
-            card.innerHTML = `
-                <div class="media-wrapper">${mediaHtml}</div>
-                <div class="info">
-                    <div class="prompt-container">
-                        <p class="prompt-text prompt-collapsed">${item.prompt}</p>
-                        <button class="copy-btn hidden">📋 コピー</button>
+        html += '<div class="grid" id="actual-grid">';
+        
+        if (displayImages.length === 0 && displayFolders.length === 0) {
+            html += '<div style="color: #888; padding: 24px;">表示できる画像がありません。</div>';
+        }
+
+        // フォルダの描画
+        displayFolders.forEach(folder => {
+            const coverImg = allImages.find(img => img.id === folder.coverImageId) || allImages.find(img => img.folderId === folder.id);
+            const coverHtml = coverImg 
+                ? (coverImg.mediaType === 'video' ? `<video src="assets/${coverImg.filename}" muted autoplay loop playsinline></video>` : `<img src="assets/${coverImg.filename}" alt="${folder.name}">`)
+                : '<div style="font-size:4rem;">📁</div>';
+
+            html += `
+                <div class="folder-card" data-folder-id="${folder.id}" style="cursor:pointer; border:2px solid #FFC107; background:rgb(114, 117, 11); border-radius:12px; overflow:hidden; position:relative; display:flex; flex-direction:column;">
+                    <div class="folder-cover" style="position:relative; width:100%; display:flex; align-items:center; justify-content:center; flex:1;">
+                        ${coverHtml}
+                        <!-- フォルダ名を透かしで下部に表示 -->
+                        <div style="position:absolute; bottom:0; left:0; width:100%; background:rgba(0,0,0,0.6); color:#fff; padding:8px 12px; font-size:1rem; font-weight:bold; text-align:center; z-index:10; text-shadow:1px 1px 2px rgba(0,0,0,0.8);">
+                            📁 ${folder.name}
+                        </div>
                     </div>
                 </div>
             `;
+        });
 
+        // 画像の描画
+        displayImages.forEach(item => {
+            const mediaHtml = item.mediaType === 'video' 
+                ? `<video src="assets/${item.filename}" controls loop playsinline class="media"></video>`
+                : `<img src="assets/${item.filename}" alt="generated image" class="media">`;
+            
+            const titleOverlay = item.title ? `<div class="image-title-overlay">${item.title}</div>` : '';
+            
+            html += `
+                <div class="card" data-id="${item.id}">
+                    <div class="media-wrapper">${titleOverlay}${mediaHtml}</div>
+                    <div class="info">
+                        <div class="prompt-container">
+                            <p class="prompt-text prompt-collapsed">${item.prompt}</p>
+                            <button class="copy-btn hidden">📋 コピー</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        mainContent.innerHTML = html;
+
+        // イベントリスナーの再設定
+        const backBtn = document.getElementById('btn-back-root');
+        if (backBtn) {
+            backBtn.addEventListener('click', () => {
+                currentFolderId = null;
+                renderGallery();
+            });
+        }
+
+        document.querySelectorAll('.folder-card').forEach(card => {
+            card.addEventListener('click', () => {
+                currentFolderId = card.getAttribute('data-folder-id');
+                renderGallery();
+            });
+        });
+
+        document.querySelectorAll('.card').forEach(card => {
             const mediaWrapper = card.querySelector('.media-wrapper');
+            const mediaHtml = mediaWrapper.innerHTML;
+            
             mediaWrapper.addEventListener('click', () => {
                 modalBody.innerHTML = mediaHtml;
                 modal.classList.remove('hidden');
@@ -68,32 +143,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
             copyBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                navigator.clipboard.writeText(item.prompt).then(() => {
+                navigator.clipboard.writeText(promptText.innerText).then(() => {
                     const originalText = copyBtn.innerText;
                     copyBtn.innerText = '✅ コピーしました！';
                     setTimeout(() => copyBtn.innerText = originalText, 2000);
                 });
             });
-
-            grid.appendChild(card);
         });
     }
 
     categoryItems.forEach(item => {
         item.addEventListener('click', () => {
             const selectedCategory = item.getAttribute('data-category');
-            // すべてのボタン・アイテムのアクティブを外す
             categoryItems.forEach(i => i.classList.remove('active'));
-            // 選択されたカテゴリと同じ data-category を持つものをすべてアクティブにする
             document.querySelectorAll(`[data-category="${selectedCategory}"]`).forEach(i => i.classList.add('active'));
             
-            // スマホなどの幅が狭い画面ではポップアップで説明を表示
             if (window.innerWidth <= 768) {
                 const title = item.getAttribute('title') || item.innerText.split('\n')[0];
                 showToast(title);
             }
             
             currentCategory = selectedCategory;
+            currentFolderId = null; // カテゴリが変わったらルートに戻す
             renderGallery();
         });
     });

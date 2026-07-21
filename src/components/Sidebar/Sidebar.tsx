@@ -129,6 +129,38 @@ export default function Sidebar({
     }
   };
 
+  const handleDeleteSession = async (sessionId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (window.confirm('このチャット履歴を完全に削除しますか？\n（関連する画像も削除されます）')) {
+      try {
+        const res = await fetch(`/api/sessions/${sessionId}`, { method: 'DELETE' });
+        if (res.ok) {
+          setSessions(prev => prev.filter(s => s.id !== sessionId));
+          if (currentSessionId === sessionId) {
+            onSelectSession(''); // 選択状態を解除
+          }
+        }
+      } catch (err) {
+        console.error('削除エラー:', err);
+      }
+    }
+  };
+
+  const handleDeleteFolder = async (folderId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (window.confirm('このフォルダを削除しますか？\n（中のチャット履歴は外に出るだけで削除されません）')) {
+      try {
+        const res = await fetch(`/api/folders/${folderId}`, { method: 'DELETE' });
+        if (res.ok) {
+          setFolders(prev => prev.filter(f => f.id !== folderId));
+          loadData(); // 中身が外に出るので再読み込み
+        }
+      } catch (err) {
+        console.error('フォルダ削除エラー:', err);
+      }
+    }
+  };
+
   const handleSaveFolderName = async (folderId: string) => {
     if (!editingFolderName.trim()) {
       setEditingFolderId(null);
@@ -345,14 +377,22 @@ export default function Sidebar({
       ) : (
         <div className={styles.titleRow}>
           <h3 className={styles.sessionTitle}>💬 {session.title}</h3>
-          <button 
-            className={styles.editBtn}
-            onClick={(e) => {
-              e.stopPropagation();
-              setEditingSessionId(session.id);
-              setEditingSessionTitle(session.title);
-            }}
-          >✎</button>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            <button 
+              className={styles.editBtn}
+              onClick={(e) => {
+                e.stopPropagation();
+                setEditingSessionId(session.id);
+                setEditingSessionTitle(session.title);
+              }}
+              title="名前の変更"
+            >✎</button>
+            <button 
+              className={styles.editBtn}
+              onClick={(e) => handleDeleteSession(session.id, e)}
+              title="削除"
+            >🗑️</button>
+          </div>
         </div>
       )}
     </div>
@@ -372,7 +412,7 @@ export default function Sidebar({
           {isMenuOpen && (
             <>
               <div style={{ position: 'fixed', inset: 0, zIndex: 90 }} onClick={() => setIsMenuOpen(false)}></div>
-              <div style={{ position: 'absolute', top: '100%', left: 0, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px', zIndex: 100, width: 'max-content', display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>
+              <div style={{ position: 'absolute', top: '100%', left: 0, backgroundColor: 'rgba(100, 50, 180, 0.95)', backdropFilter: 'blur(8px)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px', zIndex: 100, width: 'max-content', display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>
                 <button className="btn btn-secondary" onClick={() => { setIsMenuOpen(false); createNewFolder(); }} style={{ width: '100%', textAlign: 'left', padding: '8px', fontSize: '14px', color: 'pink' }}>
                   📁 新規フォルダ作成
                 </button>
@@ -380,6 +420,9 @@ export default function Sidebar({
                   💬 新しいチャット
                 </button>
                 <hr style={{ borderTop: '1px solid var(--border-color)', margin: '4px 0' }} />
+                <button className={styles.btnSecondary} onClick={() => { setIsMenuOpen(false); window.location.href = '/import'; }} style={{ width: '100%', textAlign: 'left', border: 'none', background: 'transparent', color: 'var(--text-color)', cursor: 'pointer', padding: '4px' }}>
+                  📧 Gmail取込み
+                </button>
                 <button className="btn btn-secondary" onClick={() => { setIsMenuOpen(false); fetch('/api/explorer'); }} style={{ width: '100%', textAlign: 'left', padding: '8px', fontSize: '14px', color: 'pink' }}>
                   📁 エクスプローラ表示
                 </button>
@@ -448,14 +491,22 @@ export default function Sidebar({
                   ↑
                 </button>
                 {!editingFolderId && (
-                  <button 
-                    className={styles.editBtn}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEditingFolderId(folder.id);
-                      setEditingFolderName(folder.name);
-                    }}
-                  >✎</button>
+                  <>
+                    <button 
+                      className={styles.editBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingFolderId(folder.id);
+                        setEditingFolderName(folder.name);
+                      }}
+                      title="名前の変更"
+                    >✎</button>
+                    <button 
+                      className={styles.editBtn}
+                      onClick={(e) => handleDeleteFolder(folder.id, e)}
+                      title="フォルダを削除"
+                    >🗑️</button>
+                  </>
                 )}
               </div>
             </div>

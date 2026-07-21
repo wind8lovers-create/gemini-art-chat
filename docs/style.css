@@ -30,6 +30,21 @@ body {
 }
 .nav-btn:hover { background: rgba(255,255,255,0.2); }
 .nav-btn.active { background: var(--accent-color); }
+.breadcrumb {
+  margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+}
+.folder-card { background: var(--panel-bg); cursor: pointer; transition: transform 0.2s; }
+.folder-cover {
+  width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;
+  font-size: 4rem; background: rgba(0,0,0,0.5);
+}
+.folder-cover img, .folder-cover video {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.folder-info {
+  padding: 12px; text-align: center;
+}
+.folder-info h3 { margin: 0; font-size: 1.1rem; }
 
 .btn {
   background: rgba(255,255,255,0.1); color: #fff; text-decoration: none;
@@ -63,8 +78,15 @@ body {
   overflow: hidden; display: flex; flex-direction: column;
   border: 1px solid rgba(255,255,255,0.05);
 }
-.media-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; cursor: pointer; position: relative; }
-.media-wrapper img, .media-wrapper video { width: 100%; height: 100%; object-fit: contain; }
+.media-wrapper { width: 100%; cursor: pointer; position: relative; overflow: hidden; }
+.media-wrapper img, .media-wrapper video { width: 100%; height: auto; display: block; }
+.image-title-overlay {
+  position: absolute; top: 0; left: 0; width: 100%;
+  background: rgba(0, 0, 0, 0.3); color: #fff;
+  padding: 4px 8px; font-size: 0.75rem; font-weight: normal;
+  text-align: center; z-index: 10; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
 .info { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .prompt-container {
   background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px;

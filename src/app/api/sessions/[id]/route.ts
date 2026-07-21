@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession, updateSession, getMessages } from '@/lib/storage';
+import { getSession, updateSession, getMessages, deleteSession } from '@/lib/storage';
 
 /**
  * URLの [id] の部分を受け取って、特定のセッションに対する操作を行います。
@@ -78,7 +78,68 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   
   // ファイルに上書き保存
   await updateSession(updatedSession);
+
+  // フォルダが変更された場合、移動先のフォルダが公開設定なら、このセッション内の画像も公開にする
+  // （非公開フォルダに移動した場合は非公開にする）
+  if (updates.folderId !== undefined && updates.folderId !== session.folderId) {
+    const { getFolders } = await import('@/lib/storage');
+    const folders = await getFolders();
+    const targetFolder = folders.find(f => f.id === updates.folderId);
+    
+    if (targetFolder) {
+      const newStatus = targetFolder.isPublished ? 'published' : 'none';
+      const fs = await import('fs/promises');
+      const path = await import('path');
+      const messagesPath = path.join(process.cwd(), 'data', 'sessions', sessionId, 'messages.json');
+      
+      try {
+        const messagesData = await fs.readFile(messagesPath, 'utf-8');
+        const messages = JSON.parse(messagesData);
+        let isUpdated = false;
+        
+        for (const msg of messages) {
+          if (msg.generatedImages) {
+            for (const img of msg.generatedImages) {
+              if (img.publishStatus !== newStatus) {
+                img.publishStatus = newStatus;
+                isUpdated = true;
+              }
+            }
+          }
+          if (msg.inputImage) {
+            if (msg.inputImage.publishStatus !== newStatus) {
+              msg.inputImage.publishStatus = newStatus;
+              isUpdated = true;
+            }
+          }
+        }
+        
+        if (isUpdated) {
+          await fs.writeFile(messagesPath, JSON.stringify(messages, null, 2), 'utf-8');
+        }
+      } catch(e) {
+        console.error(`[Session API] セッション ${sessionId} の移動時画像ステータス更新に失敗:`, e);
+      }
+    }
+  }
   
   // 更新し終わった最新の情報を画面に返す
   return NextResponse.json(updatedSession);
+}
+
+/**
+ * 【DELETE: セッションを削除する】
+ * サイドバーのゴミ箱ボタンが押された時などに呼ばれます。
+ */
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id: sessionId } = await params;
+  
+  const session = await getSession(sessionId);
+  if (!session) {
+    return NextResponse.json({ error: 'セッションが見つかりません' }, { status: 404 });
+  }
+
+  await deleteSession(sessionId);
+
+  return NextResponse.json({ success: true });
 }

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "af1f06bc-2f04-44c8-ae14-9e43d1ba5b79",
+    "sender": "ai",
+    "text": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してください\n",
+    "timestamp": "2026-07-21T08:54:35.679Z",
+    "generatedImages": [
+      {
+        "id": "1e3f48f9-b0ec-47e2-b065-b31971763643",
+        "filename": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してく.mp4",
+        "prompt": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してください\n",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "video",
+        "publishStatus": "published"
+      }
+    ]
+  }
+]

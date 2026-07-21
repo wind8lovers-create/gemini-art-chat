@@ -162,6 +162,20 @@ export async function getSession(sessionId: string): Promise<Session | null> {
 }
 
 /**
+ * 【セッションの削除】
+ * セッションとその画像を丸ごと削除します。
+ */
+export async function deleteSession(sessionId: string): Promise<void> {
+  const sessionDir = path.join(DATA_DIR, sessionId);
+  try {
+    await fs.rm(sessionDir, { recursive: true, force: true });
+  } catch (error) {
+    console.error('セッション削除エラー:', error);
+  }
+}
+
+
+/**
  * 【新しいセッションの作成】
  * フォルダを作り、初期データとして metadata.json と messages.json を作ります。
  */

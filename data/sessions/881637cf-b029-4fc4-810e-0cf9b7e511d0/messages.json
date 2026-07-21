@@ -30,7 +30,7 @@
         "version": 1,
         "parentImageId": null,
         "isFavorite": false,
-        "publishStatus": "none"
+        "publishStatus": "published"
       }
     ]
   },
@@ -52,7 +52,7 @@
         "prompt": "優しいパステル調にしてください。 ",
         "version": 1,
         "parentImageId": null,
-        "publishStatus": "none"
+        "publishStatus": "published"
       }
     ]
   }

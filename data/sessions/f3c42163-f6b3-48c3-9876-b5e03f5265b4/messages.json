@@ -17,7 +17,7 @@
         "prompt": "猫の絵を描いてください",
         "version": 1,
         "parentImageId": null,
-        "publishStatus": "none"
+        "publishStatus": "published"
       }
     ]
   },
@@ -39,7 +39,7 @@
         "prompt": "クレヨンで荒々しく書いた感じにしてください。",
         "version": 1,
         "parentImageId": null,
-        "publishStatus": "none"
+        "publishStatus": "published"
       }
     ]
   }
