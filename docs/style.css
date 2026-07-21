@@ -125,8 +125,6 @@ body {
   .sidebar.show-mobile { display: block !important; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
-  /* ヘッダーのGitHubボタンを隠してスペースを確保する（アイコンを優先） */
-  .github-btn { display: none; }
   .logo h1 { font-size: 1.1rem; }
   .header { padding: 12px 8px; }
   .nav-btn { padding: 8px 12px; font-size: 1.4rem; } /* スマホでアイコンを押しやすく少し大きく */

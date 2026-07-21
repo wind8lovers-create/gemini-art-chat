@@ -180,7 +180,6 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
         <nav class="nav">
             <button class="nav-btn active" data-category="media" title="生成画像・動画">🖼️</button>
             <button class="nav-btn" data-category="prompt" title="プロンプトメモ">💡</button>
-            <a href="https://github.com/wind8lovers-create/gemini-art-chat" class="btn github-btn" target="_blank" rel="noopener">GitHub</a>
         </nav>
     </header>
 
@@ -201,6 +200,11 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
                     Nano banana<br>
                     Veo
                 </p>
+                <div style="margin-top: 16px; text-align: center;">
+                    <a href="https://github.com/wind8lovers-create/gemini-art-chat" class="btn" style="display: inline-block; width: 100%; padding: 8px; border-radius: 6px; background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; font-size: 0.9rem;" target="_blank" rel="noopener">
+                        <span style="margin-right: 6px;">📂</span>GitHub リポジトリ
+                    </a>
+                </div>
             </div>
 
             <div class="mascot-container" style="margin-top: auto; padding-top: 24px; text-align: center;">
@@ -355,8 +359,6 @@ body {
   .sidebar.show-mobile { display: block !important; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
-  /* ヘッダーのGitHubボタンを隠してスペースを確保する（アイコンを優先） */
-  .github-btn { display: none; }
   .logo h1 { font-size: 1.1rem; }
   .header { padding: 12px 8px; }
   .nav-btn { padding: 8px 12px; font-size: 1.4rem; } /* スマホでアイコンを押しやすく少し大きく */
