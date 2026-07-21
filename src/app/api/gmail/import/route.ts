@@ -89,7 +89,8 @@ export async function POST(request: Request) {
           prompt: finalPrompt || '',
           version: 1,
           parentImageId: null,
-          mediaType: mediaType as 'image' | 'video'
+          mediaType: mediaType as 'image' | 'video',
+          title: email.subject || '無題'
         }]
       };
       

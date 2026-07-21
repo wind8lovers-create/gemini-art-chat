@@ -1,17 +1,19 @@
 [
   {
-    "id": "327cc16f-5194-42e3-9c43-d40d1ae98106",
+    "id": "a10cc1d3-711a-457f-b728-f6e7a243bd10",
     "sender": "ai",
     "text": "前回の動画に、以下シチュエーション、セリフをすべて日本語でお願いします。\n\nAnime style video. A beautiful anime girl with pink hair is sitting on a\nlounge chair by a luxury resort pool. She is holding a tropical drink,\nlooking at the camera with a gentle smile, enjoying the summer breeze.\nSunny day, cinematic, high resolution.\n\n（日本語訳：アニメスタイルの動画。豪華なリゾートプールサイドのラウンジチェアに座っている、ピンクの髪の美しいアニメの女の子。彼女はトロピカルドリンクを持ち、優しい笑顔でカメラを見つめ、夏の風を楽しんでいる。晴れた日、映画風、高解像度。）\n",
-    "timestamp": "2026-07-21T07:17:48.591Z",
+    "timestamp": "2026-07-21T10:57:07.853Z",
     "generatedImages": [
       {
-        "id": "2ee41bdf-5e5d-4f8d-8a7b-5627bb85fac0",
+        "id": "d9748d9b-055f-4834-bf7f-d9d545a6530d",
         "filename": "前回の動画に、以下シチュエーション、セリフをすべて日本語でお.mp4",
         "prompt": "前回の動画に、以下シチュエーション、セリフをすべて日本語でお願いします。\n\nAnime style video. A beautiful anime girl with pink hair is sitting on a\nlounge chair by a luxury resort pool. She is holding a tropical drink,\nlooking at the camera with a gentle smile, enjoying the summer breeze.\nSunny day, cinematic, high resolution.\n\n（日本語訳：アニメスタイルの動画。豪華なリゾートプールサイドのラウンジチェアに座っている、ピンクの髪の美しいアニメの女の子。彼女はトロピカルドリンクを持ち、優しい笑顔でカメラを見つめ、夏の風を楽しんでいる。晴れた日、映画風、高解像度。）\n",
         "version": 1,
         "parentImageId": null,
-        "mediaType": "video"
+        "mediaType": "video",
+        "title": "続続二乃水着プール",
+        "publishStatus": "published"
       }
     ]
   }

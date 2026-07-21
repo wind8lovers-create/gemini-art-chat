@@ -157,7 +157,11 @@ export default function PreviewPage() {
                 <div key={`folder_${folder.id}`} className={styles.card} onClick={() => setCurrentFolderId(folder.id)} style={{ cursor: 'pointer', border: '2px solid #FFC107', background: 'rgb(114, 117, 11)' }}>
                   <div className={styles.imageWrapper} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', flex: 1 }}>
                     {imageUrl ? (
-                      <img src={imageUrl} alt={folder.name} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+                      coverImg?.mediaType === 'video' ? (
+                        <video src={imageUrl} muted autoPlay loop playsInline style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+                      ) : (
+                        <img src={imageUrl} alt={folder.name} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+                      )
                     ) : (
                       <span style={{ fontSize: '4rem', padding: '40px' }}>📁</span>
                     )}

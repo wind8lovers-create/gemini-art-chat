@@ -4,7 +4,9 @@
     "name": "取り込みフォルダ",
     "createdAt": "2026-07-21T07:17:48.575Z",
     "isOpen": true,
-    "order": 0
+    "order": 0,
+    "isPublished": true,
+    "coverImageId": "8ecb41e2-b92a-4717-bf09-13add00fadd2"
   },
   {
     "id": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
@@ -12,7 +14,7 @@
     "createdAt": "2026-07-14T09:56:56.141Z",
     "isOpen": true,
     "isPublished": true,
-    "coverImageId": "e920fbb7-8785-4ccc-9558-1ab45b6fb8cf",
+    "coverImageId": "1e3f48f9-b0ec-47e2-b065-b31971763643",
     "order": 1
   },
   {

@@ -5,7 +5,9 @@ const galleryData = {
       "name": "取り込みフォルダ",
       "createdAt": "2026-07-21T07:17:48.575Z",
       "isOpen": true,
-      "order": 0
+      "order": 0,
+      "isPublished": true,
+      "coverImageId": "8ecb41e2-b92a-4717-bf09-13add00fadd2"
     },
     {
       "id": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
@@ -13,7 +15,7 @@ const galleryData = {
       "createdAt": "2026-07-14T09:56:56.141Z",
       "isOpen": true,
       "isPublished": true,
-      "coverImageId": "e920fbb7-8785-4ccc-9558-1ab45b6fb8cf",
+      "coverImageId": "1e3f48f9-b0ec-47e2-b065-b31971763643",
       "order": 1
     },
     {
@@ -41,32 +43,6 @@ const galleryData = {
     }
   ],
   "images": [
-    {
-      "id": "1e3f48f9-b0ec-47e2-b065-b31971763643",
-      "filename": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してく.mp4",
-      "prompt": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してください\n",
-      "mediaType": "video",
-      "sessionTitle": "続続続二乃ビキニ花火",
-      "category": "media",
-      "isGenerated": true,
-      "title": "",
-      "customComment": "",
-      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
-      "sessionOrder": 0
-    },
-    {
-      "id": "262feec4-c720-4268-8a9d-2a6689ae7392",
-      "filename": "等分の花嫁の_姉妹がそれぞれのイメージカラーでエナメル質の.mp4",
-      "prompt": "5等分の花嫁の5姉妹がそれぞれのイメージカラーでエナメル質のお洒落で可愛い水着を着てる、砂浜で足下に寄せる波。一人一人近づいてきてハイタッチ。日本語で「最高の天気だね」といった会話をしていき、最後に皆揃って元気良く「大好きっ」と。3Dアニメーションの動画お願いします\n",
-      "mediaType": "video",
-      "sessionTitle": "五つ子そろって浜辺で大好き",
-      "category": "media",
-      "isGenerated": true,
-      "title": "",
-      "customComment": "",
-      "folderId": null,
-      "sessionOrder": 0
-    },
     {
       "id": "6e36f963-c7a5-4675-b6b8-8e1c71a932cd",
       "filename": "6e36f963-c7a5-4675-b6b8-8e1c71a932cd.png",
@@ -118,18 +94,6 @@ const galleryData = {
       "customComment": "",
       "folderId": "70ec387f-c027-4c48-a2df-ca7e49f842d6",
       "sessionOrder": 1
-    },
-    {
-      "id": "a1b851bb-5750-4fef-b52d-c36e406b6dac",
-      "filename": "a1b851bb-5750-4fef-b52d-c36e406b6dac.mp4",
-      "prompt": "確認登録してます。",
-      "mediaType": "video",
-      "sessionTitle": "新しいチャット",
-      "category": "media",
-      "title": "はいどうぞ",
-      "customComment": "",
-      "folderId": null,
-      "sessionOrder": 2
     },
     {
       "id": "a947ebae-1242-4fb1-a973-60c62f79fb68",
@@ -207,6 +171,58 @@ const galleryData = {
       "customComment": "",
       "folderId": null,
       "sessionOrder": 4
+    },
+    {
+      "id": "5607fd78-7260-47d3-80cd-858a03406204",
+      "filename": "この画像に左側のアクリルスタンドと同じぐらいのサイズの五等分.mp4",
+      "prompt": "この画像に左側のアクリルスタンドと同じぐらいのサイズの五等分の花嫁の中野二乃が、薄紫のブラウスを着て、タイトなスカートを履いて、姉妹の五樹のメガネを指でクイッと上げながら、\nパソコンの画面の中のプログラム部分をさし日本語で、「ここちょっと間違ってるわよ」と指示をする。そして、おもむろに左のアクリルスタンドに気がつき、ポーズを真似たり色々褒めた後に、「あなた最高に趣味いいわね。」という動画をお願いします。\n",
+      "mediaType": "video",
+      "sessionTitle": "二乃目がねパソコン",
+      "category": "media",
+      "isGenerated": true,
+      "title": "二乃に五樹の眼鏡パソコン",
+      "customComment": "",
+      "folderId": "d15b8c72-ea7c-4c79-980e-573eabf70bea",
+      "sessionOrder": 9007199254740991
+    },
+    {
+      "id": "6f6bb80e-3af1-4f64-a90b-12d6ea73c05f",
+      "filename": "等分の花嫁の_姉妹がそれぞれのイメージカラーでエナメル質の.mp4",
+      "prompt": "5等分の花嫁の5姉妹がそれぞれのイメージカラーでエナメル質のお洒落で可愛い水着を着てる、砂浜で足下に寄せる波。一人一人近づいてきてハイタッチ。日本語で「最高の天気だね」といった会話をしていき、最後に皆揃って元気良く「大好きっ」と。3Dアニメーションの動画お願いします\n",
+      "mediaType": "video",
+      "sessionTitle": "五つ子そろって浜辺で大好き",
+      "category": "media",
+      "isGenerated": true,
+      "title": "五つ子そろって浜辺で大好き..なぜ６人!?",
+      "customComment": "",
+      "folderId": "d15b8c72-ea7c-4c79-980e-573eabf70bea",
+      "sessionOrder": 9007199254740991
+    },
+    {
+      "id": "8ecb41e2-b92a-4717-bf09-13add00fadd2",
+      "filename": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してく.mp4",
+      "prompt": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してください\n",
+      "mediaType": "video",
+      "sessionTitle": "続続続二乃ビキニ花火",
+      "category": "media",
+      "isGenerated": true,
+      "title": "続続続二乃ビキニ花火",
+      "customComment": "",
+      "folderId": "d15b8c72-ea7c-4c79-980e-573eabf70bea",
+      "sessionOrder": 9007199254740991
+    },
+    {
+      "id": "d9748d9b-055f-4834-bf7f-d9d545a6530d",
+      "filename": "前回の動画に、以下シチュエーション、セリフをすべて日本語でお.mp4",
+      "prompt": "前回の動画に、以下シチュエーション、セリフをすべて日本語でお願いします。\n\nAnime style video. A beautiful anime girl with pink hair is sitting on a\nlounge chair by a luxury resort pool. She is holding a tropical drink,\nlooking at the camera with a gentle smile, enjoying the summer breeze.\nSunny day, cinematic, high resolution.\n\n（日本語訳：アニメスタイルの動画。豪華なリゾートプールサイドのラウンジチェアに座っている、ピンクの髪の美しいアニメの女の子。彼女はトロピカルドリンクを持ち、優しい笑顔でカメラを見つめ、夏の風を楽しんでいる。晴れた日、映画風、高解像度。）\n",
+      "mediaType": "video",
+      "sessionTitle": "続続二乃水着プール",
+      "category": "media",
+      "isGenerated": true,
+      "title": "続続二乃水着プール",
+      "customComment": "",
+      "folderId": "d15b8c72-ea7c-4c79-980e-573eabf70bea",
+      "sessionOrder": 9007199254740991
     }
   ]
 };
