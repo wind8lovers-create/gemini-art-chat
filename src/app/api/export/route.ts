@@ -56,7 +56,8 @@ export async function POST() {
                   dataUri: msg.inputImage.data,
                   title: msg.inputImage.title || '',
                   customComment: msg.inputImage.customComment || '',
-                  folderId: metadata.folderId || null
+                  folderId: metadata.folderId || null,
+                  sessionOrder: metadata.order ?? Number.MAX_SAFE_INTEGER
                 });
               }
 
@@ -77,7 +78,8 @@ export async function POST() {
                       isGenerated: true,
                       title: img.title || '',
                       customComment: img.customComment || '',
-                      folderId: metadata.folderId || null
+                      folderId: metadata.folderId || null,
+                      sessionOrder: metadata.order ?? Number.MAX_SAFE_INTEGER
                     });
                   }
                 }
@@ -125,8 +127,15 @@ export async function POST() {
     let foldersDataExport = JSON.parse(foldersDataRaw);
     foldersDataExport = foldersDataExport.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
     
-    // image は order が無いので ID順(もしくはセッション更新日順など)
-    exportData.sort((a, b) => b.id.localeCompare(a.id));
+    // image はセッションの並び順（order）を優先し、同じセッション内では古い順（ID昇順）で表示
+    exportData.sort((a, b) => {
+      const orderA = a.sessionOrder;
+      const orderB = b.sessionOrder;
+      if (orderA !== orderB) {
+        return orderA - orderB;
+      }
+      return a.id.localeCompare(b.id);
+    });
 
     const finalExportData = {
       folders: foldersDataExport,

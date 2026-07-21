@@ -42,98 +42,17 @@ const galleryData = {
   ],
   "images": [
     {
-      "id": "ed9309a2-e9df-452e-832c-0f32bd7a74ba",
-      "filename": "ed9309a2-e9df-452e-832c-0f32bd7a74ba.png",
-      "prompt": "背景を夕暮れにしてください",
-      "mediaType": "image",
-      "sessionTitle": "プライベートビーチの二乃",
-      "category": "media",
-      "isGenerated": true,
-      "title": "夕暮れ",
-      "customComment": "",
-      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe"
-    },
-    {
-      "id": "e920fbb7-8785-4ccc-9558-1ab45b6fb8cf",
-      "filename": "e920fbb7-8785-4ccc-9558-1ab45b6fb8cf.png",
-      "prompt": "背景を夕暮れにしてください",
-      "mediaType": "image",
-      "sessionTitle": "プライベートビーチの二乃",
-      "category": "media",
-      "title": "",
-      "customComment": "",
-      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe"
-    },
-    {
-      "id": "d22393c1-2e8c-40f6-ae82-39364b05032c",
-      "filename": "d22393c1-2e8c-40f6-ae82-39364b05032c.png",
-      "prompt": "優しいパステル調にしてください。 ",
-      "mediaType": "image",
-      "sessionTitle": "猫",
-      "category": "media",
-      "isGenerated": true,
-      "title": "",
-      "customComment": "",
-      "folderId": "70ec387f-c027-4c48-a2df-ca7e49f842d6"
-    },
-    {
-      "id": "a947ebae-1242-4fb1-a973-60c62f79fb68",
-      "filename": "a947ebae-1242-4fb1-a973-60c62f79fb68.png",
-      "prompt": "もう少し夕焼けを暗くして、後ろ一面に花火をお願いします。",
-      "mediaType": "image",
-      "sessionTitle": "プライベートビーチの二乃",
-      "category": "media",
-      "isGenerated": true,
-      "title": "",
-      "customComment": "",
-      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe"
-    },
-    {
-      "id": "a1b851bb-5750-4fef-b52d-c36e406b6dac",
-      "filename": "a1b851bb-5750-4fef-b52d-c36e406b6dac.mp4",
-      "prompt": "確認登録してます。",
+      "id": "1e3f48f9-b0ec-47e2-b065-b31971763643",
+      "filename": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してく.mp4",
+      "prompt": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してください\n",
       "mediaType": "video",
-      "sessionTitle": "新しいチャット",
-      "category": "media",
-      "title": "はいどうぞ",
-      "customComment": "",
-      "folderId": null
-    },
-    {
-      "id": "9a837296-0d4b-40b0-abd0-8cd22b5888db",
-      "filename": "9a837296-0d4b-40b0-abd0-8cd22b5888db.png",
-      "prompt": "背景の山々の谷間から見える富士山そして、満月、月明かりの水面美しい湖畔。優しく、清らかでな瀬織津姫様と、それを取り囲むように３つのかぎ爪に球をつかんでいる龍神様。",
-      "mediaType": "image",
-      "sessionTitle": "瀬織津姫＆龍神",
-      "category": "media",
-      "isGenerated": true,
-      "title": "瀬尾律姫",
-      "customComment": "",
-      "folderId": null
-    },
-    {
-      "id": "803fb459-7152-4d76-97a1-60869821e539",
-      "filename": "803fb459-7152-4d76-97a1-60869821e539.png",
-      "prompt": "クレヨンで荒々しく書いた感じにしてください。",
-      "mediaType": "image",
-      "sessionTitle": "猫の絵",
+      "sessionTitle": "続続続二乃ビキニ花火",
       "category": "media",
       "isGenerated": true,
       "title": "",
       "customComment": "",
-      "folderId": "70ec387f-c027-4c48-a2df-ca7e49f842d6"
-    },
-    {
-      "id": "6e36f963-c7a5-4675-b6b8-8e1c71a932cd",
-      "filename": "6e36f963-c7a5-4675-b6b8-8e1c71a932cd.png",
-      "prompt": "この画像を水彩画風にしてください",
-      "mediaType": "image",
-      "sessionTitle": "猫",
-      "category": "media",
-      "isGenerated": true,
-      "title": "",
-      "customComment": "",
-      "folderId": "70ec387f-c027-4c48-a2df-ca7e49f842d6"
+      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
+      "sessionOrder": 0
     },
     {
       "id": "262feec4-c720-4268-8a9d-2a6689ae7392",
@@ -145,31 +64,34 @@ const galleryData = {
       "isGenerated": true,
       "title": "",
       "customComment": "",
-      "folderId": null
+      "folderId": null,
+      "sessionOrder": 0
     },
     {
-      "id": "1f9e961c-64b2-48f4-a3a5-504bdea2bc4f",
-      "filename": "1f9e961c-64b2-48f4-a3a5-504bdea2bc4f.png",
-      "prompt": "背景を朝焼けにしてプールではなくハワイの海岸にしてください",
+      "id": "6e36f963-c7a5-4675-b6b8-8e1c71a932cd",
+      "filename": "6e36f963-c7a5-4675-b6b8-8e1c71a932cd.png",
+      "prompt": "この画像を水彩画風にしてください",
       "mediaType": "image",
-      "sessionTitle": "背景を夕暮れにしてく... (派生)",
+      "sessionTitle": "猫",
       "category": "media",
       "isGenerated": true,
       "title": "",
       "customComment": "",
-      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe"
+      "folderId": "70ec387f-c027-4c48-a2df-ca7e49f842d6",
+      "sessionOrder": 0
     },
     {
-      "id": "1e3f48f9-b0ec-47e2-b065-b31971763643",
-      "filename": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してく.mp4",
-      "prompt": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してください\n",
-      "mediaType": "video",
-      "sessionTitle": "続続続二乃ビキニ花火",
+      "id": "d22393c1-2e8c-40f6-ae82-39364b05032c",
+      "filename": "d22393c1-2e8c-40f6-ae82-39364b05032c.png",
+      "prompt": "優しいパステル調にしてください。 ",
+      "mediaType": "image",
+      "sessionTitle": "猫",
       "category": "media",
       "isGenerated": true,
       "title": "",
       "customComment": "",
-      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe"
+      "folderId": "70ec387f-c027-4c48-a2df-ca7e49f842d6",
+      "sessionOrder": 0
     },
     {
       "id": "18db4534-04ec-41b9-a652-feb0c9508938",
@@ -181,7 +103,84 @@ const galleryData = {
       "isGenerated": true,
       "title": "",
       "customComment": "",
-      "folderId": "70ec387f-c027-4c48-a2df-ca7e49f842d6"
+      "folderId": "70ec387f-c027-4c48-a2df-ca7e49f842d6",
+      "sessionOrder": 1
+    },
+    {
+      "id": "803fb459-7152-4d76-97a1-60869821e539",
+      "filename": "803fb459-7152-4d76-97a1-60869821e539.png",
+      "prompt": "クレヨンで荒々しく書いた感じにしてください。",
+      "mediaType": "image",
+      "sessionTitle": "猫の絵",
+      "category": "media",
+      "isGenerated": true,
+      "title": "",
+      "customComment": "",
+      "folderId": "70ec387f-c027-4c48-a2df-ca7e49f842d6",
+      "sessionOrder": 1
+    },
+    {
+      "id": "a1b851bb-5750-4fef-b52d-c36e406b6dac",
+      "filename": "a1b851bb-5750-4fef-b52d-c36e406b6dac.mp4",
+      "prompt": "確認登録してます。",
+      "mediaType": "video",
+      "sessionTitle": "新しいチャット",
+      "category": "media",
+      "title": "はいどうぞ",
+      "customComment": "",
+      "folderId": null,
+      "sessionOrder": 2
+    },
+    {
+      "id": "a947ebae-1242-4fb1-a973-60c62f79fb68",
+      "filename": "a947ebae-1242-4fb1-a973-60c62f79fb68.png",
+      "prompt": "もう少し夕焼けを暗くして、後ろ一面に花火をお願いします。",
+      "mediaType": "image",
+      "sessionTitle": "プライベートビーチの二乃",
+      "category": "media",
+      "isGenerated": true,
+      "title": "",
+      "customComment": "",
+      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
+      "sessionOrder": 2
+    },
+    {
+      "id": "e920fbb7-8785-4ccc-9558-1ab45b6fb8cf",
+      "filename": "e920fbb7-8785-4ccc-9558-1ab45b6fb8cf.png",
+      "prompt": "背景を夕暮れにしてください",
+      "mediaType": "image",
+      "sessionTitle": "プライベートビーチの二乃",
+      "category": "media",
+      "title": "",
+      "customComment": "",
+      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
+      "sessionOrder": 2
+    },
+    {
+      "id": "ed9309a2-e9df-452e-832c-0f32bd7a74ba",
+      "filename": "ed9309a2-e9df-452e-832c-0f32bd7a74ba.png",
+      "prompt": "背景を夕暮れにしてください",
+      "mediaType": "image",
+      "sessionTitle": "プライベートビーチの二乃",
+      "category": "media",
+      "isGenerated": true,
+      "title": "夕暮れ",
+      "customComment": "",
+      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
+      "sessionOrder": 2
+    },
+    {
+      "id": "1f9e961c-64b2-48f4-a3a5-504bdea2bc4f",
+      "filename": "1f9e961c-64b2-48f4-a3a5-504bdea2bc4f.png",
+      "prompt": "背景を朝焼けにしてプールではなくハワイの海岸にしてください",
+      "mediaType": "image",
+      "sessionTitle": "背景を夕暮れにしてく... (派生)",
+      "category": "media",
+      "isGenerated": true,
+      "title": "",
+      "customComment": "",
+      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
+      "sessionOrder": 3
     },
     {
       "id": "06fc78df-8d39-47a5-94ee-11a2d01e6c4a",
@@ -193,7 +192,21 @@ const galleryData = {
       "isGenerated": true,
       "title": "",
       "customComment": "",
-      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe"
+      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
+      "sessionOrder": 4
+    },
+    {
+      "id": "9a837296-0d4b-40b0-abd0-8cd22b5888db",
+      "filename": "9a837296-0d4b-40b0-abd0-8cd22b5888db.png",
+      "prompt": "背景の山々の谷間から見える富士山そして、満月、月明かりの水面美しい湖畔。優しく、清らかでな瀬織津姫様と、それを取り囲むように３つのかぎ爪に球をつかんでいる龍神様。",
+      "mediaType": "image",
+      "sessionTitle": "瀬織津姫＆龍神",
+      "category": "media",
+      "isGenerated": true,
+      "title": "瀬尾律姫",
+      "customComment": "",
+      "folderId": null,
+      "sessionOrder": 4
     }
   ]
 };
