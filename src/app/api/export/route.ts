@@ -205,7 +205,7 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
             </div>
 
             <div class="mascot-container" style="margin-top: auto; padding-top: 24px; text-align: center;">
-                <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 8px;">👑 Hazuki-kiz-</p>
+                <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 8px;">Hazuki-kiz-</p>
                 <img src="assets/a104e18c-528e-4d68-9f9c-a17c481c064d.png" alt="Hazuki" style="width: 100%; max-width: 140px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />
             </div>
         </aside>
@@ -351,8 +351,9 @@ body {
 
 @media (max-width: 768px) {
   .layout { flex-direction: column; }
-  /* スマホでは完全に左のサイドバーを隠す */
-  .sidebar { display: none !important; }
+  /* スマホではデフォルトで左のサイドバーを隠すが、クラス付与で表示 */
+  .sidebar { display: none !important; width: 100%; margin-bottom: 16px; box-sizing: border-box; }
+  .sidebar.show-mobile { display: block !important; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
   /* ヘッダーのGitHubボタンを隠してスペースを確保する（アイコンを優先） */
@@ -374,6 +375,18 @@ body {
 
   const scriptJs = `
 document.addEventListener('DOMContentLoaded', () => {
+    // スマホ表示時にロゴタップでサイドバーを開閉する処理
+    const logo = document.querySelector('.logo');
+    const sidebar = document.querySelector('.sidebar');
+    if (logo && sidebar) {
+        logo.style.cursor = 'pointer';
+        logo.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('show-mobile');
+            }
+        });
+    }
+
     const grid = document.getElementById('gallery-grid');
     const categoryItems = document.querySelectorAll('.category-item, .nav-btn[data-category]');
     const modal = document.getElementById('modal');

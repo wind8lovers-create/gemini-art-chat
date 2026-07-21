@@ -1,5 +1,17 @@
 
 document.addEventListener('DOMContentLoaded', () => {
+    // スマホ表示時にロゴタップでサイドバーを開閉する処理
+    const logo = document.querySelector('.logo');
+    const sidebar = document.querySelector('.sidebar');
+    if (logo && sidebar) {
+        logo.style.cursor = 'pointer';
+        logo.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('show-mobile');
+            }
+        });
+    }
+
     const grid = document.getElementById('gallery-grid');
     const categoryItems = document.querySelectorAll('.category-item, .nav-btn[data-category]');
     const modal = document.getElementById('modal');
