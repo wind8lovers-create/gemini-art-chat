@@ -145,7 +145,13 @@ export async function POST() {
     const dataJsContent = `const galleryData = ${JSON.stringify(finalExportData, null, 2)};`;
     await fs.writeFile(path.join(DOCS_DIR, 'data.js'), dataJsContent, 'utf-8');
 
-    await generateStaticFiles();
+    const packageJsonPath = path.join(process.cwd(), 'package.json');
+    const packageJsonRaw = await fs.readFile(packageJsonPath, 'utf-8').catch(() => '{}');
+    const packageJson = JSON.parse(packageJsonRaw);
+    const nextVersion = (packageJson.dependencies?.next || '').replace(/[\^~]/g, '');
+    const reactVersion = (packageJson.dependencies?.react || '').replace(/[\^~]/g, '');
+
+    await generateStaticFiles(nextVersion, reactVersion);
 
     return NextResponse.json({ success: true, count: exportData.length });
   } catch (error) {
@@ -154,7 +160,8 @@ export async function POST() {
   }
 }
 
-async function generateStaticFiles() {
+async function generateStaticFiles(nextVersion: string = '', reactVersion: string = '') {
+  const timestamp = Date.now();
   const indexHtml = `<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -171,10 +178,8 @@ async function generateStaticFiles() {
         </div>
         <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
         <nav class="nav">
-            <button class="nav-btn" data-category="all" title="すべて表示">🏠</button>
             <button class="nav-btn active" data-category="media" title="生成画像・動画">🖼️</button>
-            <button class="nav-btn" data-category="prompt" title="プロンプト考察">💡</button>
-            <button class="nav-btn" data-category="story" title="ある一つの物語">📖</button>
+            <button class="nav-btn" data-category="prompt" title="プロンプトメモ">💡</button>
             <a href="https://github.com/wind8lovers-create/gemini-art-chat" class="btn github-btn" target="_blank" rel="noopener">GitHub</a>
         </nav>
     </header>
@@ -182,22 +187,26 @@ async function generateStaticFiles() {
     <div class="layout">
         <!-- サイドバー -->
         <aside class="sidebar glass-panel">
-            <h2 class="sidebar-title">📑 目次</h2>
+            <h2 class="sidebar-title">📑 index</h2>
             <ul class="category-list">
-                <li class="category-item" data-category="all">すべて表示</li>
                 <li class="category-item active" data-category="media">生成画像・動画<br><small>(AI Generated Media)</small></li>
-                <li class="category-item" data-category="prompt">プロンプト考察<br><small>(Prompt Analysis)</small></li>
-                <li class="category-item" data-category="story">ある一つの物語<br><small>(A Single Story)</small></li>
+                <li class="category-item" data-category="prompt">プロンプトメモ<br><small>(Prompt Memo)</small></li>
             </ul>
+
+            <div class="sidebar-footer">
+                <p><strong>制作環境</strong></p>
+                <p style="font-size: 0.85rem; line-height: 1.6;">
+                    Next.js v${nextVersion} / React v${reactVersion}<br>
+                    Gemini Pro Vision<br>
+                    Antigravity AI<br>
+                    Nano banana<br>
+                    Veo
+                </p>
+            </div>
 
             <div class="mascot-container" style="margin-top: auto; padding-top: 24px; text-align: center;">
                 <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 8px;">👑 Hazuki-kiz-</p>
                 <img src="assets/a104e18c-528e-4d68-9f9c-a17c481c064d.png" alt="Hazuki" style="width: 100%; max-width: 140px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />
-            </div>
-
-            <div class="sidebar-footer">
-                <p><strong>制作環境</strong></p>
-                <p>Next.js / React<br>Gemini Pro Vision<br>Antigravity AI</p>
             </div>
         </aside>
 
