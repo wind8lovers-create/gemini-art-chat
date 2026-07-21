@@ -115,25 +115,37 @@
 
 /* 1つ1つの履歴ブロックのデザイン */
 .sessionItem {
-  padding: 4px 8px;
-  border-radius: var(--border-radius-sm);
-  background: transparent;
-  border: 1px solid transparent;
-  cursor: grab;
-  transition: var(--transition);
-}
-
-.sessionItem:active {
-  cursor: grabbing;
-}
-
-.dragging {
-  opacity: 0.5;
-  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  margin: 2px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .sessionItem:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sessionItem.active {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.sessionItem.dragging {
+  opacity: 0.5;
+  background: rgba(233, 30, 99, 0.2);
+}
+
+.sessionItem.dragOverSession {
+  border-top: 2px solid #e91e63;
+}
+
+.folderContainer.dragging {
+  opacity: 0.5;
+  background: rgba(233, 30, 99, 0.1);
 }
 
 .active {

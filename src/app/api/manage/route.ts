@@ -14,6 +14,11 @@ export async function GET() {
 
     const entries = await fs.readdir(DATA_DIR, { withFileTypes: true });
     let managedImages: GalleryImage[] = [];
+    
+    // フォルダ情報を取得して、isPublished の状態を把握
+    const foldersData = await fs.readFile(path.join(process.cwd(), 'data', 'folders.json'), 'utf-8').catch(() => '[]');
+    const folders: any[] = JSON.parse(foldersData);
+    const folderMap = new Map(folders.map(f => [f.id, f]));
 
     for (const entry of entries) {
       if (entry.isDirectory()) {
@@ -28,8 +33,13 @@ export async function GET() {
 
           if (messages && Array.isArray(messages)) {
             for (const message of messages) {
+              // フォルダが公開されているか？
+              const folder = metadata.folderId ? folderMap.get(metadata.folderId) : null;
+              const isFolderPublished = folder?.isPublished === true;
+
               // アップロード画像（inputImage）のチェック
-              if (message.inputImage && (message.inputImage.publishStatus === 'published' || message.inputImage.publishStatus === 'hidden')) {
+              const inputStatus = message.inputImage?.publishStatus;
+              if (message.inputImage && (inputStatus === 'published' || (isFolderPublished && inputStatus !== 'hidden'))) {
                 managedImages.push({
                   id: message.id, // messageId
                   filename: message.id, // ファイル名として代用
@@ -37,7 +47,7 @@ export async function GET() {
                   version: 1,
                   parentImageId: null,
                   isFavorite: message.inputImage.isFavorite,
-                  publishStatus: message.inputImage.publishStatus,
+                  publishStatus: inputStatus === 'hidden' ? 'hidden' : (isFolderPublished ? 'published' : inputStatus),
                   mediaType: message.inputImage.mimeType?.startsWith('video/') ? 'video' : 'image',
                   sessionId: metadata.id,
                   sessionTitle: metadata.title,
@@ -47,22 +57,33 @@ export async function GET() {
                   // @ts-ignore
                   isGenerated: false,
                   // @ts-ignore
-                  messageId: message.id
+                  // @ts-ignore
+                  messageId: message.id,
+                  // @ts-ignore
+                  folderId: metadata.folderId || null,
+                  // @ts-ignore
+                  title: message.inputImage.title || '',
+                  // @ts-ignore
+                  customComment: message.inputImage.customComment || ''
                 });
               }
 
               // AI生成画像（generatedImages）のチェック
               if (message.generatedImages && Array.isArray(message.generatedImages)) {
                 for (const img of message.generatedImages) {
-                  if (img.publishStatus === 'published' || img.publishStatus === 'hidden') {
+                  const imgStatus = img.publishStatus;
+                  if (imgStatus === 'published' || (isFolderPublished && imgStatus !== 'hidden')) {
                     managedImages.push({
                       ...img,
+                      publishStatus: imgStatus === 'hidden' ? 'hidden' : (isFolderPublished ? 'published' : imgStatus),
                       sessionId: metadata.id,
                       sessionTitle: metadata.title,
                       // @ts-ignore
                       isGenerated: true,
                       // @ts-ignore
-                      messageId: message.id
+                      messageId: message.id,
+                      // @ts-ignore
+                      folderId: metadata.folderId || null
                     });
                   }
                 }

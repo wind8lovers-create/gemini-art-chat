@@ -80,6 +80,7 @@ export default function Home() {
               sessionId={enlargedImage.sessionId}
               imageUrl={enlargedImage.url}
               className={styles.enlargedImageWrapper}
+              hideTitle={true}
               onFork={(id) => { setCurrentSessionId(id); setEnlargedImage(null); }}
             />
           </div>

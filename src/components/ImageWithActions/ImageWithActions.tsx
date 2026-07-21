@@ -12,9 +12,12 @@ export default function ImageWithActions({
   onFork,
   onToggleFavorite,
   onTogglePublish,
+  onSetFolderCover,
   hideFavorite,
   hidePublish,
-  isGenerated
+  isGenerated,
+  hideTitle,
+  onTitleChange
 }: {
   image: GeneratedImage;
   sessionId: string;
@@ -24,9 +27,12 @@ export default function ImageWithActions({
   onFork?: (newSessionId: string) => void;
   onToggleFavorite?: (newFavState: boolean) => Promise<void>;
   onTogglePublish?: (newPublishStatus: 'none' | 'published' | 'hidden') => Promise<void>;
+  onSetFolderCover?: () => void; // フォルダの表紙に設定する関数
   hideFavorite?: boolean;
   hidePublish?: boolean;
   isGenerated?: boolean; // AI生成画像かどうかを正確に判定するフラグ
+  hideTitle?: boolean; // 拡大時などにタイトル透かしを隠すフラグ
+  onTitleChange?: (newTitle: string) => Promise<void>; // タイトルを直接編集するためのコールバック
 }) {
   const [isFav, setIsFav] = useState(image.isFavorite || false);
   const [pubStatus, setPubStatus] = useState<'none' | 'published' | 'hidden'>(image.publishStatus || 'none');
@@ -34,6 +40,7 @@ export default function ImageWithActions({
   const [isForking, setIsForking] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [isFavoriting, setIsFavoriting] = useState(false);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
 
   const toggleFavorite = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -150,6 +157,46 @@ export default function ImageWithActions({
         <img src={imageUrl} alt={image.prompt} className={styles.image} />
       )}
       
+      {/* タイトルが設定されている、または編集中は画像上にオーバーレイ表示 */}
+      {!hideTitle && (image.title || isEditingTitle) && (
+        <div className={styles.titleOverlay} style={isEditingTitle ? { pointerEvents: 'auto' } : undefined}>
+          {isEditingTitle ? (
+            <input
+              type="text"
+              placeholder="タイトルを入力..."
+              defaultValue={image.title || ''}
+              autoFocus
+              onBlur={async (e) => {
+                const newTitle = e.target.value;
+                if (newTitle !== image.title && onTitleChange) {
+                  await onTitleChange(newTitle);
+                }
+                setIsEditingTitle(false);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.currentTarget.blur();
+                }
+              }}
+              onClick={(e) => e.stopPropagation()} // クリック時に拡大させない
+              style={{
+                width: '100%',
+                background: 'transparent',
+                border: 'none',
+                color: 'white',
+                textAlign: 'center',
+                outline: 'none',
+                fontSize: 'inherit',
+                fontWeight: 'inherit',
+                textShadow: 'inherit'
+              }}
+            />
+          ) : (
+            image.title
+          )}
+        </div>
+      )}
+      
       {/* ホバー時またはお気に入り/公開済みの時にオーバーレイを表示 */}
       <div className={`${styles.overlay} ${(isHovered || (isFav && !hideFavorite) || (pubStatus === 'published' && !hidePublish)) ? styles.visible : ''}`}>
         <div className={styles.topActions}>
@@ -177,6 +224,15 @@ export default function ImageWithActions({
         {/* ホバー時のみ下部ボタンを表示 */}
         {isHovered && (
           <div className={styles.bottomActions}>
+            {onSetFolderCover && (
+              <button 
+                className={styles.actionBtn} 
+                onClick={(e) => { e.stopPropagation(); onSetFolderCover(); }} 
+                title="この画像をフォルダの表紙（代表サムネイル）に設定する"
+              >
+                📁
+              </button>
+            )}
             {onFork && (
               <button 
                 className={styles.actionBtn} 
@@ -185,6 +241,15 @@ export default function ImageWithActions({
                 disabled={isForking}
               >
                 {isForking ? '⏳' : '🌱'}
+              </button>
+            )}
+            {onTitleChange && (
+              <button 
+                className={styles.actionBtn} 
+                onClick={(e) => { e.stopPropagation(); setIsEditingTitle(true); }} 
+                title="タイトルを編集する"
+              >
+                ✏️
               </button>
             )}
             <button className={styles.actionBtn} onClick={handleDownload} title="画像をダウンロード">

@@ -29,7 +29,9 @@ export default function Sidebar({
 
   // ドラッグ中かどうかを判定するための状態
   const [draggedSessionId, setDraggedSessionId] = useState<string | null>(null);
+  const [draggedFolderId, setDraggedFolderId] = useState<string | null>(null);
   const [dragOverFolderId, setDragOverFolderId] = useState<string | null>(null);
+  const [dragOverSessionId, setDragOverSessionId] = useState<string | null>(null);
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -146,39 +148,134 @@ export default function Sidebar({
     });
   };
 
+  const toggleFolderPublish = async (folderId: string, currentStatus: boolean) => {
+    try {
+      const newStatus = !currentStatus;
+      const res = await fetch(`/api/folders/${folderId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isPublished: newStatus })
+      });
+      if (res.ok) {
+        setFolders(prev => prev.map(f => 
+          f.id === folderId ? { ...f, isPublished: newStatus } : f
+        ));
+      }
+    } catch (error) {
+      console.error("公開ステータス更新エラー:", error);
+    }
+  };
+
   const handleDragStart = (e: React.DragEvent, sessionId: string) => {
+    e.stopPropagation();
     e.dataTransfer.setData('sessionId', sessionId);
     setDraggedSessionId(sessionId);
   };
 
+  const handleFolderDragStart = (e: React.DragEvent, folderId: string) => {
+    e.stopPropagation();
+    e.dataTransfer.setData('folderId', folderId);
+    setDraggedFolderId(folderId);
+  };
+
   const handleDragEnd = () => {
     setDraggedSessionId(null);
+    setDraggedFolderId(null);
     setDragOverFolderId(null);
+    setDragOverSessionId(null);
   };
 
-  const handleDragOver = (e: React.DragEvent, folderId: string | null) => {
-    e.preventDefault(); // ドロップを許可する
-    e.stopPropagation(); // 親要素へのイベント伝播を防ぐ
-    setDragOverFolderId(folderId);
-  };
-
-  const handleDrop = async (e: React.DragEvent, folderId: string | null) => {
+  const handleDragOver = (e: React.DragEvent, folderId: string | null, sessionId: string | null = null) => {
     e.preventDefault();
-    e.stopPropagation(); // 親要素のonDropが発火するのを防ぐ
+    e.stopPropagation();
+    setDragOverFolderId(folderId);
+    setDragOverSessionId(sessionId);
+  };
+
+  const handleDrop = async (e: React.DragEvent, targetFolderId: string | null, targetSessionId: string | null = null) => {
+    e.preventDefault();
+    e.stopPropagation();
     setDragOverFolderId(null);
+    setDragOverSessionId(null);
+
     const sessionId = e.dataTransfer.getData('sessionId');
-    
-    if (sessionId) {
-      // 画面上ですぐに反映させる
-      setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, folderId } : s));
-      
-      // 裏側でAPIを叩く
-      await fetch(`/api/sessions/${sessionId}/move`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ folderId })
-      });
+    const folderId = e.dataTransfer.getData('folderId');
+
+    if (folderId && targetFolderId && folderId !== targetFolderId && !targetSessionId) {
+      // フォルダの並び替え
+      const draggedIndex = folders.findIndex(f => f.id === folderId);
+      const targetIndex = folders.findIndex(f => f.id === targetFolderId);
+      if (draggedIndex > -1 && targetIndex > -1) {
+        const newFolders = [...folders];
+        const [draggedItem] = newFolders.splice(draggedIndex, 1);
+        newFolders.splice(targetIndex, 0, draggedItem);
+        // orderを更新
+        const updatedItems = newFolders.map((f, index) => ({ id: f.id, order: index }));
+        setFolders(newFolders.map((f, i) => ({ ...f, order: i })));
+        
+        await fetch('/api/reorder', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'folder', items: updatedItems })
+        });
+      }
+    } else if (sessionId) {
+      if (targetSessionId && sessionId !== targetSessionId) {
+        // セッションの並び替え
+        const sFolderId = targetFolderId || null;
+        let folderSessions = sessions.filter(s => s.folderId === sFolderId);
+        
+        // 移動元と移動先のインデックスを見つける
+        const draggedSession = sessions.find(s => s.id === sessionId);
+        if (!draggedSession) return;
+        
+        // 別のフォルダからの移動も考慮して、まずは移動先フォルダに追加する形をとる
+        if (draggedSession.folderId !== sFolderId) {
+          draggedSession.folderId = sFolderId;
+          folderSessions.push(draggedSession);
+          // APIでフォルダ移動を反映
+          await fetch(`/api/sessions/${sessionId}/move`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ folderId: sFolderId })
+          });
+        }
+
+        const draggedIndex = folderSessions.findIndex(s => s.id === sessionId);
+        const targetIndex = folderSessions.findIndex(s => s.id === targetSessionId);
+        
+        if (draggedIndex > -1 && targetIndex > -1) {
+          folderSessions.splice(draggedIndex, 1);
+          folderSessions.splice(targetIndex, 0, draggedSession);
+          
+          // orderを更新
+          const updatedItems = folderSessions.map((s, index) => ({ id: s.id, order: index }));
+          setSessions(prev => prev.map(s => {
+            const updated = updatedItems.find(u => u.id === s.id);
+            return updated ? { ...s, order: updated.order, folderId: s.folderId } : s;
+          }));
+
+          await fetch('/api/reorder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'session', items: updatedItems })
+          });
+        }
+      } else if (targetFolderId !== undefined && !targetSessionId) {
+        // セッションをフォルダに入れる
+        const currentSession = sessions.find(s => s.id === sessionId);
+        if (currentSession && currentSession.folderId !== targetFolderId) {
+          setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, folderId: targetFolderId } : s));
+          await fetch(`/api/sessions/${sessionId}/move`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ folderId: targetFolderId })
+          });
+        }
+      }
     }
+    setDraggedSessionId(null);
+    setDraggedFolderId(null);
   };
 
   // セッションをフォルダごとに分ける
@@ -196,13 +293,15 @@ export default function Sidebar({
   const renderSession = (session: Session) => (
     <div 
       key={session.id} 
-      className={`${styles.sessionItem} ${currentSessionId === session.id ? styles.active : ''} ${draggedSessionId === session.id ? styles.dragging : ''}`}
+      className={`${styles.sessionItem} ${currentSessionId === session.id ? styles.active : ''} ${draggedSessionId === session.id ? styles.dragging : ''} ${dragOverSessionId === session.id ? styles.dragOverSession : ''}`}
       onClick={() => {
         if (editingSessionId !== session.id) onSelectSession(session.id);
       }}
       draggable // ドラッグ可能にする
       onDragStart={(e) => handleDragStart(e, session.id)}
       onDragEnd={handleDragEnd}
+      onDragOver={(e) => handleDragOver(e, session.folderId || null, session.id)}
+      onDrop={(e) => handleDrop(e, session.folderId || null, session.id)}
     >
       {editingSessionId === session.id ? (
         <input 
@@ -243,17 +342,24 @@ export default function Sidebar({
             style={{ cursor: 'pointer', margin: 0, display: 'flex', alignItems: 'center', gap: '4px' }}
             title="メニューを開く"
           >
-            📁 履歴 <span style={{ fontSize: '12px', opacity: 0.7 }}>▼</span>
+            🖼️ アルバム <span style={{ fontSize: '12px', opacity: 0.7 }}>▼</span>
           </h2>
           {isMenuOpen && (
             <>
               <div style={{ position: 'fixed', inset: 0, zIndex: 90 }} onClick={() => setIsMenuOpen(false)}></div>
               <div style={{ position: 'absolute', top: '100%', left: 0, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px', zIndex: 100, width: 'max-content', display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>
+                <button className="btn btn-secondary" onClick={() => { setIsMenuOpen(false); createNewFolder(); }} style={{ width: '100%', textAlign: 'left', padding: '8px', fontSize: '14px', color: 'pink' }}>
+                  📁 新規フォルダ作成
+                </button>
+                <button className="btn btn-secondary" onClick={() => { setIsMenuOpen(false); createNewSession(); }} style={{ width: '100%', textAlign: 'left', padding: '8px', fontSize: '14px', color: 'pink' }}>
+                  💬 新しいチャット
+                </button>
+                <hr style={{ borderTop: '1px solid var(--border-color)', margin: '4px 0' }} />
                 <button className="btn btn-secondary" onClick={() => { setIsMenuOpen(false); fetch('/api/explorer'); }} style={{ width: '100%', textAlign: 'left', padding: '8px', fontSize: '14px', color: 'pink' }}>
-                  📁 履歴エクスプローラ
+                  📁 エクスプローラ表示
                 </button>
                 <button className="btn btn-secondary" onClick={() => { setIsMenuOpen(false); window.location.href = '/api/download-all'; }} style={{ width: '100%', textAlign: 'left', padding: '8px', fontSize: '14px', color: 'pink' }}>
-                  📦 全履歴完全バックアップ-DL-
+                  📦 全アルバムbackup & DL
                 </button>
               </div>
             </>
@@ -261,8 +367,6 @@ export default function Sidebar({
         </div>
         <div className={styles.headerButtons}>
           <button className={styles.iconBtn} onClick={onClose} title="スマホ画面にする（サイドバーを隠す）">📱</button>
-          <button className={styles.iconBtn} onClick={createNewFolder} title="新しいフォルダ">📁+</button>
-          <button className={styles.iconBtn} onClick={createNewSession} title="新しいチャット">💬+</button>
         </div>
       </div>
       
@@ -275,7 +379,10 @@ export default function Sidebar({
         {folders.map(folder => (
           <div 
             key={folder.id} 
-            className={styles.folderContainer}
+            className={`${styles.folderContainer} ${draggedFolderId === folder.id ? styles.dragging : ''}`}
+            draggable
+            onDragStart={(e) => handleFolderDragStart(e, folder.id)}
+            onDragEnd={handleDragEnd}
             onDragOver={(e) => handleDragOver(e, folder.id)}
             onDrop={(e) => handleDrop(e, folder.id)}
           >
@@ -303,16 +410,29 @@ export default function Sidebar({
                   <span className={styles.folderTitle}>{folder.name}</span>
                 )}
               </div>
-              {!editingFolderId && (
-                <button 
-                  className={styles.editBtn}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <button
+                  className={`${styles.iconBtn} ${folder.isPublished ? styles.published : ''}`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    setEditingFolderId(folder.id);
-                    setEditingFolderName(folder.name);
+                    toggleFolderPublish(folder.id, folder.isPublished || false);
                   }}
-                >✎</button>
-              )}
+                  title={folder.isPublished ? "編集長室から外す（非公開）" : "フォルダごと編集長室へ（公開）"}
+                  style={{ color: folder.isPublished ? '#e91e63' : 'inherit', fontSize: '1.2rem', padding: '0 4px' }}
+                >
+                  ↑
+                </button>
+                {!editingFolderId && (
+                  <button 
+                    className={styles.editBtn}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setEditingFolderId(folder.id);
+                      setEditingFolderName(folder.name);
+                    }}
+                  >✎</button>
+                )}
+              </div>
             </div>
             
             {/* フォルダの中身（展開時のみ表示） */}

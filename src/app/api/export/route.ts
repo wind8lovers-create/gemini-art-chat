@@ -27,13 +27,21 @@ export async function POST() {
           const metadataStr = await fs.readFile(metadataPath, 'utf-8');
           const metadata = JSON.parse(metadataStr);
           
+          // フォルダ情報を取得して、公開状態を確認
+          const foldersDataRaw = await fs.readFile(path.join(process.cwd(), 'data', 'folders.json'), 'utf-8').catch(() => '[]');
+          const folders = JSON.parse(foldersDataRaw);
+          const folderMap = new Map(folders.map((f: any) => [f.id, f]));
+          const folder = metadata.folderId ? folderMap.get(metadata.folderId) : null;
+          const isFolderPublished = folder?.isPublished === true;
+          
           const messagesStr = await fs.readFile(messagesPath, 'utf-8');
           const messages = JSON.parse(messagesStr);
 
           if (Array.isArray(messages)) {
             for (const msg of messages) {
               // アップロード画像
-              if (msg.inputImage && msg.inputImage.publishStatus === 'published') {
+              const inputStatus = msg.inputImage?.publishStatus;
+              if (msg.inputImage && (inputStatus === 'published' || (isFolderPublished && inputStatus !== 'hidden'))) {
                 const isVideo = msg.inputImage.mimeType?.startsWith('video/');
                 const ext = isVideo ? '.mp4' : '.png';
                 const filename = `${msg.id}${ext}`;
@@ -45,14 +53,18 @@ export async function POST() {
                   mediaType: isVideo ? 'video' : 'image',
                   sessionTitle: metadata.title,
                   category: metadata.title.includes('物語') ? 'story' : metadata.title.includes('プロンプト') ? 'prompt' : 'media',
-                  dataUri: msg.inputImage.data
+                  dataUri: msg.inputImage.data,
+                  title: msg.inputImage.title || '',
+                  customComment: msg.inputImage.customComment || '',
+                  folderId: metadata.folderId || null
                 });
               }
 
               // 生成画像
               if (msg.generatedImages && Array.isArray(msg.generatedImages)) {
                 for (const img of msg.generatedImages) {
-                  if (img.publishStatus === 'published') {
+                  const imgStatus = img.publishStatus;
+                  if (imgStatus === 'published' || (isFolderPublished && imgStatus !== 'hidden')) {
                     const isVideo = img.mediaType === 'video' || img.filename.endsWith('.mp4');
                     exportData.push({
                       id: img.id,
@@ -62,7 +74,10 @@ export async function POST() {
                       sessionTitle: metadata.title,
                       category: metadata.title.includes('物語') ? 'story' : metadata.title.includes('プロンプト') ? 'prompt' : 'media',
                       sessionId: entry.name,
-                      isGenerated: true
+                      isGenerated: true,
+                      title: img.title || '',
+                      customComment: img.customComment || '',
+                      folderId: metadata.folderId || null
                     });
                   }
                 }
@@ -105,9 +120,20 @@ export async function POST() {
       delete item.sessionId;
     }
 
+    // フォルダ情報を取得して追加する
+    const foldersDataRaw = await fs.readFile(path.join(process.cwd(), 'data', 'folders.json'), 'utf-8').catch(() => '[]');
+    let foldersDataExport = JSON.parse(foldersDataRaw);
+    foldersDataExport = foldersDataExport.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
+    
+    // image は order が無いので ID順(もしくはセッション更新日順など)
     exportData.sort((a, b) => b.id.localeCompare(a.id));
 
-    const dataJsContent = `const galleryData = ${JSON.stringify(exportData, null, 2)};`;
+    const finalExportData = {
+      folders: foldersDataExport,
+      images: exportData
+    };
+
+    const dataJsContent = `const galleryData = ${JSON.stringify(finalExportData, null, 2)};`;
     await fs.writeFile(path.join(DOCS_DIR, 'data.js'), dataJsContent, 'utf-8');
 
     await generateStaticFiles();
@@ -217,6 +243,21 @@ body {
 }
 .nav-btn:hover { background: rgba(255,255,255,0.2); }
 .nav-btn.active { background: var(--accent-color); }
+.breadcrumb {
+  margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+}
+.folder-card { background: var(--panel-bg); cursor: pointer; transition: transform 0.2s; }
+.folder-cover {
+  width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;
+  font-size: 4rem; background: rgba(0,0,0,0.5);
+}
+.folder-cover img, .folder-cover video {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.folder-info {
+  padding: 12px; text-align: center;
+}
+.folder-info h3 { margin: 0; font-size: 1.1rem; }
 
 .btn {
   background: rgba(255,255,255,0.1); color: #fff; text-decoration: none;
@@ -250,8 +291,15 @@ body {
   overflow: hidden; display: flex; flex-direction: column;
   border: 1px solid rgba(255,255,255,0.05);
 }
-.media-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; cursor: pointer; position: relative; }
-.media-wrapper img, .media-wrapper video { width: 100%; height: 100%; object-fit: contain; }
+.media-wrapper { width: 100%; cursor: pointer; position: relative; overflow: hidden; }
+.media-wrapper img, .media-wrapper video { width: 100%; height: auto; display: block; }
+.image-title-overlay {
+  position: absolute; top: 0; left: 0; width: 100%;
+  background: rgba(0, 0, 0, 0.3); color: #fff;
+  padding: 4px 8px; font-size: 0.75rem; font-weight: normal;
+  text-align: center; z-index: 10; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
 .info { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .prompt-container {
   background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px;
@@ -313,6 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
+    const mainContent = document.querySelector('.main-content');
     
     // トースト通知（ポップアップ）用要素の作成
     let toast = document.createElement('div');
@@ -325,37 +374,111 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    let currentCategory = 'media'; // 初期表示を生成画像・動画に変更
+    let currentCategory = 'media';
+    let currentFolderId = null;
 
     function renderGallery() {
-        grid.innerHTML = '';
-        const filteredData = currentCategory === 'all' 
-            ? galleryData 
-            : galleryData.filter(item => item.category === currentCategory);
+        let displayImages = [];
+        let displayFolders = [];
 
-        if (filteredData.length === 0) {
-            grid.innerHTML = '<div style="color: #888; padding: 24px;">このカテゴリの画像はまだありません。</div>';
-            return;
+        // galleryData.folders と galleryData.images を使用
+        const allImages = galleryData.images || [];
+        const allFolders = galleryData.folders || [];
+
+        // カテゴリによるフィルタリング
+        const categoryImages = currentCategory === 'all' ? allImages : allImages.filter(item => item.category === currentCategory);
+
+        if (currentFolderId === null) {
+            displayImages = categoryImages.filter(img => !img.folderId);
+            displayFolders = allFolders.filter(f => {
+                if (f.isPublished) return true;
+                return categoryImages.some(img => img.folderId === f.id);
+            });
+        } else {
+            displayImages = categoryImages.filter(img => img.folderId === currentFolderId);
         }
 
-        filteredData.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            const mediaHtml = item.mediaType === 'video' 
-                ? \`<video src="assets/\${item.filename}" controls loop playsinline class="media"></video>\`
-                : \`<img src="assets/\${item.filename}" alt="generated image" class="media">\`;
+        let html = '';
+        if (currentFolderId !== null) {
+            const currentFolder = allFolders.find(f => f.id === currentFolderId);
+            html += \`
+                <div class="breadcrumb">
+                    <button class="btn" id="btn-back-root">← トップへ戻る</button>
+                    <span style="font-size:1.2rem;font-weight:bold;">\${currentFolder ? currentFolder.name : ''}</span>
+                </div>
+            \`;
+        }
 
-            card.innerHTML = \`
-                <div class="media-wrapper">\${mediaHtml}</div>
-                <div class="info">
-                    <div class="prompt-container">
-                        <p class="prompt-text prompt-collapsed">\${item.prompt}</p>
-                        <button class="copy-btn hidden">📋 コピー</button>
+        html += '<div class="grid" id="actual-grid">';
+        
+        if (displayImages.length === 0 && displayFolders.length === 0) {
+            html += '<div style="color: #888; padding: 24px;">表示できる画像がありません。</div>';
+        }
+
+        // フォルダの描画
+        displayFolders.forEach(folder => {
+            const coverImg = allImages.find(img => img.id === folder.coverImageId) || allImages.find(img => img.folderId === folder.id);
+            const coverHtml = coverImg 
+                ? (coverImg.mediaType === 'video' ? \`<video src="assets/\${coverImg.filename}" muted autoplay loop playsinline></video>\` : \`<img src="assets/\${coverImg.filename}" alt="\${folder.name}">\`)
+                : '<div style="font-size:4rem;">📁</div>';
+
+            html += \`
+                <div class="folder-card" data-folder-id="\${folder.id}" style="cursor:pointer; border:2px solid #FFC107; background:rgb(114, 117, 11); border-radius:12px; overflow:hidden; position:relative; display:flex; flex-direction:column;">
+                    <div class="folder-cover" style="position:relative; width:100%; display:flex; align-items:center; justify-content:center; flex:1;">
+                        \${coverHtml}
+                        <!-- フォルダ名を透かしで下部に表示 -->
+                        <div style="position:absolute; bottom:0; left:0; width:100%; background:rgba(0,0,0,0.6); color:#fff; padding:8px 12px; font-size:1rem; font-weight:bold; text-align:center; z-index:10; text-shadow:1px 1px 2px rgba(0,0,0,0.8);">
+                            📁 \${folder.name}
+                        </div>
                     </div>
                 </div>
             \`;
+        });
 
+        // 画像の描画
+        displayImages.forEach(item => {
+            const mediaHtml = item.mediaType === 'video' 
+                ? \`<video src="assets/\${item.filename}" controls loop playsinline class="media"></video>\`
+                : \`<img src="assets/\${item.filename}" alt="generated image" class="media">\`;
+            
+            const titleOverlay = item.title ? \`<div class="image-title-overlay">\${item.title}</div>\` : '';
+            
+            html += \`
+                <div class="card" data-id="\${item.id}">
+                    <div class="media-wrapper">\${titleOverlay}\${mediaHtml}</div>
+                    <div class="info">
+                        <div class="prompt-container">
+                            <p class="prompt-text prompt-collapsed">\${item.prompt}</p>
+                            <button class="copy-btn hidden">📋 コピー</button>
+                        </div>
+                    </div>
+                </div>
+            \`;
+        });
+
+        html += '</div>';
+        mainContent.innerHTML = html;
+
+        // イベントリスナーの再設定
+        const backBtn = document.getElementById('btn-back-root');
+        if (backBtn) {
+            backBtn.addEventListener('click', () => {
+                currentFolderId = null;
+                renderGallery();
+            });
+        }
+
+        document.querySelectorAll('.folder-card').forEach(card => {
+            card.addEventListener('click', () => {
+                currentFolderId = card.getAttribute('data-folder-id');
+                renderGallery();
+            });
+        });
+
+        document.querySelectorAll('.card').forEach(card => {
             const mediaWrapper = card.querySelector('.media-wrapper');
+            const mediaHtml = mediaWrapper.innerHTML;
+            
             mediaWrapper.addEventListener('click', () => {
                 modalBody.innerHTML = mediaHtml;
                 modal.classList.remove('hidden');
@@ -376,32 +499,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
             copyBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                navigator.clipboard.writeText(item.prompt).then(() => {
+                navigator.clipboard.writeText(promptText.innerText).then(() => {
                     const originalText = copyBtn.innerText;
                     copyBtn.innerText = '✅ コピーしました！';
                     setTimeout(() => copyBtn.innerText = originalText, 2000);
                 });
             });
-
-            grid.appendChild(card);
         });
     }
 
     categoryItems.forEach(item => {
         item.addEventListener('click', () => {
             const selectedCategory = item.getAttribute('data-category');
-            // すべてのボタン・アイテムのアクティブを外す
             categoryItems.forEach(i => i.classList.remove('active'));
-            // 選択されたカテゴリと同じ data-category を持つものをすべてアクティブにする
             document.querySelectorAll(\`[data-category="\${selectedCategory}"]\`).forEach(i => i.classList.add('active'));
             
-            // スマホなどの幅が狭い画面ではポップアップで説明を表示
             if (window.innerWidth <= 768) {
                 const title = item.getAttribute('title') || item.innerText.split('\\n')[0];
                 showToast(title);
             }
             
             currentCategory = selectedCategory;
+            currentFolderId = null; // カテゴリが変わったらルートに戻す
             renderGallery();
         });
     });

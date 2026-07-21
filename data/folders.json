@@ -3,19 +3,23 @@
     "id": "70ec387f-c027-4c48-a2df-ca7e49f842d6",
     "name": "開発動作確認の猫",
     "createdAt": "2026-07-14T09:55:15.207Z",
-    "isOpen": true
+    "isOpen": true,
+    "isPublished": true
   },
   {
     "id": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
     "name": "二乃",
     "createdAt": "2026-07-14T09:56:56.141Z",
-    "isOpen": true
+    "isOpen": true,
+    "isPublished": true,
+    "coverImageId": "e920fbb7-8785-4ccc-9558-1ab45b6fb8cf"
   },
   {
     "id": "88f00ddf-a629-4bf9-9856-d23b9a302284",
     "name": "瑞原葉月",
     "createdAt": "2026-07-15T00:55:01.125Z",
-    "isOpen": true
+    "isOpen": true,
+    "isPublished": false
   },
   {
     "id": "c7657966-13f4-4b76-8c7b-38aec64fce3a",

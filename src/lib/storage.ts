@@ -25,7 +25,8 @@ async function ensureDir(dirPath: string) {
 export async function getFolders(): Promise<SessionFolder[]> {
   try {
     const data = await fs.readFile(FOLDERS_FILE, 'utf-8');
-    return JSON.parse(data);
+    const folders: SessionFolder[] = JSON.parse(data);
+    return folders.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   } catch {
     return [];
   }
@@ -136,8 +137,13 @@ export async function getSessions(): Promise<Session[]> {
     }
   }
   
-  // 更新日時が新しい順（降順）に並び替えてから返します
-  return sessions.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+  // 並び替え順序（order）が設定されていればそれでソートし、なければ更新日時（降順）でソート
+  return sessions.sort((a, b) => {
+    if (a.order !== undefined && b.order !== undefined) {
+      return a.order - b.order;
+    }
+    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+  });
 }
 
 /**

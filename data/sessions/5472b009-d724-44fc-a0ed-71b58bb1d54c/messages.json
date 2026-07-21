@@ -40,7 +40,7 @@
         "version": 1,
         "parentImageId": null,
         "mediaType": "image",
-        "isFavorite": true
+        "isFavorite": false
       }
     ]
   }

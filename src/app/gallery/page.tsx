@@ -4,11 +4,14 @@ import styles from './page.module.css';
 import Header from '@/components/Header/Header';
 import { GalleryImage } from '@/types';
 import ImageWithActions from '@/components/ImageWithActions/ImageWithActions';
+import Pagination from '@/components/Pagination/Pagination';
 
 export default function GalleryPage() {
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [enlargedImage, setEnlargedImage] = useState<GalleryImage | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 6;
 
   useEffect(() => {
     fetch('/api/gallery')
@@ -48,30 +51,37 @@ export default function GalleryPage() {
             チャット画面で画像の☆マークをクリックしてお気に入りに追加してみましょう！
           </div>
         ) : (
-          <div className={styles.grid}>
-            {images.map((img) => {
-              // @ts-ignore
-              const imageUrl = img.isGenerated !== false ? `/api/images/${img.sessionId}/${img.filename}` : (img.dataUri || '');
-              const uniqueKey = `${img.sessionId}_${img.id}`;
-              return (
-                <div key={uniqueKey} className={styles.imageCard}>
-                  <ImageWithActions
-                    image={img}
-                    sessionId={img.sessionId}
-                    imageUrl={imageUrl}
-                    className={styles.imageWrapper}
-                    // @ts-ignore
-                    isGenerated={img.isGenerated !== false}
-                    onClick={() => setEnlargedImage(img)}
-                  />
-                  <div className={styles.info}>
-                    <p className={styles.prompt}>{img.prompt}</p>
-                    <p className={styles.sessionTitle}>フォルダ: {img.sessionTitle}</p>
+          <>
+            <div className={styles.grid}>
+              {images.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE).map((img) => {
+                // @ts-ignore
+                const imageUrl = img.isGenerated !== false ? `/api/images/${img.sessionId}/${img.filename}` : (img.dataUri || '');
+                const uniqueKey = `${img.sessionId}_${img.id}`;
+                return (
+                  <div key={uniqueKey} className={styles.imageCard}>
+                    <ImageWithActions
+                      image={img}
+                      sessionId={img.sessionId}
+                      imageUrl={imageUrl}
+                      className={styles.imageWrapper}
+                      // @ts-ignore
+                      isGenerated={img.isGenerated !== false}
+                      onClick={() => setEnlargedImage(img)}
+                    />
+                    <div className={styles.info}>
+                      <p className={styles.prompt}>{img.prompt}</p>
+                      <p className={styles.sessionTitle}>フォルダ: {img.sessionTitle}</p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+            <Pagination 
+              currentPage={currentPage} 
+              totalPages={Math.ceil(images.length / ITEMS_PER_PAGE)} 
+              onPageChange={setCurrentPage} 
+            />
+          </>
         )}
       </main>
 
@@ -94,6 +104,7 @@ export default function GalleryPage() {
               className={styles.enlargedImageWrapper}
               // @ts-ignore
               isGenerated={enlargedImage.isGenerated !== false}
+              hideTitle={true}
             />
           </div>
         </div>

@@ -11,6 +11,7 @@ export interface Session {
   updatedAt: string;      // 最終更新日時
   imageCount: number;     // このセッションで生成された画像の数
   folderId?: string | null; // 所属するフォルダのID（フェーズ5）
+  order?: number;         // 並び替え順（値が小さいほど上に表示される）
 }
 
 // フォルダを表す型定義（フェーズ5）
@@ -19,6 +20,9 @@ export interface SessionFolder {
   name: string;
   createdAt: string;
   isOpen: boolean; // サイドバーで展開されているかどうか
+  isPublished?: boolean; // フォルダ自体が編集長室（HP）に公開されているか
+  coverImageId?: string; // フォルダの表紙（代表）として設定された画像のID
+  order?: number;  // フォルダの並び替え順
 }
 
 // 定型文スニペットを表す型定義（フェーズ6）
@@ -38,6 +42,8 @@ export interface GeneratedImage {
   isFavorite?: boolean;   // お気に入りに追加されているかどうか（フェーズ4）
   mediaType?: 'image' | 'video'; // 動画か画像か
   publishStatus?: 'none' | 'published' | 'hidden'; // Pages公開ステータス
+  title?: string;         // 公開用に設定したカスタムタイトル
+  customComment?: string; // 公開用に設定したカスタムコメント
 }
 
 // ギャラリー用に使う拡張画像データ型（どのセッションの画像かわかるようにする）
@@ -76,5 +82,7 @@ export interface Message {
     data: string; // base64形式のデータ
     isFavorite?: boolean;
     publishStatus?: 'none' | 'published' | 'hidden';
+    title?: string;         // 公開用に設定したカスタムタイトル
+    customComment?: string; // 公開用に設定したカスタムコメント
   };
 }
