@@ -39,7 +39,7 @@ export async function GET() {
 
               // アップロード画像（inputImage）のチェック
               const inputStatus = message.inputImage?.publishStatus;
-              if (message.inputImage && (inputStatus === 'published' || (isFolderPublished && inputStatus !== 'hidden'))) {
+              if (message.inputImage && inputStatus === 'published') {
                 managedImages.push({
                   id: message.id, // messageId
                   filename: message.id, // ファイル名として代用
@@ -47,7 +47,7 @@ export async function GET() {
                   version: 1,
                   parentImageId: null,
                   isFavorite: message.inputImage.isFavorite,
-                  publishStatus: inputStatus === 'hidden' ? 'hidden' : (isFolderPublished ? 'published' : inputStatus),
+                  publishStatus: inputStatus,
                   mediaType: message.inputImage.mimeType?.startsWith('video/') ? 'video' : 'image',
                   sessionId: metadata.id,
                   sessionTitle: metadata.title,
@@ -62,6 +62,8 @@ export async function GET() {
                   // @ts-ignore
                   folderId: metadata.folderId || null,
                   // @ts-ignore
+                  sessionOrder: metadata.order ?? Number.MAX_SAFE_INTEGER,
+                  // @ts-ignore
                   title: message.inputImage.title || '',
                   // @ts-ignore
                   customComment: message.inputImage.customComment || ''
@@ -72,10 +74,10 @@ export async function GET() {
               if (message.generatedImages && Array.isArray(message.generatedImages)) {
                 for (const img of message.generatedImages) {
                   const imgStatus = img.publishStatus;
-                  if (imgStatus === 'published' || (isFolderPublished && imgStatus !== 'hidden')) {
+                  if (imgStatus === 'published') {
                     managedImages.push({
                       ...img,
-                      publishStatus: imgStatus === 'hidden' ? 'hidden' : (isFolderPublished ? 'published' : imgStatus),
+                      publishStatus: imgStatus,
                       sessionId: metadata.id,
                       sessionTitle: metadata.title,
                       // @ts-ignore
@@ -83,7 +85,9 @@ export async function GET() {
                       // @ts-ignore
                       messageId: message.id,
                       // @ts-ignore
-                      folderId: metadata.folderId || null
+                      folderId: metadata.folderId || null,
+                      // @ts-ignore
+                      sessionOrder: metadata.order ?? Number.MAX_SAFE_INTEGER
                     });
                   }
                 }
@@ -96,8 +100,17 @@ export async function GET() {
       }
     }
 
-    // 新しい順（またはファイル名・IDの降順）に並べ替え
-    managedImages.sort((a, b) => b.id.localeCompare(a.id));
+    // セッションの並び順（order）を優先し、同じセッション内では古い順（ID昇順）で表示
+    managedImages.sort((a, b) => {
+      // @ts-ignore
+      const orderA = a.sessionOrder;
+      // @ts-ignore
+      const orderB = b.sessionOrder;
+      if (orderA !== orderB) {
+        return orderA - orderB;
+      }
+      return a.id.localeCompare(b.id);
+    });
 
     return NextResponse.json(managedImages);
   } catch (error) {

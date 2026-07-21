@@ -73,8 +73,7 @@ export default function PreviewPage() {
     ])
     .then(([imagesData, foldersData]) => {
       // 公開（published）になっているものだけをフィルタリング
-      // ※フォルダが公開されていれば中身も公開扱いになるロジックは /api/manage 側で処理済み
-      const publishedImages = imagesData.filter((img: ManagedImage) => img.publishStatus === 'published' || (img.publishStatus !== 'hidden' && foldersData.find((f: any) => f.id === img.folderId)?.isPublished));
+      const publishedImages = imagesData.filter((img: ManagedImage) => img.publishStatus === 'published');
       setImages(publishedImages);
       setFolders(foldersData.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0)));
       setIsLoading(false);

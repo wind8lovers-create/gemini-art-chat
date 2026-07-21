@@ -52,7 +52,7 @@ export default function Header({ onLogoClick }: { onLogoClick?: () => void }) {
         
         {/* 右側のボタン部分（ナビゲーション） */}
         <nav className={styles.nav}>
-          <Link href="/gallery" className="btn btn-secondary">
+          <Link href="/" className="btn btn-secondary">
             <span className={styles.navIcon}>🖼️</span>
             <span className={styles.navText}>ギャラリー</span>
           </Link>

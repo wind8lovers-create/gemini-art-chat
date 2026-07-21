@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import styles from '../gallery/page.module.css'; // galleryのCSSを使い回す
+import styles from './page.module.css';
 import Header from '@/components/Header/Header';
 import { GalleryImage, SessionFolder } from '@/types';
 import ImageWithActions from '@/components/ImageWithActions/ImageWithActions';
@@ -145,6 +145,20 @@ export default function UploadsPage() {
                         isGenerated={img.isGenerated}
                         hideFavorite={true}
                         onClick={() => setEnlargedImage(img)}
+                    onTogglePublish={async (newStatus) => {
+                      const res = await fetch('/api/publish', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                          sessionId: img.sessionId, 
+                          imageId: img.id, 
+                          publishStatus: newStatus,
+                          isGenerated: img.isGenerated 
+                        })
+                      });
+                      if (!res.ok) throw new Error('公開状態の更新に失敗しました');
+                      refreshGallery();
+                    }}
                     onToggleFavorite={async (newFavState) => {
                       // 生成画像とアップロード画像でエンドポイントが異なる
                       const endpoint = img.isGenerated 

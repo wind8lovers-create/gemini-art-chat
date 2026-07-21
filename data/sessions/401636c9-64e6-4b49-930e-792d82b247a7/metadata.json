@@ -3,5 +3,6 @@
   "title": "新しいチャット",
   "createdAt": "2026-07-18T05:48:33.698Z",
   "updatedAt": "2026-07-20T11:48:23.424Z",
-  "imageCount": 1
+  "imageCount": 1,
+  "order": 0
 }

@@ -29,7 +29,8 @@
         "prompt": "この画像を水彩画風にしてください",
         "version": 1,
         "parentImageId": null,
-        "isFavorite": false
+        "isFavorite": false,
+        "publishStatus": "none"
       }
     ]
   },
@@ -50,7 +51,8 @@
         "filename": "d22393c1-2e8c-40f6-ae82-39364b05032c.png",
         "prompt": "優しいパステル調にしてください。 ",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "publishStatus": "none"
       }
     ]
   }

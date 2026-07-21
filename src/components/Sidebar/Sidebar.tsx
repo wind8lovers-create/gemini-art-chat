@@ -44,8 +44,19 @@ export default function Sidebar({
       const sessionsData = await sessionsRes.json();
       const foldersData = await foldersRes.json();
       
-      setSessions(sessionsData);
-      setFolders(foldersData);
+      const sortedSessions = sessionsData.sort((a: Session, b: Session) => {
+        const orderA = a.order ?? Number.MAX_SAFE_INTEGER;
+        const orderB = b.order ?? Number.MAX_SAFE_INTEGER;
+        return orderA - orderB;
+      });
+      const sortedFolders = foldersData.sort((a: SessionFolder, b: SessionFolder) => {
+        const orderA = a.order ?? Number.MAX_SAFE_INTEGER;
+        const orderB = b.order ?? Number.MAX_SAFE_INTEGER;
+        return orderA - orderB;
+      });
+
+      setSessions(sortedSessions);
+      setFolders(sortedFolders);
       
       // 初期状態では全てのフォルダを開いておく
       setOpenFolders(new Set(foldersData.map((f: SessionFolder) => f.id)));
@@ -198,8 +209,8 @@ export default function Sidebar({
     setDragOverFolderId(null);
     setDragOverSessionId(null);
 
-    const sessionId = e.dataTransfer.getData('sessionId');
-    const folderId = e.dataTransfer.getData('folderId');
+    const sessionId = e.dataTransfer.getData('sessionId') || draggedSessionId;
+    const folderId = e.dataTransfer.getData('folderId') || draggedFolderId;
 
     if (folderId && targetFolderId && folderId !== targetFolderId && !targetSessionId) {
       // フォルダの並び替え
@@ -223,7 +234,7 @@ export default function Sidebar({
       if (targetSessionId && sessionId !== targetSessionId) {
         // セッションの並び替え
         const sFolderId = targetFolderId || null;
-        let folderSessions = sessions.filter(s => s.folderId === sFolderId);
+        let folderSessions = sessions.filter(s => (s.folderId || null) === sFolderId);
         
         // 移動元と移動先のインデックスを見つける
         const draggedSession = sessions.find(s => s.id === sessionId);
@@ -250,10 +261,17 @@ export default function Sidebar({
           
           // orderを更新
           const updatedItems = folderSessions.map((s, index) => ({ id: s.id, order: index }));
-          setSessions(prev => prev.map(s => {
-            const updated = updatedItems.find(u => u.id === s.id);
-            return updated ? { ...s, order: updated.order, folderId: s.folderId } : s;
-          }));
+          setSessions(prev => {
+            const newSessions = prev.map(s => {
+              const updated = updatedItems.find(u => u.id === s.id);
+              return updated ? { ...s, order: updated.order, folderId: s.folderId } : s;
+            });
+            return newSessions.sort((a, b) => {
+              const orderA = a.order ?? Number.MAX_SAFE_INTEGER;
+              const orderB = b.order ?? Number.MAX_SAFE_INTEGER;
+              return orderA - orderB;
+            });
+          });
 
           await fetch('/api/reorder', {
             method: 'POST',
@@ -265,7 +283,14 @@ export default function Sidebar({
         // セッションをフォルダに入れる
         const currentSession = sessions.find(s => s.id === sessionId);
         if (currentSession && currentSession.folderId !== targetFolderId) {
-          setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, folderId: targetFolderId } : s));
+          setSessions(prev => {
+            const newSessions = prev.map(s => s.id === sessionId ? { ...s, folderId: targetFolderId, order: sessions.length } : s);
+            return newSessions.sort((a, b) => {
+              const orderA = a.order ?? Number.MAX_SAFE_INTEGER;
+              const orderB = b.order ?? Number.MAX_SAFE_INTEGER;
+              return orderA - orderB;
+            });
+          });
           await fetch(`/api/sessions/${sessionId}/move`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

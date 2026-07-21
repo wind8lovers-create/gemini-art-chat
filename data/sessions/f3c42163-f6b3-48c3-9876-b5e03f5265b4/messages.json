@@ -16,7 +16,8 @@
         "filename": "18db4534-04ec-41b9-a652-feb0c9508938.png",
         "prompt": "猫の絵を描いてください",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "publishStatus": "none"
       }
     ]
   },
@@ -37,7 +38,8 @@
         "filename": "803fb459-7152-4d76-97a1-60869821e539.png",
         "prompt": "クレヨンで荒々しく書いた感じにしてください。",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "publishStatus": "none"
       }
     ]
   }

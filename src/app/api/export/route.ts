@@ -41,7 +41,7 @@ export async function POST() {
             for (const msg of messages) {
               // アップロード画像
               const inputStatus = msg.inputImage?.publishStatus;
-              if (msg.inputImage && (inputStatus === 'published' || (isFolderPublished && inputStatus !== 'hidden'))) {
+              if (msg.inputImage && inputStatus === 'published') {
                 const isVideo = msg.inputImage.mimeType?.startsWith('video/');
                 const ext = isVideo ? '.mp4' : '.png';
                 const filename = `${msg.id}${ext}`;
@@ -64,7 +64,7 @@ export async function POST() {
               if (msg.generatedImages && Array.isArray(msg.generatedImages)) {
                 for (const img of msg.generatedImages) {
                   const imgStatus = img.publishStatus;
-                  if (imgStatus === 'published' || (isFolderPublished && imgStatus !== 'hidden')) {
+                  if (imgStatus === 'published') {
                     const isVideo = img.mediaType === 'video' || img.filename.endsWith('.mp4');
                     exportData.push({
                       id: img.id,
