@@ -18,8 +18,9 @@ body {
 .header {
   position: sticky; top: 0; z-index: 100;
   display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 24px;
+  padding: 6px 16px;
 }
+.logo h1 { margin: 0; font-size: 1.4rem; }
 .nav {
   display: flex; gap: 8px; align-items: center;
 }
@@ -125,9 +126,9 @@ body {
   .sidebar.show-mobile { display: block !important; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
-  .logo h1 { font-size: 1.1rem; }
-  .header { padding: 12px 8px; }
-  .nav-btn { padding: 8px 12px; font-size: 1.4rem; } /* スマホでアイコンを押しやすく少し大きく */
+  .logo h1 { font-size: 1.1rem; margin: 0; }
+  .header { padding: 4px 8px; }
+  .nav-btn { padding: 6px 10px; font-size: 1.2rem; } /* スマホでも少しスリムに */
 }
 /* トースト通知（ポップアップ）のスタイル */
 #toast {

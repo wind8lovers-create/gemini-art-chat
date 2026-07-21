@@ -198,13 +198,9 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
                     Gemini Pro Vision<br>
                     Antigravity AI<br>
                     Nano banana<br>
-                    Veo
+                    Veo<br>
+                    <a href="https://github.com/wind8lovers-create/gemini-art-chat" target="_blank" rel="noopener" style="color: #ccc; text-decoration: underline;">GitHub</a>
                 </p>
-                <div style="margin-top: 16px; text-align: center;">
-                    <a href="https://github.com/wind8lovers-create/gemini-art-chat" class="btn" style="display: inline-block; width: 100%; padding: 8px; border-radius: 6px; background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; font-size: 0.9rem;" target="_blank" rel="noopener">
-                        <span style="margin-right: 6px;">📂</span>GitHub リポジトリ
-                    </a>
-                </div>
             </div>
 
             <div class="mascot-container" style="margin-top: auto; padding-top: 24px; text-align: center;">
@@ -252,8 +248,9 @@ body {
 .header {
   position: sticky; top: 0; z-index: 100;
   display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 24px;
+  padding: 6px 16px;
 }
+.logo h1 { margin: 0; font-size: 1.4rem; }
 .nav {
   display: flex; gap: 8px; align-items: center;
 }
@@ -359,9 +356,9 @@ body {
   .sidebar.show-mobile { display: block !important; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
-  .logo h1 { font-size: 1.1rem; }
-  .header { padding: 12px 8px; }
-  .nav-btn { padding: 8px 12px; font-size: 1.4rem; } /* スマホでアイコンを押しやすく少し大きく */
+  .logo h1 { font-size: 1.1rem; margin: 0; }
+  .header { padding: 4px 8px; }
+  .nav-btn { padding: 6px 10px; font-size: 1.2rem; } /* スマホでも少しスリムに */
 }
 /* トースト通知（ポップアップ）のスタイル */
 #toast {
