@@ -1,0 +1,20 @@
+[
+  {
+    "id": "a0bcf92d-2d12-4a97-ac9f-59dc935baddc",
+    "sender": "ai",
+    "text": "\n",
+    "timestamp": "2026-07-21T11:22:07.358Z",
+    "generatedImages": [
+      {
+        "id": "694d22ca-f6f9-4f7b-ac40-efd2125ff887",
+        "filename": "キャラクターを五等分の花嫁のロングヘアーではない方の中野二乃.mp4",
+        "prompt": "\n",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "video",
+        "title": "ニ乃じゃないのをにのにしてみた",
+        "publishStatus": "published"
+      }
+    ]
+  }
+]

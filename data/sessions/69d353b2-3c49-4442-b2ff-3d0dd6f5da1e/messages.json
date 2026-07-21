@@ -1,0 +1,20 @@
+[
+  {
+    "id": "76971970-4066-43eb-8510-840c413b83eb",
+    "sender": "ai",
+    "text": "この動画の続きがみたいです\n",
+    "timestamp": "2026-07-21T11:22:07.118Z",
+    "generatedImages": [
+      {
+        "id": "d6f147b4-a4f6-4364-9c98-a20d0c836cea",
+        "filename": "この動画の続きがみたいです.mp4",
+        "prompt": "この動画の続きがみたいです\n",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "video",
+        "title": "二乃　お待たせドリンク　続き",
+        "publishStatus": "published"
+      }
+    ]
+  }
+]

@@ -17,7 +17,9 @@
         "prompt": "小鳥の絵を書いてください",
         "version": 1,
         "parentImageId": null,
-        "isFavorite": false
+        "isFavorite": false,
+        "publishStatus": "none",
+        "title": "小鳥"
       }
     ]
   }

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "e3aebcee-a9ff-4baf-b156-b1f27e678c86",
+    "sender": "ai",
+    "text": " 開始2秒あたりの瞳のキラリ斗光るエフェクトは無しにしてもらえますか？そして、8秒あたりからのセリフを「もぅ〜しょうがないんだから〜」に変えられますか？\n",
+    "timestamp": "2026-07-21T11:22:07.371Z",
+    "generatedImages": [
+      {
+        "id": "c98d911a-de37-4694-9eb8-ed2e8ca188c8",
+        "filename": "開始_秒あたりの瞳のキラリ斗光るエフェクトは無しにしてもらえ.mp4",
+        "prompt": " 開始2秒あたりの瞳のキラリ斗光るエフェクトは無しにしてもらえますか？そして、8秒あたりからのセリフを「もぅ〜しょうがないんだから〜」に変えられますか？\n",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "video",
+        "title": "ニ乃じゃない.mp4",
+        "publishStatus": "published"
+      }
+    ]
+  }
+]

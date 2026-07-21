@@ -1,0 +1,20 @@
+[
+  {
+    "id": "97666274-c662-4c43-b571-647ce7eb91d9",
+    "sender": "ai",
+    "text": "五等分の花嫁のアニメ２期の中野二乃が投げキッスする動画で、瞳の光るエフェクトは無しにしてください。セリフは「もぅしょうがないんだから〜」でお願いします\n",
+    "timestamp": "2026-07-21T11:22:07.386Z",
+    "generatedImages": [
+      {
+        "id": "099e80c9-59c2-48d6-b9e8-97b1bf425a6b",
+        "filename": "gemini_generated_video_97c16892.mp4",
+        "prompt": "五等分の花嫁のアニメ２期の中野二乃が投げキッスする動画で、瞳の光るエフェクトは無しにしてください。セリフは「もぅしょうがないんだから〜」でお願いします\n",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "video",
+        "title": "ニ乃",
+        "publishStatus": "published"
+      }
+    ]
+  }
+]

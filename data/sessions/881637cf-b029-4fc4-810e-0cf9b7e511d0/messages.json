@@ -30,7 +30,8 @@
         "version": 1,
         "parentImageId": null,
         "isFavorite": false,
-        "publishStatus": "published"
+        "publishStatus": "none",
+        "title": "Nanobananaに書いてもらった"
       }
     ]
   },
@@ -52,7 +53,8 @@
         "prompt": "優しいパステル調にしてください。 ",
         "version": 1,
         "parentImageId": null,
-        "publishStatus": "published"
+        "publishStatus": "none",
+        "title": "パステル調に"
       }
     ]
   }

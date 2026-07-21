@@ -5,39 +5,72 @@
     "createdAt": "2026-07-21T07:17:48.575Z",
     "isOpen": true,
     "order": 0,
-    "isPublished": true,
+    "isPublished": false,
     "coverImageId": "8ecb41e2-b92a-4717-bf09-13add00fadd2"
   },
   {
+    "id": "e13799af-6ac8-42e8-90ae-b946723df896",
+    "name": "二乃（デート）",
+    "createdAt": "2026-07-21T11:36:07.244Z",
+    "isOpen": true,
+    "order": 1,
+    "isPublished": true
+  },
+  {
+    "id": "311f0737-2d6b-4d0d-87c6-ae8742f32690",
+    "name": "二乃（カフェ）",
+    "createdAt": "2026-07-21T11:33:18.694Z",
+    "isOpen": true,
+    "order": 2,
+    "isPublished": true
+  },
+  {
+    "id": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
+    "name": "二乃(高級リゾート)",
+    "createdAt": "2026-07-21T11:28:18.166Z",
+    "isOpen": true,
+    "order": 3,
+    "isPublished": true
+  },
+  {
+    "id": "a048a6ee-89d0-4f43-a5e3-baee90fcc486",
+    "name": "二乃(湯煙温泉)",
+    "createdAt": "2026-07-21T11:30:52.911Z",
+    "isOpen": true,
+    "order": 4,
+    "isPublished": true
+  },
+  {
+    "id": "0504ec68-9e81-469f-a802-75a6da1edae6",
+    "name": "二乃（アニメ調）",
+    "createdAt": "2026-07-21T11:35:16.774Z",
+    "isOpen": true,
+    "order": 5,
+    "isPublished": true
+  },
+  {
     "id": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
-    "name": "二乃",
+    "name": "二乃（画像）",
     "createdAt": "2026-07-14T09:56:56.141Z",
     "isOpen": true,
     "isPublished": true,
     "coverImageId": "1e3f48f9-b0ec-47e2-b065-b31971763643",
-    "order": 1
-  },
-  {
-    "id": "70ec387f-c027-4c48-a2df-ca7e49f842d6",
-    "name": "開発動作確認の猫",
-    "createdAt": "2026-07-14T09:55:15.207Z",
-    "isOpen": true,
-    "isPublished": true,
-    "order": 2
+    "order": 6
   },
   {
     "id": "88f00ddf-a629-4bf9-9856-d23b9a302284",
-    "name": "瑞原葉月",
+    "name": "【スマホサイズ】",
     "createdAt": "2026-07-15T00:55:01.125Z",
     "isOpen": true,
     "isPublished": false,
-    "order": 3
+    "order": 7
   },
   {
-    "id": "c7657966-13f4-4b76-8c7b-38aec64fce3a",
-    "name": "トロビカルピーチ の派生",
-    "createdAt": "2026-07-17T05:41:26.131Z",
+    "id": "70ec387f-c027-4c48-a2df-ca7e49f842d6",
+    "name": "FeelingGallery生成",
+    "createdAt": "2026-07-14T09:55:15.207Z",
     "isOpen": true,
-    "order": 4
+    "isPublished": false,
+    "order": 8
   }
 ]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "c6311384-ae35-48db-866c-6c43624e4b95",
+    "sender": "ai",
+    "text": "5等分の花嫁の中野二乃が、おかゆを作ってきてくれて、介抱してくれる動画をお願いします\n",
+    "timestamp": "2026-07-21T11:22:07.160Z",
+    "generatedImages": [
+      {
+        "id": "2e815640-e562-4cd4-8abc-06edc3f26180",
+        "filename": "gemini_generated_video_ffa9e485.mp4",
+        "prompt": "5等分の花嫁の中野二乃が、おかゆを作ってきてくれて、介抱してくれる動画をお願いします\n",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "video",
+        "title": "二乃　おかゆ",
+        "publishStatus": "published"
+      }
+    ]
+  }
+]

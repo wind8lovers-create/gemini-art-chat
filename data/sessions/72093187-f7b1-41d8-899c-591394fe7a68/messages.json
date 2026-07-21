@@ -1,0 +1,20 @@
+[
+  {
+    "id": "c479a13c-799d-4be5-96f5-a71f9ca7e242",
+    "sender": "ai",
+    "text": "この動画の続きをお願いします\n",
+    "timestamp": "2026-07-21T11:22:07.106Z",
+    "generatedImages": [
+      {
+        "id": "d422988e-5c92-4008-b23f-3fd5e92b9dd6",
+        "filename": "この動画の続きをお願いします.mp4",
+        "prompt": "この動画の続きをお願いします\n",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "video",
+        "title": "二乃　湯けむり温泉　日本酒",
+        "publishStatus": "published"
+      }
+    ]
+  }
+]

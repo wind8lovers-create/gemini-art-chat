@@ -17,7 +17,7 @@
         "prompt": "背景の山々の谷間から見える富士山そして、満月、月明かりの水面美しい湖畔。優しく、清らかでな瀬織津姫様と、それを取り囲むように３つのかぎ爪に球をつかんでいる龍神様。",
         "version": 1,
         "parentImageId": null,
-        "publishStatus": "published",
+        "publishStatus": "none",
         "title": "瀬尾律姫"
       }
     ]
@@ -111,7 +111,8 @@
         "filename": "b3228237-1f73-4edc-9a4e-e47069255329.png",
         "prompt": "かなり解像度が高くなってきましたね。私としては、「厳格でありながらも、ただ静かにそこに優しい光の笑顔を見せ続けてくれる」そんな瀬織津姫様がみられたらうれしいです。纏めてくれたかんじで、瀬織津姫様の描画をよろしくお願いします♪",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "publishStatus": "none"
       }
     ]
   },
@@ -132,7 +133,8 @@
         "filename": "24355581-e660-466d-a3fd-064f25c4eb91.png",
         "prompt": "すごくいい雰囲気になっていますね。ありがとう、少し修正したのですが、瀬織津姫様の笑顔が少し明るすぎる感じがするので、もう少し落ち着いた感じの優しい笑顔、アルカイックスマイルのような感じにできますか？",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "publishStatus": "none"
       }
     ]
   },
@@ -153,7 +155,8 @@
         "filename": "e7704729-c16b-47c8-9d56-7944c15bd861.png",
         "prompt": "ありがとう！！ほんの少し目を開いてもらえると、よりイメージに近い感じがします。",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "publishStatus": "none"
       }
     ]
   },
@@ -174,7 +177,8 @@
         "filename": "2f39b342-b016-4b01-a5e3-895b8564e4e6.png",
         "prompt": "凄くいい感じに仕上がっています。！！！追加で、瀬織津姫様に、お姫様なので、髪飾りとか頭に装飾できますか？小さなアオスジアゲハのかんざしでも良いし。お任せします♪",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "publishStatus": "none"
       }
     ]
   },
@@ -195,7 +199,8 @@
         "filename": "f9ff18c8-d44f-4d0a-b17f-8377cf1ddd7d.png",
         "prompt": "（どんどん良くなりますね！！）※瀬織津姫様の瞳ですがもう少しだけ開いてもらっても良いですか？、まら、手から出ている光ですが、下だけではなくて、斜め上とかいくつかの日明かりがあふれ出ているイメージにしたいです。そして龍神様の３本のかぎ爪には球が握られていて、この球も静かに光っています。",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "publishStatus": "none"
       }
     ]
   },
@@ -216,7 +221,9 @@
         "filename": "fc1cc613-c441-4d90-a7fc-f1d6c4e0374f.png",
         "prompt": "ごめんなさい、龍神様の手の光る球の存在感が大きすぎるので、無くしてもらえますか、それで、完成になりそうです。",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "publishStatus": "none",
+        "title": "宇宙からの瀬織津姫"
       }
     ]
   },
@@ -237,7 +244,8 @@
         "filename": "1586cffc-a88a-440d-9b19-227b7449e604.png",
         "prompt": "あっと言葉足らずでした、手前に見える、龍神様の青い手が３つありますが、この手も消してもらえますか？今度こそ完成ということで。！！",
         "version": 1,
-        "parentImageId": null
+        "parentImageId": null,
+        "publishStatus": "none"
       }
     ]
   },
