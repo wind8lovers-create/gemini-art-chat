@@ -8,7 +8,7 @@
       {
         "id": "5edc4dea-205b-463c-b723-652680b626a7",
         "filename": "前回の続きとして、以下のシチュエーションで動画をお願いします.mp4",
-        "prompt": "前回の続きとして、以下のシチュエーションで動画をお願いします。Anime style video. A cheerful anime girl\nwith pink hair stands at a sunny poolside resort. She smiles brightly and\nextends her hand, offering a colorful tropical cocktail toward the camera.\nPalm trees and sparkling pool water in the background. High quality, smooth\nanimation.\n\n（日本語訳：アニメスタイルの動画。陽の当たるプールサイドのリゾートに立つ、元気なピンクの髪のアニメの女の子。彼女は明るく笑って手を伸ばし、カラフルなトロピカルカクテルをカメラに向かって差し出している。背景にはヤシの木とキラキラ光るプールの水面。高品質、滑らかなアニメーション。）\n",
+        "prompt": "（NanoBanana提案のシチュエーション）\n前回の続きとして、以下のシチュエーションで動画をお願いします。Anime style video. A cheerful anime girl\nwith pink hair stands at a sunny poolside resort. She smiles brightly and\nextends her hand, offering a colorful tropical cocktail toward the camera.\nPalm trees and sparkling pool water in the background. High quality, smooth\nanimation.\n\n（日本語訳：アニメスタイルの動画。陽の当たるプールサイドのリゾートに立つ、元気なピンクの髪のアニメの女の子。彼女は明るく笑って手を伸ばし、カラフルなトロピカルカクテルをカメラに向かって差し出している。背景にはヤシの木とキラキラ光るプールの水面。高品質、滑らかなアニメーション。）\n",
         "version": 1,
         "parentImageId": null,
         "mediaType": "video",

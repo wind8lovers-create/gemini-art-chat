@@ -1,0 +1,21 @@
+[
+  {
+    "id": "dd98bedf-66e9-4462-84f5-ed43947e61df",
+    "sender": "ai",
+    "text": "前のチャットから画像を引き継ぎました。この画像についてどのように修正しますか？",
+    "timestamp": "2026-07-21T13:27:08.339Z",
+    "generatedImages": [
+      {
+        "id": "26068457-1872-4e2d-b387-c7687a35499d",
+        "filename": "a947ebae-1242-4fb1-a973-60c62f79fb68.png",
+        "prompt": "もう少し夕焼けを暗くして、後ろ一面に花火をお願いします。",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "image",
+        "publishStatus": "published",
+        "isFavorite": true,
+        "title": "二乃　高級リゾート　④"
+      }
+    ]
+  }
+]

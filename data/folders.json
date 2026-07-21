@@ -14,7 +14,8 @@
     "createdAt": "2026-07-21T11:36:07.244Z",
     "isOpen": true,
     "order": 1,
-    "isPublished": true
+    "isPublished": true,
+    "coverImageId": "503356e9-dd15-4761-9e56-413b76bc4f00"
   },
   {
     "id": "311f0737-2d6b-4d0d-87c6-ae8742f32690",
@@ -22,7 +23,8 @@
     "createdAt": "2026-07-21T11:33:18.694Z",
     "isOpen": true,
     "order": 2,
-    "isPublished": true
+    "isPublished": true,
+    "coverImageId": "694d22ca-f6f9-4f7b-ac40-efd2125ff887"
   },
   {
     "id": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
@@ -54,7 +56,7 @@
     "createdAt": "2026-07-14T09:56:56.141Z",
     "isOpen": true,
     "isPublished": true,
-    "coverImageId": "1e3f48f9-b0ec-47e2-b065-b31971763643",
+    "coverImageId": "9421f3e1-e4b0-4e55-a06c-2cb55513c7d7",
     "order": 6
   },
   {

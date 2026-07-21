@@ -8,7 +8,7 @@
       {
         "id": "d6f147b4-a4f6-4364-9c98-a20d0c836cea",
         "filename": "この動画の続きがみたいです.mp4",
-        "prompt": "この動画の続きがみたいです\n",
+        "prompt": "（前の動画生成後のコメントで）\nこの動画の続きがみたいです\n",
         "version": 1,
         "parentImageId": null,
         "mediaType": "video",

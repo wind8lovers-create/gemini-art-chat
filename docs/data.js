@@ -15,7 +15,8 @@ const galleryData = {
       "createdAt": "2026-07-21T11:36:07.244Z",
       "isOpen": true,
       "order": 1,
-      "isPublished": true
+      "isPublished": true,
+      "coverImageId": "503356e9-dd15-4761-9e56-413b76bc4f00"
     },
     {
       "id": "311f0737-2d6b-4d0d-87c6-ae8742f32690",
@@ -23,7 +24,8 @@ const galleryData = {
       "createdAt": "2026-07-21T11:33:18.694Z",
       "isOpen": true,
       "order": 2,
-      "isPublished": true
+      "isPublished": true,
+      "coverImageId": "694d22ca-f6f9-4f7b-ac40-efd2125ff887"
     },
     {
       "id": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
@@ -55,7 +57,7 @@ const galleryData = {
       "createdAt": "2026-07-14T09:56:56.141Z",
       "isOpen": true,
       "isPublished": true,
-      "coverImageId": "1e3f48f9-b0ec-47e2-b065-b31971763643",
+      "coverImageId": "9421f3e1-e4b0-4e55-a06c-2cb55513c7d7",
       "order": 6
     },
     {
@@ -90,19 +92,6 @@ const galleryData = {
       "sessionOrder": 0
     },
     {
-      "id": "503356e9-dd15-4761-9e56-413b76bc4f00",
-      "filename": "五等分の花嫁の中野二乃とモダンな喫茶店で大きなメロンソーダの.mp4",
-      "prompt": "五等分の花嫁の中野二乃とモダンな喫茶店で大きなメロンソーダのグラスから出ている2人用のハート型のストロー、目線を合わせたり反らせたり、恥ずかしながら2人で飲んでいる様子を正面からのアングルのみで動画にしてください\n",
-      "mediaType": "video",
-      "sessionTitle": "二乃とメロンソーダ",
-      "category": "media",
-      "isGenerated": true,
-      "title": "二乃とメロンソーダ",
-      "customComment": "",
-      "folderId": "e13799af-6ac8-42e8-90ae-b946723df896",
-      "sessionOrder": 0
-    },
-    {
       "id": "6bb113d2-c388-436f-86b7-0b687647a2a1",
       "filename": "gemini_generated_video_51d8c7e7.mp4",
       "prompt": "南国の高級リゾートホテルのプールサイド。青い海とヤシの木が見える背景、夏らしい開放感のある雰囲気。5等分の花嫁の中野二乃が、光沢のあるエナメル素材のピンクと黒のツートンカラーレオタード風コスチュームを着ている。両手にトロピカルジュースを持って、少しうつむき加減で照れたような優しい笑顔。「お待たせ」っていう雰囲気。柔らかな朝の日差し、アニメ調、高精細、鮮やかな色彩、自然なポーズ。\n",
@@ -118,14 +107,40 @@ const galleryData = {
     {
       "id": "728e4abe-0bd3-40b0-9f43-1ccecc53f738",
       "filename": "月明かりの夜に雪見露天風呂に使っていて、火照って赤くなっていあ.mp4",
-      "prompt": "プロンプト忘れ\n",
+      "prompt": "湯煙り、雪の積もる月夜の露天風呂、五等分の花嫁の火照った中野二乃がピンクと黒のツートンのビキニ着て湯船に遣っている。湯船に浮かぶ日本酒のお猪口を持って「はいっどうぞ♪」と、かわいい仕草で差し出す３Dアニメ動画をお願いします。",
       "mediaType": "video",
       "sessionTitle": "ニ乃　火照っているオリジナル",
       "category": "media",
       "isGenerated": true,
-      "title": "ニ乃　火照っているオリジナル",
+      "title": "ニ乃　火照って湯煙温泉",
       "customComment": "",
       "folderId": "a048a6ee-89d0-4f43-a5e3-baee90fcc486",
+      "sessionOrder": 0
+    },
+    {
+      "id": "9421f3e1-e4b0-4e55-a06c-2cb55513c7d7",
+      "filename": "9421f3e1-e4b0-4e55-a06c-2cb55513c7d7.png",
+      "prompt": "南国の高級リゾートホテルのプールサイド。青い海とヤシの木が見える背景、夏らしい開放感のある雰囲気。5等分の花嫁の中野二乃が、光沢のあるエナメル素材のピンクと黒のツートンカラーレオタード風コスチュームを着ている。両手にトロピカルジュースを持って、少しうつむき加減で照れたような優しい笑顔。「お待たせ」っていう雰囲気。柔らかな朝の日差し、アニメ調、高精細、鮮やかな色彩、自然なポーズ。",
+      "mediaType": "image",
+      "sessionTitle": "5等分の花嫁ニ乃",
+      "category": "media",
+      "isGenerated": true,
+      "title": "二乃　ロング",
+      "customComment": "動画のつもりが、画像になりました。\n",
+      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
+      "sessionOrder": 0
+    },
+    {
+      "id": "a43b7e63-0383-4aa1-9943-a52df6dc9082",
+      "filename": "1784400370234.png",
+      "prompt": "日差しの柔らかい午前、黒のワンピースに緑のラインのフリルの入ったゴシック風なドレスを着ている。五等分の花嫁の中野二乃。小さな日傘とランチボックスを持って噴水のある森林公園を歩いている。「サンドイッチ作ってきたの、そろそろお昼にしましょう」と優しい笑顔で言う。3Dアニメーションでお願いします\n",
+      "mediaType": "image",
+      "sessionTitle": "二乃　ゴシックピクニック　画像",
+      "category": "media",
+      "isGenerated": true,
+      "title": "二乃　ゴシックピクニック　画像",
+      "customComment": "",
+      "folderId": "e13799af-6ac8-42e8-90ae-b946723df896",
       "sessionOrder": 0
     },
     {
@@ -136,20 +151,20 @@ const galleryData = {
       "sessionTitle": "ニ乃",
       "category": "media",
       "isGenerated": true,
-      "title": "ニ乃",
+      "title": "ニ乃　投げキッス",
       "customComment": "",
       "folderId": "0504ec68-9e81-469f-a802-75a6da1edae6",
       "sessionOrder": 1
     },
     {
-      "id": "16f1e88c-e146-4455-8afb-7f8bfa4dc062",
-      "filename": "助手席に乗る「_等分の花嫁」の中野二乃、服は薄紫のワンピース.mp4",
-      "prompt": "助手席に乗る「5等分の花嫁」の中野二乃、服は薄紫のワンピース、胸元に黒リボン(緑ライン入り)。髪型はツインテールのショート、髪にもおそろのリボンをつける。ステーションワゴンで内装広め。箱根っぽい雰囲気の森林コースをゆっくり走る。デート前の明るい空気感で、二乃が助手席、ポテトを口につけながら、運転席のこちらに向かって、「ねぇまだぁ？遊園地♪待ちきれないわっ♪」と、可愛くおねだりする動画をお願いします。\n",
+      "id": "6f9c9e55-7642-4452-9447-5a23ba58d1b9",
+      "filename": "gemini_generated_video_87dcc5a1.mp4",
+      "prompt": "日差しの柔らかい午前、黒のワンピースに緑のラインのフリルの入ったゴシック風なドレスを着ている。五等分の花嫁の中野二乃。小さな日傘とランチボックスを持って噴水のある森林公園を歩いている。「サンドイッチ作ってきたの、そろそろお昼にしましょう」と優しい笑顔で言う。3Dアニメーションの動画でお願いします\n",
       "mediaType": "video",
-      "sessionTitle": "ニ乃　車　遊園地",
+      "sessionTitle": "二乃　ゴシックピクニック",
       "category": "media",
       "isGenerated": true,
-      "title": "ニ乃　車　遊園地",
+      "title": "二乃　ゴシックピクニック",
       "customComment": "",
       "folderId": "e13799af-6ac8-42e8-90ae-b946723df896",
       "sessionOrder": 1
@@ -157,12 +172,12 @@ const galleryData = {
     {
       "id": "a6ca2b70-d549-4d31-8eb1-346546ab3082",
       "filename": "Dアニメ風、_夜の森のオープンカフェ_背景に静かな湖_.mp4",
-      "prompt": " 3Dアニメ風、 夜の森のオープンカフェ(背景に静かな湖)\n\n月明かりが水面に反射。\n\n五等分の花嫁の中野四葉が、光沢のある緑 ×黒ストライプのビキニの上に、シアーな羽織りを肩にかけてなびかせる。\n\nテーブルにはカフェラテとフルーツタルトが置かれて いる。女の子はスプーンでタルトをすくってカメラ(見る人)に 向けて「美味しいよ♪」と微笑んでいる動画\n",
+      "prompt": "（前動画生成後）\n 3Dアニメ風、 夜の森のオープンカフェ(背景に静かな湖)\n\n月明かりが水面に反射。\n\n五等分の花嫁の中野四葉が、光沢のある緑 ×黒ストライプのビキニの上に、シアーな羽織りを肩にかけてなびかせる。\n\nテーブルにはカフェラテとフルーツタルトが置かれて いる。女の子はスプーンでタルトをすくってカメラ(見る人)に 向けて「美味しいよ♪」と微笑んでいる動画\n",
       "mediaType": "video",
       "sessionTitle": "四葉、_夜の森のオープンカフェ_背景に静かな湖_.mp4",
       "category": "media",
       "isGenerated": true,
-      "title": "四葉、_夜の森のオープンカフェ_背景に静かな湖_.mp4",
+      "title": "四葉、_前と今回のセリフ２回分",
       "customComment": "",
       "folderId": "311f0737-2d6b-4d0d-87c6-ae8742f32690",
       "sessionOrder": 1
@@ -170,7 +185,7 @@ const galleryData = {
     {
       "id": "d422988e-5c92-4008-b23f-3fd5e92b9dd6",
       "filename": "この動画の続きをお願いします.mp4",
-      "prompt": "この動画の続きをお願いします\n",
+      "prompt": "（前の動画生成後のコメントで）\nこの動画の続きをお願いします\n",
       "mediaType": "video",
       "sessionTitle": "二乃　湯けむり温泉　日本酒",
       "category": "media",
@@ -183,7 +198,7 @@ const galleryData = {
     {
       "id": "d6f147b4-a4f6-4364-9c98-a20d0c836cea",
       "filename": "この動画の続きがみたいです.mp4",
-      "prompt": "この動画の続きがみたいです\n",
+      "prompt": "（前の動画生成後のコメントで）\nこの動画の続きがみたいです\n",
       "mediaType": "video",
       "sessionTitle": "二乃　お待たせドリンク　続き",
       "category": "media",
@@ -194,22 +209,47 @@ const galleryData = {
       "sessionOrder": 1
     },
     {
-      "id": "53c4b100-23f0-4587-bb38-3969bdaa39dc",
-      "filename": "五等分の花嫁の中野二乃と、遊園地のコーヒーカップに乗っている.mp4",
-      "prompt": "五等分の花嫁の中野二乃と、遊園地のコーヒーカップに乗っている。小さめのベレー帽をかぶり。可愛い茶色ベースの洋服を着ている。\nニ乃を正面にして、遊園地の背景がどんどん横に流れていく。目を見つめて「楽しいね♪」という動画をお願いします。\n",
+      "id": "e920fbb7-8785-4ccc-9558-1ab45b6fb8cf",
+      "filename": "e920fbb7-8785-4ccc-9558-1ab45b6fb8cf.png",
+      "prompt": "南国の高級リゾートホテルのプールサイド。青い海とヤシの木が見える背景、夏らしい開放感のある雰囲気。5等分の花嫁の中野二乃が、光沢のあるエナメル素材のピンクと黒のツートンカラーレオタード風コスチュームを着ている。両手にトロピカルジュースを持って、少しうつむき加減で照れたような優しい笑顔。「お待たせ」っていう雰囲気。柔らかな朝の日差し、３Dアニメ調、高精細、鮮やかな色彩、自然なポーズ。",
+      "mediaType": "image",
+      "sessionTitle": "プライベートビーチの二乃",
+      "category": "media",
+      "title": "二乃　高級リゾート ①",
+      "customComment": "",
+      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
+      "sessionOrder": 1
+    },
+    {
+      "id": "503356e9-dd15-4761-9e56-413b76bc4f00",
+      "filename": "五等分の花嫁の中野二乃とモダンな喫茶店で大きなメロンソーダの.mp4",
+      "prompt": "五等分の花嫁の中野二乃とモダンな喫茶店で大きなメロンソーダのグラスから出ている2人用のハート型のストロー、目線を合わせたり反らせたり、恥ずかしながら2人で飲んでいる様子を正面からのアングルのみで動画にしてください\n",
       "mediaType": "video",
-      "sessionTitle": "五等分の花嫁の中野二乃と、遊園地のコーヒーカップに乗っている.mp4",
+      "sessionTitle": "二乃とメロンソーダ",
       "category": "media",
       "isGenerated": true,
-      "title": "五等分の花嫁の中野二乃と、遊園地のコーヒーカップに乗っている.mp4",
+      "title": "二乃とメロンソーダ",
       "customComment": "",
       "folderId": "e13799af-6ac8-42e8-90ae-b946723df896",
       "sessionOrder": 2
     },
     {
+      "id": "7d598873-fa1b-4479-8c58-98b4dfe19231",
+      "filename": "ed9309a2-e9df-452e-832c-0f32bd7a74ba.png",
+      "prompt": "背景を夕暮れにしてください",
+      "mediaType": "image",
+      "sessionTitle": "→プライベートビーチの二乃",
+      "category": "media",
+      "isGenerated": true,
+      "title": "二乃　高級リゾート　②",
+      "customComment": "",
+      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
+      "sessionOrder": 2
+    },
+    {
       "id": "8ecb41e2-b92a-4717-bf09-13add00fadd2",
       "filename": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してく.mp4",
-      "prompt": "夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してください\n",
+      "prompt": "（前の動画生成後のコメントで）\n夕暮れから夜くらいの明るさ、背景一面を綺麗な花火で演出してください\n",
       "mediaType": "video",
       "sessionTitle": "続続続二乃ビキニ花火",
       "category": "media",
@@ -217,19 +257,6 @@ const galleryData = {
       "title": "続続続二乃ビキニ花火",
       "customComment": "",
       "folderId": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
-      "sessionOrder": 2
-    },
-    {
-      "id": "a947ebae-1242-4fb1-a973-60c62f79fb68",
-      "filename": "a947ebae-1242-4fb1-a973-60c62f79fb68.png",
-      "prompt": "もう少し夕焼けを暗くして、後ろ一面に花火をお願いします。",
-      "mediaType": "image",
-      "sessionTitle": "プライベートビーチの二乃",
-      "category": "media",
-      "isGenerated": true,
-      "title": "",
-      "customComment": "",
-      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
       "sessionOrder": 2
     },
     {
@@ -259,47 +286,22 @@ const galleryData = {
       "sessionOrder": 2
     },
     {
-      "id": "e920fbb7-8785-4ccc-9558-1ab45b6fb8cf",
-      "filename": "e920fbb7-8785-4ccc-9558-1ab45b6fb8cf.png",
-      "prompt": "背景を夕暮れにしてください",
-      "mediaType": "image",
-      "sessionTitle": "プライベートビーチの二乃",
-      "category": "media",
-      "title": "",
-      "customComment": "",
-      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
-      "sessionOrder": 2
-    },
-    {
-      "id": "ed9309a2-e9df-452e-832c-0f32bd7a74ba",
-      "filename": "ed9309a2-e9df-452e-832c-0f32bd7a74ba.png",
-      "prompt": "背景を夕暮れにしてください",
-      "mediaType": "image",
-      "sessionTitle": "プライベートビーチの二乃",
+      "id": "16f1e88c-e146-4455-8afb-7f8bfa4dc062",
+      "filename": "助手席に乗る「_等分の花嫁」の中野二乃、服は薄紫のワンピース.mp4",
+      "prompt": "助手席に乗る「5等分の花嫁」の中野二乃、服は薄紫のワンピース、胸元に黒リボン(緑ライン入り)。髪型はツインテールのショート、髪にもおそろのリボンをつける。ステーションワゴンで内装広め。箱根っぽい雰囲気の森林コースをゆっくり走る。デート前の明るい空気感で、二乃が助手席、ポテトを口につけながら、運転席のこちらに向かって、「ねぇまだぁ？遊園地♪待ちきれないわっ♪」と、可愛くおねだりする動画をお願いします。\n",
+      "mediaType": "video",
+      "sessionTitle": "ニ乃　車　遊園地",
       "category": "media",
       "isGenerated": true,
-      "title": "夕暮れ",
+      "title": "ニ乃　車　遊園地",
       "customComment": "",
-      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
-      "sessionOrder": 2
-    },
-    {
-      "id": "1f9e961c-64b2-48f4-a3a5-504bdea2bc4f",
-      "filename": "1f9e961c-64b2-48f4-a3a5-504bdea2bc4f.png",
-      "prompt": "背景を朝焼けにしてプールではなくハワイの海岸にしてください",
-      "mediaType": "image",
-      "sessionTitle": "背景を夕暮れにしてく... (派生)",
-      "category": "media",
-      "isGenerated": true,
-      "title": "",
-      "customComment": "",
-      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
+      "folderId": "e13799af-6ac8-42e8-90ae-b946723df896",
       "sessionOrder": 3
     },
     {
       "id": "5edc4dea-205b-463c-b723-652680b626a7",
       "filename": "前回の続きとして、以下のシチュエーションで動画をお願いします.mp4",
-      "prompt": "前回の続きとして、以下のシチュエーションで動画をお願いします。Anime style video. A cheerful anime girl\nwith pink hair stands at a sunny poolside resort. She smiles brightly and\nextends her hand, offering a colorful tropical cocktail toward the camera.\nPalm trees and sparkling pool water in the background. High quality, smooth\nanimation.\n\n（日本語訳：アニメスタイルの動画。陽の当たるプールサイドのリゾートに立つ、元気なピンクの髪のアニメの女の子。彼女は明るく笑って手を伸ばし、カラフルなトロピカルカクテルをカメラに向かって差し出している。背景にはヤシの木とキラキラ光るプールの水面。高品質、滑らかなアニメーション。）\n",
+      "prompt": "（NanoBanana提案のシチュエーション）\n前回の続きとして、以下のシチュエーションで動画をお願いします。Anime style video. A cheerful anime girl\nwith pink hair stands at a sunny poolside resort. She smiles brightly and\nextends her hand, offering a colorful tropical cocktail toward the camera.\nPalm trees and sparkling pool water in the background. High quality, smooth\nanimation.\n\n（日本語訳：アニメスタイルの動画。陽の当たるプールサイドのリゾートに立つ、元気なピンクの髪のアニメの女の子。彼女は明るく笑って手を伸ばし、カラフルなトロピカルカクテルをカメラに向かって差し出している。背景にはヤシの木とキラキラ光るプールの水面。高品質、滑らかなアニメーション。）\n",
       "mediaType": "video",
       "sessionTitle": "前回の続き　二乃水着",
       "category": "media",
@@ -312,7 +314,7 @@ const galleryData = {
     {
       "id": "694d22ca-f6f9-4f7b-ac40-efd2125ff887",
       "filename": "キャラクターを五等分の花嫁のロングヘアーではない方の中野二乃.mp4",
-      "prompt": "\n",
+      "prompt": "（前動画生成後）\n詩ちゅえーしょんはおなじで、全部日本語、人物を、五等分の花嫁の中野二乃にしてください。",
       "mediaType": "video",
       "sessionTitle": "ニ乃じゃないのをにのにしてみた",
       "category": "media",
@@ -323,16 +325,16 @@ const galleryData = {
       "sessionOrder": 3
     },
     {
-      "id": "a43b7e63-0383-4aa1-9943-a52df6dc9082",
-      "filename": "1784400370234.png",
-      "prompt": "日差しの柔らかい午前、黒のワンピースに緑のラインのフリルの入ったゴシック風なドレスを着ている。五等分の花嫁の中野二乃。小さな日傘とランチボックスを持って噴水のある森林公園を歩いている。「サンドイッチ作ってきたの、そろそろお昼にしましょう」と優しい笑顔で言う。3Dアニメーションでお願いします\n",
+      "id": "8460d929-13d4-4159-b004-793a518b5a44",
+      "filename": "06fc78df-8d39-47a5-94ee-11a2d01e6c4a.png",
+      "prompt": "両脇に、「青色」の水着を着た「五等分の花嫁」の中野美玖と、「緑色」の水着を着た「五等分の花嫁」の中野四葉をならべてください。",
       "mediaType": "image",
-      "sessionTitle": "二乃　ゴシックピクニック　画像",
+      "sessionTitle": "→→プライベートビーチの二乃",
       "category": "media",
       "isGenerated": true,
-      "title": "二乃　ゴシックピクニック　画像",
+      "title": "二乃　高級リゾート　③",
       "customComment": "",
-      "folderId": "e13799af-6ac8-42e8-90ae-b946723df896",
+      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
       "sessionOrder": 3
     },
     {
@@ -351,7 +353,7 @@ const galleryData = {
     {
       "id": "034e0dca-ab3d-4d73-9c1f-e3409a03405f",
       "filename": "月明かりの夜に雪見露天風呂に浸っていて、火照って赤くなってい.mp4",
-      "prompt": "プロット忘れ\n月明かりの夜に雪見露天風呂に浸っていて、火照って赤くなっている「5等分の花嫁」の両ツインテールのリボンを付けた中野二乃が、薄いピンクのタオルで腰元から胸元までまいていて、日本酒のお猪口を持ち、少し歯に噛みながら照れている様子で、\n「はい、どうぞ♪」と言い、可愛い仕草で首をかしげる 、3Dアニメ風の動画をお願いします。\n",
+      "prompt": "月明かりの夜に雪見露天風呂に浸っていて、火照って赤くなっている「5等分の花嫁」の両ツインテールショートカットのリボンを付けた中野二乃が、薄いピンクのタオルで腰元から胸元までまいていて、日本酒のお猪口を持ち、少し歯に噛みながら照れている様子で、\n「はい、どうぞ♪」と言い、可愛い仕草で首をかしげる 、3Dアニメ風の動画をお願いします。\n",
       "mediaType": "video",
       "sessionTitle": "ニ乃　火照ってる露天風呂",
       "category": "media",
@@ -362,27 +364,27 @@ const galleryData = {
       "sessionOrder": 4
     },
     {
-      "id": "06fc78df-8d39-47a5-94ee-11a2d01e6c4a",
-      "filename": "06fc78df-8d39-47a5-94ee-11a2d01e6c4a.png",
-      "prompt": "両脇に、「青色」の水着を着た「五等分の花嫁」の中野美玖と、「緑色」の水着を着た「五等分の花嫁」の中野四葉をならべてください。",
+      "id": "26068457-1872-4e2d-b387-c7687a35499d",
+      "filename": "a947ebae-1242-4fb1-a973-60c62f79fb68.png",
+      "prompt": "もう少し夕焼けを暗くして、後ろ一面に花火をお願いします。",
       "mediaType": "image",
       "sessionTitle": "→プライベートビーチの二乃",
       "category": "media",
       "isGenerated": true,
-      "title": "",
+      "title": "二乃　高級リゾート　④",
       "customComment": "",
       "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
       "sessionOrder": 4
     },
     {
-      "id": "6f9c9e55-7642-4452-9447-5a23ba58d1b9",
-      "filename": "gemini_generated_video_87dcc5a1.mp4",
-      "prompt": "日差しの柔らかい午前、黒のワンピースに緑のラインのフリルの入ったゴシック風なドレスを着ている。五等分の花嫁の中野二乃。小さな日傘とランチボックスを持って噴水のある森林公園を歩いている。「サンドイッチ作ってきたの、そろそろお昼にしましょう」と優しい笑顔で言う。3Dアニメーションの動画でお願いします\n",
+      "id": "53c4b100-23f0-4587-bb38-3969bdaa39dc",
+      "filename": "五等分の花嫁の中野二乃と、遊園地のコーヒーカップに乗っている.mp4",
+      "prompt": "五等分の花嫁の中野二乃と、遊園地のコーヒーカップに乗っている。小さめのベレー帽をかぶり。可愛い茶色ベースの洋服を着ている。\nニ乃を正面にして、遊園地の背景がどんどん横に流れていく。目を見つめて「楽しいね♪」という動画をお願いします。\n",
       "mediaType": "video",
-      "sessionTitle": "二乃　ゴシックピクニック",
+      "sessionTitle": "五等分の花嫁の中野二乃と、遊園地のコーヒーカップに乗っている.mp4",
       "category": "media",
       "isGenerated": true,
-      "title": "二乃　ゴシックピクニック",
+      "title": "二乃と遊園地のコーヒーカップ",
       "customComment": "",
       "folderId": "e13799af-6ac8-42e8-90ae-b946723df896",
       "sessionOrder": 4
@@ -390,7 +392,7 @@ const galleryData = {
     {
       "id": "addb5382-1660-4a80-ab4b-94c954569823",
       "filename": "前回の動画のから、以下の様なシチュエーションで続きをお願いし.mp4",
-      "prompt": "前回の動画のから、以下の様なシチュエーションで続きをお願いします。\nAnime style video. A cute anime girl with pink hair and butterfly hair\naccessories stands by a beautiful resort pool under a sunny blue sky. She\nis smiling softly, holding a tropical cocktail in her hand, and looking\ntowards the camera as if chatting with a friend. Cinematic lighting, high\nquality, 4k.\n\n（日本語訳：アニメスタイルの動画。晴れ渡った青空のもと、美しいリゾートプールサイドに立つ、ピンクの髪と蝶の髪飾りをつけた可愛いアニメの女の子。彼女は優しく微笑みながら、手にトロピカルカクテルを持ち、まるで友達とおしゃべりしているかのようにカメラの方を見つめている。映画のようなライティング、高品質、4k。）\n",
+      "prompt": "(NanoBanana提案のシチュエーション)\n前回の動画のから、以下の様なシチュエーションで続きをお願いします。\nAnime style video. A cute anime girl with pink hair and butterfly hair\naccessories stands by a beautiful resort pool under a sunny blue sky. She\nis smiling softly, holding a tropical cocktail in her hand, and looking\ntowards the camera as if chatting with a friend. Cinematic lighting, high\nquality, 4k.\n\n（日本語訳：アニメスタイルの動画。晴れ渡った青空のもと、美しいリゾートプールサイドに立つ、ピンクの髪と蝶の髪飾りをつけた可愛いアニメの女の子。彼女は優しく微笑みながら、手にトロピカルカクテルを持ち、まるで友達とおしゃべりしているかのようにカメラの方を見つめている。映画のようなライティング、高品質、4k。）\n",
       "mediaType": "video",
       "sessionTitle": "続前回の続き二乃水着",
       "category": "media",
@@ -401,9 +403,22 @@ const galleryData = {
       "sessionOrder": 4
     },
     {
+      "id": "1f9e961c-64b2-48f4-a3a5-504bdea2bc4f",
+      "filename": "1f9e961c-64b2-48f4-a3a5-504bdea2bc4f.png",
+      "prompt": "背景を朝焼けにしてプールではなくハワイの海岸にしてください",
+      "mediaType": "image",
+      "sessionTitle": "背景を夕暮れにしてく... (派生)",
+      "category": "media",
+      "isGenerated": true,
+      "title": "二乃　高級リゾート　⑤",
+      "customComment": "",
+      "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
+      "sessionOrder": 5
+    },
+    {
       "id": "54f0a056-1b04-4ab4-a705-2486b940981f",
       "filename": "gemini_generated_video_58bca3c5.mp4",
-      "prompt": "3 D\nアニメ風、真横にいる「五等分の花嫁」の中野二乃、20才の少し大人っぽい雰囲気。両ツインテール、ショートカット。薄紫とピンクと黒の柄のビキニ。花火が打ち上がる。音が響き渡る中。花火の光に照らされて、祭りの屋台の中をゆっくり歩いて行く。画角は胸元から上がメインになり、真横を歩く、少し顔を赤らめたの二乃が、ゆっかりこちらを向いて、「ねっ、少し、ほてっちゃった、かき氷食べよっか」という動画をお願いします。\n",
+      "prompt": "3 Dアニメ風、真横にいる「五等分の花嫁」の中野二乃、20才の少し大人っぽい雰囲気。両ツインテール、ショートカット。薄紫とピンクと黒の柄のビキニ。花火が打ち上がる。音が響き渡る中。花火の光に照らされて、祭りの屋台の中をゆっくり歩いて行く。画角は胸元から上がメインになり、真横を歩く、少し顔を赤らめたの二乃が、ゆっかりこちらを向いて、「ねっ、少し、ほてっちゃった、かき氷食べよっか」という動画をお願いします。\n",
       "mediaType": "video",
       "sessionTitle": "ニ乃　かき氷たべよっか",
       "category": "media",
@@ -416,7 +431,7 @@ const galleryData = {
     {
       "id": "d9748d9b-055f-4834-bf7f-d9d545a6530d",
       "filename": "前回の動画に、以下シチュエーション、セリフをすべて日本語でお.mp4",
-      "prompt": "前回の動画に、以下シチュエーション、セリフをすべて日本語でお願いします。\n\nAnime style video. A beautiful anime girl with pink hair is sitting on a\nlounge chair by a luxury resort pool. She is holding a tropical drink,\nlooking at the camera with a gentle smile, enjoying the summer breeze.\nSunny day, cinematic, high resolution.\n\n（日本語訳：アニメスタイルの動画。豪華なリゾートプールサイドのラウンジチェアに座っている、ピンクの髪の美しいアニメの女の子。彼女はトロピカルドリンクを持ち、優しい笑顔でカメラを見つめ、夏の風を楽しんでいる。晴れた日、映画風、高解像度。）\n",
+      "prompt": "（NanoBanana提案のシチュエーション）\n前回の動画に、以下シチュエーション、セリフをすべて日本語でお願いします。\n\nAnime style video. A beautiful anime girl with pink hair is sitting on a\nlounge chair by a luxury resort pool. She is holding a tropical drink,\nlooking at the camera with a gentle smile, enjoying the summer breeze.\nSunny day, cinematic, high resolution.\n\n（日本語訳：アニメスタイルの動画。豪華なリゾートプールサイドのラウンジチェアに座っている、ピンクの髪の美しいアニメの女の子。彼女はトロピカルドリンクを持ち、優しい笑顔でカメラを見つめ、夏の風を楽しんでいる。晴れた日、映画風、高解像度。）\n",
       "mediaType": "video",
       "sessionTitle": "続続二乃水着プール",
       "category": "media",
@@ -429,7 +444,7 @@ const galleryData = {
     {
       "id": "4e8cb08b-dcad-46a9-9d03-4a34b3cf74b2",
       "filename": "D_アニメ風、真横にいる「五等分の花嫁」の中野二乃、高校.mp4",
-      "prompt": "3 D\nアニメ風、真横にいる「五等分の花嫁」の中野二乃、高校卒業の年。両ツインテール、ショートカット。薄紫とピンクと黒の柄のビキニ。花火が打ち上がる。音が響き渡る中。花火の光に照らされて、祭りの屋台の中をゆっくり歩いて行く。画角は胸元から上がメインになり、真横を歩く、少し火照った顔の二乃が、ゆっかりこちらを向いて、「ねっ、少し火照っちゃった、かき氷食べよっか」という動画をお願いします。\n",
+      "prompt": "3 Dアニメ風、真横にいる「五等分の花嫁」の中野二乃、高校卒業の年。両ツインテール、ショートカット。薄紫とピンクと黒の柄のビキニ。花火が打ち上がる。音が響き渡る中。花火の光に照らされて、祭りの屋台の中をゆっくり歩いて行く。画角は胸元から上がメインになり、真横を歩く、少し火照った顔の二乃が、ゆっかりこちらを向いて、「ねっ、少し火照っちゃった、かき氷食べよっか」という動画をお願いします。\n",
       "mediaType": "video",
       "sessionTitle": "ニ乃　花火　屋台　かき氷",
       "category": "media",
@@ -442,7 +457,7 @@ const galleryData = {
     {
       "id": "6852f563-680e-493c-bc93-3c295c214187",
       "filename": "d_アニメ風、「五等分の花嫁」の_姉妹が、河原でバーベキ.mp4",
-      "prompt": "3 d\nアニメ風、「五等分の花嫁」の5姉妹が、河原でバーベキューをしている。それぞれにイメージのカラーのビキニを着て、みんなで集まって調理をしている。そのなかの中野二乃はショートカットで両テールツインにリボン。ニ乃が、焼肉串に刺さった焼き鳥を持って、笑顔で「できたよっ一緒に食べよっ」と近寄ってくる\n。動画をお願いします\n",
+      "prompt": "3 dアニメ風、「五等分の花嫁」の5姉妹が、河原でバーベキューをしている。それぞれにイメージのカラーのビキニを着て、みんなで集まって調理をしている。そのなかの中野二乃はショートカットで両テールツインにリボン。ニ乃が、焼肉串に刺さった焼き鳥を持って、笑顔で「できたよっ一緒に食べよっ」と近寄ってくる\n。動画をお願いします\n",
       "mediaType": "video",
       "sessionTitle": "ニ乃　バーベキュー",
       "category": "media",

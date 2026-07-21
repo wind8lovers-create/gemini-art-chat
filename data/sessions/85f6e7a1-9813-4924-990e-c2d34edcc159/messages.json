@@ -12,7 +12,8 @@
         "version": 1,
         "parentImageId": null,
         "isFavorite": false,
-        "publishStatus": "hidden"
+        "publishStatus": "published",
+        "title": "二乃　高級リゾート　③"
       }
     ]
   }
