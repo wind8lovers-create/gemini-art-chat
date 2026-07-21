@@ -187,7 +187,6 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
     <div class="layout">
         <!-- サイドバー -->
         <aside class="sidebar glass-panel">
-            <h2 class="sidebar-title">📑 index</h2>
             <ul class="category-list">
                 <li class="category-item active" data-category="media">生成画像・動画<br><small>(AI Generated Media)</small></li>
                 <li class="category-item" data-category="prompt">プロンプトメモ<br><small>(Prompt Memo)</small></li>
