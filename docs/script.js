@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         videoModeBtn.addEventListener('click', () => {
             isVideoAutoplay = !isVideoAutoplay;
             // ボタンのテキストを変更
-            videoModeBtn.innerText = isVideoAutoplay ? 'サムネ:再生(音無)' : 'サムネ:停止(音有)';
+            videoModeBtn.innerText = isVideoAutoplay ? 'サムネ:停止(音無)' : 'サムネ:再生(音有)';
             showToast(isVideoAutoplay ? '自動再生（無音）モードにしました' : '停止（音声あり）モードにしました');
             
             // ギャラリーを再描画して動画要素を作り直す
@@ -111,9 +111,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // フォルダの描画
         displayFolders.forEach(folder => {
             const coverImg = allImages.find(img => img.id === folder.coverImageId) || allImages.find(img => img.folderId === folder.id);
-            const coverHtml = coverImg 
-                ? (coverImg.mediaType === 'video' ? `<video src="assets/${coverImg.filename}" muted autoplay loop playsinline></video>` : `<img src="assets/${coverImg.filename}" alt="${folder.name}">`)
-                : '<div style="font-size:4rem;">📁</div>';
+            let coverHtml = '<div style="font-size:4rem;">📁</div>';
+            if (coverImg) {
+                if (coverImg.mediaType === 'video') {
+                    coverHtml = '<video src="assets/' + coverImg.filename + '" muted autoplay loop playsinline></video>';
+                } else {
+                    coverHtml = '<img src="assets/' + coverImg.filename + '" alt="' + folder.name + '">';
+                }
+            }
 
             html += `
                 <div class="folder-card" data-folder-id="${folder.id}" style="cursor:pointer; border:2px solid #FFC107; background:rgb(114, 117, 11); border-radius:12px; overflow:hidden; position:relative; display:flex; flex-direction:column;">
