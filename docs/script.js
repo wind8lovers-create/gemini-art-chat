@@ -15,8 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // 画面のどこかをクリックしたらサイドバーを閉じる
         document.addEventListener('click', (e) => {
             if (window.innerWidth <= 768 && sidebar.classList.contains('show-mobile')) {
-                // サイドバー自身をクリックした場合は閉じない（リンクを機能させるため）
-                if (!sidebar.contains(e.target)) {
+                // 上部のアイコン、文字列のリンク、ロゴ以外をクリックした場合に閉じる
+                const isNavBtn = e.target.closest('.nav-btn');
+                const isCategoryItem = e.target.closest('.category-item');
+                const isLogo = e.target.closest('.logo');
+                const isLink = e.target.closest('a');
+                
+                if (!isNavBtn && !isCategoryItem && !isLogo && !isLink) {
                     sidebar.classList.remove('show-mobile');
                 }
             }
@@ -52,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         videoModeBtn.addEventListener('click', () => {
             isVideoAutoplay = !isVideoAutoplay;
             // ボタンのテキストを変更
-            videoModeBtn.innerText = isVideoAutoplay ? 'サムネ: 自動再生(無音)' : 'サムネ: 停止(音声有)';
+            videoModeBtn.innerText = isVideoAutoplay ? 'サムネ自動再生(無音)' : 'サムネ停止(音声有)';
             showToast(isVideoAutoplay ? '自動再生（無音）モードにしました' : '停止（音声あり）モードにしました');
             
             // ギャラリーを再描画して動画要素を作り直す
@@ -61,6 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderGallery() {
+        if (currentCategory === 'prompt') {
+            mainContent.innerHTML = '<div style="padding: 80px 24px; font-size: 1.5rem; color: #888; text-align: center; font-weight: bold;">プロンプトめも</div>';
+            return;
+        }
+
         let displayImages = [];
         let displayFolders = [];
 
