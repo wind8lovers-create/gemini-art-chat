@@ -156,3 +156,18 @@ body {
   transition: background 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 .dl-btn:hover { background: #26de81; }
+.popular-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: linear-gradient(135deg, var(--accent-color), #8a2be2);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    pointer-events: none;
+    letter-spacing: 1px;
+}

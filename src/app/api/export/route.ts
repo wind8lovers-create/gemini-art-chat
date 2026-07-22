@@ -427,7 +427,7 @@ body {
 /* 人気バッジのスタイル */
 .popular-badge {
   position: absolute; top: 12px; right: 12px;
-  background: linear-gradient(45deg, #ff4757, #ff6b81);
+  background: linear-gradient(135deg, var(--accent-color), #8a2be2);
   color: white; padding: 4px 10px;
   border-radius: 12px; font-size: 0.85rem; font-weight: bold;
   box-shadow: 0 4px 8px rgba(0,0,0,0.4); z-index: 20;
