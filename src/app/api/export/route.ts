@@ -191,24 +191,21 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
                 <li class="category-item" data-category="prompt">プロンプトメモ<br><small>(Prompt Memo)</small></li>
             </ul>
 
-            <div class="sidebar-footer" style="text-align: center;">
-                <p><strong>&lt;制作環境&gt;</strong></p>
-                <p style="font-size: 0.85rem; line-height: 1.6;">
-                    Next.js v${nextVersion} / React v${reactVersion}<br>
-                    Gemini Pro Vision<br>
-                    Antigravity AI<br>
-                    <a href="https://github.com/wind8lovers-create/gemini-art-chat" target="_blank" rel="noopener" style="color: #ccc; text-decoration: underline;">GitHub</a>
-                </p>
+            <div class="sidebar-footer" style="text-align: center; font-size: 0.75rem; line-height: 1.4;">
+                <p style="margin: 0;"><strong>&lt;制作環境&gt;</strong><br>
+                Next.js v${nextVersion} / React v${reactVersion}<br>
+                Gemini Pro Vision<br>
+                Antigravity AI<br>
+                <a href="https://github.com/wind8lovers-create/gemini-art-chat" target="_blank" rel="noopener" style="color: #ccc; text-decoration: underline;">GitHub</a>
+                <br><br>
+                <strong>&lt;画像動画生成AI&gt;</strong><br>
+                -Gemini 3.1 Pro-<br>
+                Nano Banana Pro<br>
+                Nano Banana 2<br>
+                Veo 3.1<br>
                 <br>
-                <p><strong>&lt;画像動画生成AI&gt;</strong></p>
-                <p style="font-size: 0.85rem; line-height: 1.6;">
-                    -Gemini 3.1 Pro-<br>
-                    Nano Banana Pro<br>
-                    Nano Banana 2<br>
-                    Veo 3.1<br>
-                    <br>
-                    Hazuki-kiz-<br>
-                    <img src="assets/a104e18c-528e-4d68-9f9c-a17c481c064d.png" alt="Hazuki" style="width: 100%; max-width: 140px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 8px;" />
+                -Hazuki-kiz-<br>
+                <img src="assets/a104e18c-528e-4d68-9f9c-a17c481c064d.png" alt="Hazuki" style="width: 100%; max-width: 120px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 4px;" />
                 </p>
             </div>
         </aside>
