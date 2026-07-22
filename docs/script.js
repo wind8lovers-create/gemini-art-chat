@@ -165,21 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         setTimeout(() => originalVideo.pause(), 10);
                     }
                 }
-                let dlBtnHtml = '';
-                let src = '';
-                try {
-                    if (isVideo) {
-                        const videoEl = mediaWrapper.querySelector('video');
-                        const sourceEl = mediaWrapper.querySelector('video source');
-                        src = sourceEl ? sourceEl.src : (videoEl ? videoEl.src : '');
-                    } else {
-                        src = mediaWrapper.querySelector('img').src;
-                    }
-                } catch(e) { console.error(e); }
+                const src = 'assets/' + item.filename;
                 const btnText = isVideo ? '⬇ 動画をダウンロード' : '⬇ 画像をダウンロード';
-                if (src) {
-                    dlBtnHtml = '<a href="' + src + '" download class="dl-btn" data-id="' + itemId + '">' + btnText + '</a>';
-                }
+                const dlBtnHtml = '<a href="' + src + '" download class="dl-btn" data-id="' + item.id + '">' + btnText + '</a>';
+                
                 modalBody.innerHTML = mediaHtml + dlBtnHtml;
                 modal.classList.remove('hidden');
 
