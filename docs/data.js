@@ -501,7 +501,7 @@ const galleryData = {
       "sessionTitle": "アクスタ二乃が。。",
       "category": "media",
       "isGenerated": true,
-      "title": "アクスタ二乃が、、どなたですか？",
+      "title": "二乃が、、声は美玖。。見た目みくるさん？",
       "customComment": "",
       "folderId": "0504ec68-9e81-469f-a802-75a6da1edae6",
       "sessionOrder": 9007199254740991
