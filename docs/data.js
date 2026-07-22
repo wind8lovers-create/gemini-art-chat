@@ -306,7 +306,7 @@ const galleryData = {
       "sessionTitle": "前回の続き　二乃水着",
       "category": "media",
       "isGenerated": true,
-      "title": "前回の続き　二乃水着",
+      "title": "前回の続き　かろうじて二乃",
       "customComment": "",
       "folderId": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
       "sessionOrder": 3
@@ -397,7 +397,7 @@ const galleryData = {
       "sessionTitle": "続前回の続き二乃水着",
       "category": "media",
       "isGenerated": true,
-      "title": "続前回の続き二乃水着",
+      "title": "二乃のつもりが上伊那ぼたんに(;'∀')",
       "customComment": "",
       "folderId": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
       "sessionOrder": 4
@@ -436,7 +436,7 @@ const galleryData = {
       "sessionTitle": "続続二乃水着プール",
       "category": "media",
       "isGenerated": true,
-      "title": "続続二乃水着プール",
+      "title": "もはや二乃ではないかも",
       "customComment": "",
       "folderId": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
       "sessionOrder": 5
