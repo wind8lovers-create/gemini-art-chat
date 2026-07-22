@@ -176,11 +176,15 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
         <div class="logo" style="display: flex; align-items: center; gap: 12px;">
             <h1>🤖 Feeling Gallery</h1>
         </div>
-        <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
-        <nav class="nav">
-            <button class="nav-btn active" data-category="media" title="生成画像・動画">🖼️</button>
-            <button class="nav-btn" data-category="prompt" title="プロンプトメモ">💡</button>
-        </nav>
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <!-- サムネ動画再生モード切り替えボタン -->
+            <button id="video-mode-toggle" class="nav-btn" style="font-size: 0.85rem; padding: 6px 10px;" title="動画の再生モードを切り替えます">サムネ: 自動再生(無音)</button>
+            <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
+            <nav class="nav">
+                <button class="nav-btn active" data-category="media" title="生成画像・動画">🖼️</button>
+                <button class="nav-btn" data-category="prompt" title="プロンプトメモ">💡</button>
+            </nav>
+        </div>
     </header>
 
     <div class="layout">
@@ -476,6 +480,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentCategory = 'media';
     let currentFolderId = null;
+    // 動画の再生モード（初期値は自動再生・無音）
+    let isVideoAutoplay = true;
+
+    // サムネ動画モード切り替えのイベント設定
+    const videoModeBtn = document.getElementById('video-mode-toggle');
+    if (videoModeBtn) {
+        videoModeBtn.addEventListener('click', () => {
+            isVideoAutoplay = !isVideoAutoplay;
+            // ボタンのテキストを変更
+            videoModeBtn.innerText = isVideoAutoplay ? 'サムネ: 自動再生(無音)' : 'サムネ: 停止(音声有)';
+            showToast(isVideoAutoplay ? '自動再生（無音）モードにしました' : '停止（音声あり）モードにしました');
+            
+            // ギャラリーを再描画して動画要素を作り直す
+            renderGallery();
+        });
+    }
 
     function renderGallery() {
         let displayImages = [];
@@ -537,9 +557,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 画像の描画
         displayImages.forEach(item => {
-            const mediaHtml = item.mediaType === 'video' 
-                ? \`<video src="assets/\${item.filename}" controls loop playsinline class="media"></video>\`
-                : \`<img src="assets/\${item.filename}" alt="generated image" class="media">\`;
+            // モードに応じて動画タグの中身を変更
+            let mediaHtml = '';
+            if (item.mediaType === 'video') {
+                if (isVideoAutoplay) {
+                    // 自動再生（無音・ループ）※コントロールバーなし
+                    mediaHtml = \`<video src="assets/\${item.filename}" autoplay muted loop playsinline class="media"></video>\`;
+                } else {
+                    // 停止状態（音声あり・コントロールバーあり）
+                    mediaHtml = \`<video src="assets/\${item.filename}" controls playsinline class="media"></video>\`;
+                }
+            } else {
+                mediaHtml = \`<img src="assets/\${item.filename}" alt="generated image" class="media">\`;
+            }
             
             const titleOverlay = item.title ? \`<div class="image-title-overlay">\${item.title}</div>\` : '';
             
@@ -638,6 +668,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (isVideo) {
                     const modalVideo = modalBody.querySelector('video');
                     if (modalVideo) {
+                        // モーダル側では常に音声をONにし、コントロールを表示する
+                        modalVideo.muted = false;
+                        modalVideo.controls = true;
                         modalVideo.play().catch(err => console.error("動画の自動再生に失敗しました:", err));
                     }
                 }
