@@ -173,8 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 modalBody.innerHTML = mediaHtml;
                 modal.classList.remove('hidden');
-
-
             });
 
             const promptContainer = card.querySelector('.prompt-container');
