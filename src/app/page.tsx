@@ -13,10 +13,10 @@ import ImageWithActions from '@/components/ImageWithActions/ImageWithActions';
 export default function Home() {
   // 「今どの会話部屋（セッション）を開いているか」を記憶する箱
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
-  
+
   // 「いま拡大表示している画像」を記憶する箱
-  const [enlargedImage, setEnlargedImage] = useState<{img: GeneratedImage, url: string, sessionId: string} | null>(null);
-  
+  const [enlargedImage, setEnlargedImage] = useState<{ img: GeneratedImage, url: string, sessionId: string } | null>(null);
+
   // サイドバーの表示・非表示を記憶する箱（デフォルトはPC向けに開いておく）
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
@@ -34,40 +34,40 @@ export default function Home() {
   return (
     <>
       <Header onLogoClick={() => setIsSidebarVisible(true)} />
-      
+
       <div className={styles.mainLayout}>
         {/* サイドバーには「今の部屋のID」と「部屋を切り替える機能」などを渡します */}
-        <Sidebar 
-          currentSessionId={currentSessionId} 
-          onSelectSession={setCurrentSessionId} 
+        <Sidebar
+          currentSessionId={currentSessionId}
+          onSelectSession={setCurrentSessionId}
           isVisible={isSidebarVisible}
           onClose={() => setIsSidebarVisible(false)}
         />
-        
+
         <main className={styles.centerArea}>
           {/* チャット画面コンテナ */}
           <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
             {/* チャット画面には「メッセージ一覧」と「今の部屋のID（画像表示用）」を渡します */}
-            <ChatWindow 
-              messages={messages} 
-              currentSessionId={currentSessionId} 
-              onImageClick={(img, url, sid) => setEnlargedImage({img, url, sessionId: sid})}
+            <ChatWindow
+              messages={messages}
+              currentSessionId={currentSessionId}
+              onImageClick={(img, url, sid) => setEnlargedImage({ img, url, sessionId: sid })}
               onFork={(id) => { setCurrentSessionId(id); setEnlargedImage(null); }}
             />
-            
+
             {/* ローディング中の可愛いアニメーション */}
             {isLoading && (
               <div className={styles.loadingOverlay}>
                 <img src="/loading_girl.png" alt="画像生成中..." className={styles.loadingImage} />
-                <p className={styles.loadingText}>画像を生成中だよ！</p>
+                <p className={styles.loadingText}>もう少しまってねっ！</p>
               </div>
             )}
           </div>
-          
+
           {/* 入力欄には「送信する機能」と「AIが考え中かどうかの状態」を渡します */}
           <ChatInput onSendMessage={sendMessage} isLoading={isLoading} />
         </main>
-        
+
       </div>
 
       {/* 拡大画像を表示する黒い背景（モーダル） */}
@@ -75,7 +75,7 @@ export default function Home() {
         <div className={styles.modalOverlay} onClick={() => setEnlargedImage(null)}>
           <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
             <button className={styles.closeBtn} onClick={() => setEnlargedImage(null)}>✕</button>
-            <ImageWithActions 
+            <ImageWithActions
               image={enlargedImage.img}
               sessionId={enlargedImage.sessionId}
               imageUrl={enlargedImage.url}

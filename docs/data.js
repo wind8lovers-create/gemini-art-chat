@@ -492,6 +492,19 @@ const galleryData = {
       "customComment": "",
       "folderId": "0504ec68-9e81-469f-a802-75a6da1edae6",
       "sessionOrder": 10
+    },
+    {
+      "id": "65c79007-10e3-4d44-84e2-b96c9cda0de1",
+      "filename": "元画像、PCの左のアクリルスタンドの女性の顔立ち、髪型、優し.mp4",
+      "prompt": "元画像、PCの左のアクリルスタンドの女性の顔立ち、髪型、優しい微笑み、服装、大きさもキープ。目をパチクリさせて動き始め、「いい趣味しているけど、私ばかりを見つめちゃダメよっ」と、たしなめるように言う動画。3Dアニメ風、セルシェーディング\n非フォトリアル、４Kでお願いします。\n",
+      "mediaType": "video",
+      "sessionTitle": "アクスタ二乃が。。",
+      "category": "media",
+      "isGenerated": true,
+      "title": "アクスタ二乃が、、どなたですか？",
+      "customComment": "",
+      "folderId": "0504ec68-9e81-469f-a802-75a6da1edae6",
+      "sessionOrder": 9007199254740991
     }
   ]
 };
