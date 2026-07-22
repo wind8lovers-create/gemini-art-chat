@@ -425,9 +425,9 @@ body {
 
 @media (max-width: 768px) {
   .layout { flex-direction: column; }
-  /* スマホではデフォルトでサイドバーを表示するが、フォルダ内では隠す */
-  .sidebar { width: 100%; margin-bottom: 16px; box-sizing: border-box; }
-  .layout.in-folder .sidebar { display: none !important; }
+  /* スマホではデフォルトで左のサイドバーを隠すが、クラス付与で表示 */
+  .sidebar { display: none !important; width: 100%; margin-bottom: 16px; box-sizing: border-box; }
+  .sidebar.show-mobile { display: block !important; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
   .logo h1 { font-size: 1.1rem; margin: 0; }
@@ -470,9 +470,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.querySelector('.sidebar');
     if (logo && sidebar) {
         logo.style.cursor = 'pointer';
-        logo.addEventListener('click', () => {
+        logo.addEventListener('click', (e) => {
             if (window.innerWidth <= 768) {
                 sidebar.classList.toggle('show-mobile');
+                e.stopPropagation(); // 外側クリック判定がすぐ発火しないように伝播を止める
+            }
+        });
+
+        // 画面のどこかをクリックしたらサイドバーを閉じる
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('show-mobile')) {
+                // サイドバー自身をクリックした場合は閉じない（リンクを機能させるため）
+                if (!sidebar.contains(e.target)) {
+                    sidebar.classList.remove('show-mobile');
+                }
             }
         });
     }
@@ -533,15 +544,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         } else {
             displayImages = categoryImages.filter(img => img.folderId === currentFolderId);
-        }
-
-        const layoutEl = document.querySelector('.layout');
-        if (layoutEl) {
-            if (currentFolderId !== null) {
-                layoutEl.classList.add('in-folder');
-            } else {
-                layoutEl.classList.remove('in-folder');
-            }
         }
 
         let html = '';

@@ -5,9 +5,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.querySelector('.sidebar');
     if (logo && sidebar) {
         logo.style.cursor = 'pointer';
-        logo.addEventListener('click', () => {
+        logo.addEventListener('click', (e) => {
             if (window.innerWidth <= 768) {
                 sidebar.classList.toggle('show-mobile');
+                e.stopPropagation(); // 外側クリック判定がすぐ発火しないように伝播を止める
+            }
+        });
+
+        // 画面のどこかをクリックしたらサイドバーを閉じる
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('show-mobile')) {
+                // サイドバー自身をクリックした場合は閉じない（リンクを機能させるため）
+                if (!sidebar.contains(e.target)) {
+                    sidebar.classList.remove('show-mobile');
+                }
             }
         });
     }
@@ -68,15 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         } else {
             displayImages = categoryImages.filter(img => img.folderId === currentFolderId);
-        }
-
-        const layoutEl = document.querySelector('.layout');
-        if (layoutEl) {
-            if (currentFolderId !== null) {
-                layoutEl.classList.add('in-folder');
-            } else {
-                layoutEl.classList.remove('in-folder');
-            }
         }
 
         let html = '';
