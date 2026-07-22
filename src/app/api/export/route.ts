@@ -600,9 +600,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const mediaWrapper = card.querySelector('.media-wrapper');
             const mediaHtml = mediaWrapper.innerHTML;
             
-            mediaWrapper.addEventListener('click', () => {
-                // ダウンロードボタンの追加
+            mediaWrapper.addEventListener('click', (e) => {
+                e.preventDefault();
                 const isVideo = mediaHtml.includes('<video');
+                // サムネイル側の動画が再生されてしまうのを防ぐ（やまびこ防止）
+                if (isVideo) {
+                    const originalVideo = mediaWrapper.querySelector('video');
+                    if (originalVideo) {
+                        setTimeout(() => originalVideo.pause(), 10);
+                    }
+                }
                 let dlBtnHtml = '';
                 let src = '';
                 try {
