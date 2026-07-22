@@ -607,7 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const itemId = card.getAttribute('data-id');
                 if (!isVideo) {
                     const imgSrc = mediaWrapper.querySelector('img').src;
-                    dlBtnHtml = `<a href="${imgSrc}" download class="dl-btn" data-id="${itemId}">⬇ 画像をダウンロード</a>`;
+                    dlBtnHtml = '<a href="' + imgSrc + '" download class="dl-btn" data-id="' + itemId + '">⬇ 画像をダウンロード</a>';
                 }
                 modalBody.innerHTML = mediaHtml + dlBtnHtml;
                 modal.classList.remove('hidden');
