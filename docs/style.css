@@ -137,6 +137,7 @@ body {
   border-radius: 30px; font-weight: bold; font-size: 1rem;
   z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
 #toast.show { opacity: 1; }
 /* 人気バッジのスタイル */
 .popular-badge {
