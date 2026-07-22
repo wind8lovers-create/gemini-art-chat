@@ -60,7 +60,61 @@
         </div>
     </div>
 
-    <script src="data.js?v=1784683462316"></script>
-    <script src="script.js?v=1784683462316"></script>
+    <!-- Firebase SDK & 初期化 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, updateDoc, increment, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQJ1faA_vWSiEpcAgQNl4Yqgk20z-1x-M",
+            authDomain: "feeling-gallery.firebaseapp.com",
+            projectId: "feeling-gallery",
+            storageBucket: "feeling-gallery.firebasestorage.app",
+            messagingSenderId: "66103896954",
+            appId: "1:66103896954:web:14b3c4d252a2dde34644c3"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.firebaseRecordVisitor = async () => {
+            try {
+                const statsRef = doc(db, 'stats', 'global');
+                await updateDoc(statsRef, { visitors: increment(1) }).catch(async (e) => {
+                    if (e.code === 'not-found') await setDoc(statsRef, { visitors: 1, downloads: 0 });
+                });
+            } catch(e) { console.error(e); }
+        };
+
+        window.firebaseRecordDownload = async (imageId) => {
+            try {
+                const statsRef = doc(db, 'stats', 'global');
+                await updateDoc(statsRef, { downloads: increment(1) }).catch(e => {});
+                
+                const imgRef = doc(db, 'images', imageId);
+                await updateDoc(imgRef, { downloads: increment(1) }).catch(async (e) => {
+                    if (e.code === 'not-found') await setDoc(imgRef, { downloads: 1 });
+                });
+            } catch(e) { console.error(e); }
+        };
+
+        window.firebaseGetPopularImages = async () => {
+            try {
+                const imagesRef = collection(db, 'images');
+                const snapshot = await getDocs(imagesRef);
+                const popularIds = [];
+                snapshot.forEach(doc => {
+                    if (doc.data().downloads >= 3) {
+                        popularIds.push(doc.id);
+                    }
+                });
+                return popularIds;
+            } catch(e) { console.error(e); return []; }
+        };
+
+        window.firebaseRecordVisitor();
+    </script>
+    <script src="data.js?v=1721598270529"></script>
+    <script src="script.js?v=1721598270529"></script>
 </body>
 </html>

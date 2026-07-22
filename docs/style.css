@@ -137,5 +137,21 @@ body {
   border-radius: 30px; font-weight: bold; font-size: 1rem;
   z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
 #toast.show { opacity: 1; }
+/* 人気バッジのスタイル */
+.popular-badge {
+  position: absolute; top: 12px; right: 12px;
+  background: linear-gradient(45deg, #ff4757, #ff6b81);
+  color: white; padding: 4px 10px;
+  border-radius: 12px; font-size: 0.85rem; font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4); z-index: 20;
+  pointer-events: none; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+/* ダウンロードボタンのスタイル */
+.dl-btn {
+  display: block; margin-top: 16px; text-align: center;
+  background: #2ed573; color: #fff; padding: 12px;
+  border-radius: 8px; text-decoration: none; font-weight: bold;
+  transition: background 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+.dl-btn:hover { background: #26de81; }

@@ -115,6 +115,24 @@ document.addEventListener('DOMContentLoaded', () => {
         html += '</div>';
         mainContent.innerHTML = html;
 
+        // 【追加】人気画像のラベル付与
+        if (window.firebaseGetPopularImages) {
+            window.firebaseGetPopularImages().then(popularIds => {
+                document.querySelectorAll('.card').forEach(card => {
+                    const id = card.getAttribute('data-id');
+                    if (popularIds.includes(id)) {
+                        const mediaWrapper = card.querySelector('.media-wrapper');
+                        if (mediaWrapper && !mediaWrapper.querySelector('.popular-badge')) {
+                            const badge = document.createElement('div');
+                            badge.className = 'popular-badge';
+                            badge.innerText = '🔥 人気';
+                            mediaWrapper.appendChild(badge);
+                        }
+                    }
+                });
+            });
+        }
+
         // イベントリスナーの再設定
         const backBtn = document.getElementById('btn-back-root');
         if (backBtn) {
@@ -138,8 +156,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const mediaHtml = mediaWrapper.innerHTML;
             
             mediaWrapper.addEventListener('click', () => {
-                modalBody.innerHTML = mediaHtml;
+                // ダウンロードボタンの追加
+                const isVideo = mediaHtml.includes('<video');
+                let dlBtnHtml = '';
+                const itemId = card.getAttribute('data-id');
+                if (!isVideo) {
+                    const imgSrc = mediaWrapper.querySelector('img').src;
+                    dlBtnHtml = `<a href="${imgSrc}" download class="dl-btn" data-id="${itemId}">⬇ 画像をダウンロード</a>`;
+                }
+                modalBody.innerHTML = mediaHtml + dlBtnHtml;
                 modal.classList.remove('hidden');
+
+                // ダウンロードボタンのイベント
+                const dlBtn = modalBody.querySelector('.dl-btn');
+                if (dlBtn) {
+                    dlBtn.addEventListener('click', () => {
+                        if (window.firebaseRecordDownload) {
+                            window.firebaseRecordDownload(dlBtn.getAttribute('data-id'));
+                        }
+                    });
+                }
             });
 
             const promptContainer = card.querySelector('.prompt-container');

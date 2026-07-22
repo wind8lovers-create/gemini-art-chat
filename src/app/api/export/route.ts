@@ -224,6 +224,60 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
         </div>
     </div>
 
+    <!-- Firebase SDK & 初期化 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, updateDoc, increment, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQJ1faA_vWSiEpcAgQNl4Yqgk20z-1x-M",
+            authDomain: "feeling-gallery.firebaseapp.com",
+            projectId: "feeling-gallery",
+            storageBucket: "feeling-gallery.firebasestorage.app",
+            messagingSenderId: "66103896954",
+            appId: "1:66103896954:web:14b3c4d252a2dde34644c3"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.firebaseRecordVisitor = async () => {
+            try {
+                const statsRef = doc(db, 'stats', 'global');
+                await updateDoc(statsRef, { visitors: increment(1) }).catch(async (e) => {
+                    if (e.code === 'not-found') await setDoc(statsRef, { visitors: 1, downloads: 0 });
+                });
+            } catch(e) { console.error(e); }
+        };
+
+        window.firebaseRecordDownload = async (imageId) => {
+            try {
+                const statsRef = doc(db, 'stats', 'global');
+                await updateDoc(statsRef, { downloads: increment(1) }).catch(e => {});
+                
+                const imgRef = doc(db, 'images', imageId);
+                await updateDoc(imgRef, { downloads: increment(1) }).catch(async (e) => {
+                    if (e.code === 'not-found') await setDoc(imgRef, { downloads: 1 });
+                });
+            } catch(e) { console.error(e); }
+        };
+
+        window.firebaseGetPopularImages = async () => {
+            try {
+                const imagesRef = collection(db, 'images');
+                const snapshot = await getDocs(imagesRef);
+                const popularIds = [];
+                snapshot.forEach(doc => {
+                    if (doc.data().downloads >= 3) {
+                        popularIds.push(doc.id);
+                    }
+                });
+                return popularIds;
+            } catch(e) { console.error(e); return []; }
+        };
+
+        window.firebaseRecordVisitor();
+    </script>
     <script src="data.js?v=${Date.now()}"></script>
     <script src="script.js?v=${Date.now()}"></script>
 </body>
@@ -370,6 +424,23 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 #toast.show { opacity: 1; }
+/* 人気バッジのスタイル */
+.popular-badge {
+  position: absolute; top: 12px; right: 12px;
+  background: linear-gradient(45deg, #ff4757, #ff6b81);
+  color: white; padding: 4px 10px;
+  border-radius: 12px; font-size: 0.85rem; font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4); z-index: 20;
+  pointer-events: none; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+/* ダウンロードボタンのスタイル */
+.dl-btn {
+  display: block; margin-top: 16px; text-align: center;
+  background: #2ed573; color: #fff; padding: 12px;
+  border-radius: 8px; text-decoration: none; font-weight: bold;
+  transition: background 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+.dl-btn:hover { background: #26de81; }
 `;
 
   const scriptJs = `
@@ -489,6 +560,24 @@ document.addEventListener('DOMContentLoaded', () => {
         html += '</div>';
         mainContent.innerHTML = html;
 
+        // 【追加】人気画像のラベル付与
+        if (window.firebaseGetPopularImages) {
+            window.firebaseGetPopularImages().then(popularIds => {
+                document.querySelectorAll('.card').forEach(card => {
+                    const id = card.getAttribute('data-id');
+                    if (popularIds.includes(id)) {
+                        const mediaWrapper = card.querySelector('.media-wrapper');
+                        if (mediaWrapper && !mediaWrapper.querySelector('.popular-badge')) {
+                            const badge = document.createElement('div');
+                            badge.className = 'popular-badge';
+                            badge.innerText = '🔥 人気';
+                            mediaWrapper.appendChild(badge);
+                        }
+                    }
+                });
+            });
+        }
+
         // イベントリスナーの再設定
         const backBtn = document.getElementById('btn-back-root');
         if (backBtn) {
@@ -512,8 +601,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const mediaHtml = mediaWrapper.innerHTML;
             
             mediaWrapper.addEventListener('click', () => {
-                modalBody.innerHTML = mediaHtml;
+                // ダウンロードボタンの追加
+                const isVideo = mediaHtml.includes('<video');
+                let dlBtnHtml = '';
+                const itemId = card.getAttribute('data-id');
+                if (!isVideo) {
+                    const imgSrc = mediaWrapper.querySelector('img').src;
+                    dlBtnHtml = `<a href="${imgSrc}" download class="dl-btn" data-id="${itemId}">⬇ 画像をダウンロード</a>`;
+                }
+                modalBody.innerHTML = mediaHtml + dlBtnHtml;
                 modal.classList.remove('hidden');
+
+                // ダウンロードボタンのイベント
+                const dlBtn = modalBody.querySelector('.dl-btn');
+                if (dlBtn) {
+                    dlBtn.addEventListener('click', () => {
+                        if (window.firebaseRecordDownload) {
+                            window.firebaseRecordDownload(dlBtn.getAttribute('data-id'));
+                        }
+                    });
+                }
             });
 
             const promptContainer = card.querySelector('.prompt-container');
