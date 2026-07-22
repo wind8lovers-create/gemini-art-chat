@@ -159,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 // ダウンロードボタンの追加
                 const isVideo = mediaHtml.includes('<video');
                 let dlBtnHtml = '';
-                const itemId = card.getAttribute('data-id');
                 let src = '';
                 try {
                     if (isVideo) {
