@@ -174,7 +174,7 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
 <body>
     <header class="header glass-panel">
         <div class="logo" style="display: flex; align-items: center; gap: 8px;">
-            <h1>Feeling Gallery</h1>
+            <h1>🎨 Feeling Gallery</h1>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
             <!-- サムネ動画再生モード切り替えボタン -->
