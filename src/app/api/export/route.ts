@@ -201,7 +201,7 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
                 Nano Banana Pro<br>
                 Nano Banana 2<br>
                 Veo 3.1<br>
-                <br><br>
+                <br>
                 <strong>&lt;開発環境&gt;</strong><br>
                 Next.js v${nextVersion} / React v${reactVersion}<br>
                 Gemini Pro Vision<br>
