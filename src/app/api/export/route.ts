@@ -231,7 +231,7 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
     <!-- Firebase SDK & 初期化 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, updateDoc, increment, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, updateDoc, increment, collection, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCQJ1faA_vWSiEpcAgQNl4Yqgk20z-1x-M",
@@ -248,9 +248,26 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
         window.firebaseRecordVisitor = async () => {
             try {
                 const statsRef = doc(db, 'stats', 'global');
-                await updateDoc(statsRef, { visitors: increment(1) }).catch(async (e) => {
-                    if (e.code === 'not-found') await setDoc(statsRef, { visitors: 1, downloads: 0 });
-                });
+                
+                // 過去に訪問したことがあるかチェック
+                if (localStorage.getItem('hasVisited')) {
+                    // 訪問済みの場合、現在の訪問者数を取得
+                    const docSnap = await getDoc(statsRef);
+                    if (docSnap.exists()) {
+                        const currentCount = docSnap.data().visitors || 0;
+                        // 1000未満ならまだ「PVモード」としてカウントを増やす
+                        if (currentCount < 1000) {
+                            await updateDoc(statsRef, { visitors: increment(1) });
+                        }
+                        // 1000以上の場合は、もう「1人1回モード」なので何もしない
+                    }
+                } else {
+                    // 初回訪問なら必ずカウントを増やし、訪問済みのメモを残す
+                    await updateDoc(statsRef, { visitors: increment(1) }).catch(async (e) => {
+                        if (e.code === 'not-found') await setDoc(statsRef, { visitors: 1, downloads: 0 });
+                    });
+                    localStorage.setItem('hasVisited', 'true');
+                }
             } catch(e) { console.error(e); }
         };
 

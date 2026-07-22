@@ -468,6 +468,19 @@ const galleryData = {
       "sessionOrder": 7
     },
     {
+      "id": "6f6bb80e-3af1-4f64-a90b-12d6ea73c05f",
+      "filename": "等分の花嫁の_姉妹がそれぞれのイメージカラーでエナメル質の.mp4",
+      "prompt": "5等分の花嫁の5姉妹がそれぞれのイメージカラーでエナメル質のお洒落で可愛い水着を着てる、砂浜で足下に寄せる波。一人一人近づいてきてハイタッチ。日本語で「最高の天気だね」といった会話をしていき、最後に皆揃って元気良く「大好きっ」と。3Dアニメーションの動画お願いします\n",
+      "mediaType": "video",
+      "sessionTitle": "五つ子そろって浜辺で大好き",
+      "category": "media",
+      "isGenerated": true,
+      "title": "五つ子そろって浜辺で大好き..なぜ６人!?",
+      "customComment": "",
+      "folderId": "e13799af-6ac8-42e8-90ae-b946723df896",
+      "sessionOrder": 8
+    },
+    {
       "id": "2e815640-e562-4cd4-8abc-06edc3f26180",
       "filename": "gemini_generated_video_ffa9e485.mp4",
       "prompt": "5等分の花嫁の中野二乃が、おかゆを作ってきてくれて、介抱してくれる動画をお願いします\n",
