@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feeling Gallery</title>
-    <link rel="stylesheet" href="style.css?v=1784702272002">
+    <link rel="stylesheet" href="style.css?v=1784703653168">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="header glass-panel">
-        <div class="logo" style="display: flex; align-items: center; gap: 12px;">
-            <h1>🤖 Feeling Gallery</h1>
+        <div class="logo" style="display: flex; align-items: center; gap: 8px;">
+            <h1>Feeling Gallery</h1>
         </div>
-        <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
             <!-- サムネ動画再生モード切り替えボタン -->
-            <button id="video-mode-toggle" class="nav-btn" style="font-size: 0.85rem; padding: 6px 10px;" title="動画の再生モードを切り替えます">サムネ自動再生(無音)</button>
+            <button id="video-mode-toggle" class="nav-btn" style="font-size: 0.85rem; padding: 4px 8px; white-space: nowrap;" title="動画の再生モードを切り替えます">サムネ:停止(音無)</button>
             <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
             <nav class="nav">
-                <button class="nav-btn active" data-category="media" title="生成画像・動画">🖼️</button>
-                <button class="nav-btn" data-category="prompt" title="プロンプトメモ">💡</button>
+                <button class="nav-btn active" data-category="media" title="生成画像・動画" style="padding: 4px 8px;">🖼️</button>
+                <button class="nav-btn" data-category="prompt" title="プロンプトメモ" style="padding: 4px 8px;">💡</button>
             </nav>
         </div>
     </header>
@@ -133,7 +133,7 @@
 
         window.firebaseRecordVisitor();
     </script>
-    <script src="data.js?v=1784702272002"></script>
-    <script src="script.js?v=1784702272002"></script>
+    <script src="data.js?v=1784703653168"></script>
+    <script src="script.js?v=1784703653168"></script>
 </body>
 </html>

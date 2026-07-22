@@ -173,16 +173,16 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
 </head>
 <body>
     <header class="header glass-panel">
-        <div class="logo" style="display: flex; align-items: center; gap: 12px;">
-            <h1>🤖 Feeling Gallery</h1>
+        <div class="logo" style="display: flex; align-items: center; gap: 8px;">
+            <h1>Feeling Gallery</h1>
         </div>
-        <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
             <!-- サムネ動画再生モード切り替えボタン -->
-            <button id="video-mode-toggle" class="nav-btn" style="font-size: 0.85rem; padding: 6px 10px;" title="動画の再生モードを切り替えます">サムネ自動再生(無音)</button>
+            <button id="video-mode-toggle" class="nav-btn" style="font-size: 0.85rem; padding: 4px 8px; white-space: nowrap;" title="動画の再生モードを切り替えます">サムネ:停止(音無)</button>
             <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
             <nav class="nav">
-                <button class="nav-btn active" data-category="media" title="生成画像・動画">🖼️</button>
-                <button class="nav-btn" data-category="prompt" title="プロンプトメモ">💡</button>
+                <button class="nav-btn active" data-category="media" title="生成画像・動画" style="padding: 4px 8px;">🖼️</button>
+                <button class="nav-btn" data-category="prompt" title="プロンプトメモ" style="padding: 4px 8px;">💡</button>
             </nav>
         </div>
     </header>
@@ -430,9 +430,10 @@ body {
   .sidebar.show-mobile { display: block !important; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
-  .logo h1 { font-size: 1.1rem; margin: 0; }
-  .header { padding: 4px 8px; }
-  .nav-btn { padding: 6px 10px; font-size: 1.2rem; } /* スマホでも少しスリムに */
+  .logo h1 { font-size: 1.05rem; margin: 0; white-space: nowrap; }
+  .header { padding: 4px 6px; gap: 4px; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; }
+  .nav-btn { font-size: 1.1rem; } /* スマホでも少しスリムに */
+  .nav { gap: 4px; }
 }
 /* トースト通知（ポップアップ）のスタイル */
 #toast {
@@ -522,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
         videoModeBtn.addEventListener('click', () => {
             isVideoAutoplay = !isVideoAutoplay;
             // ボタンのテキストを変更
-            videoModeBtn.innerText = isVideoAutoplay ? 'サムネ自動再生(無音)' : 'サムネ停止(音声有)';
+            videoModeBtn.innerText = isVideoAutoplay ? 'サムネ:停止(音無)' : 'サムネ:再生(音有)';
             showToast(isVideoAutoplay ? '自動再生（無音）モードにしました' : '停止（音声あり）モードにしました');
             
             // ギャラリーを再描画して動画要素を作り直す

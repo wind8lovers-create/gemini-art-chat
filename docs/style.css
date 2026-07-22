@@ -126,9 +126,10 @@ body {
   .sidebar.show-mobile { display: block !important; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
-  .logo h1 { font-size: 1.1rem; margin: 0; }
-  .header { padding: 4px 8px; }
-  .nav-btn { padding: 6px 10px; font-size: 1.2rem; } /* スマホでも少しスリムに */
+  .logo h1 { font-size: 1.05rem; margin: 0; white-space: nowrap; }
+  .header { padding: 4px 6px; gap: 4px; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; }
+  .nav-btn { font-size: 1.1rem; } /* スマホでも少しスリムに */
+  .nav { gap: 4px; }
 }
 /* トースト通知（ポップアップ）のスタイル */
 #toast {
