@@ -58,8 +58,8 @@ export default function Sidebar({
       setSessions(sortedSessions);
       setFolders(sortedFolders);
       
-      // 初期状態では全てのフォルダを開いておく
-      setOpenFolders(new Set(foldersData.map((f: SessionFolder) => f.id)));
+      // 初期状態では全てのフォルダを閉じておく
+      setOpenFolders(new Set());
     } catch (err) {
       console.error("データ取得エラー:", err);
     }
