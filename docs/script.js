@@ -162,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (isVideo) {
                     const originalVideo = mediaWrapper.querySelector('video');
                     if (originalVideo) {
-                        // 少し遅らせてpauseを呼ぶことでブラウザの自動再生を上書きする
                         setTimeout(() => originalVideo.pause(), 10);
                     }
                 }
