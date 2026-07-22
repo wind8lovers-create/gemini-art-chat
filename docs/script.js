@@ -160,9 +160,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isVideo = mediaHtml.includes('<video');
                 let dlBtnHtml = '';
                 const itemId = card.getAttribute('data-id');
-                if (!isVideo) {
-                    const imgSrc = mediaWrapper.querySelector('img').src;
-                    dlBtnHtml = '<a href="' + imgSrc + '" download class="dl-btn" data-id="' + itemId + '">⬇ 画像をダウンロード</a>';
+                let src = '';
+                try {
+                    if (isVideo) {
+                        const videoEl = mediaWrapper.querySelector('video');
+                        const sourceEl = mediaWrapper.querySelector('video source');
+                        src = sourceEl ? sourceEl.src : (videoEl ? videoEl.src : '');
+                    } else {
+                        src = mediaWrapper.querySelector('img').src;
+                    }
+                } catch(e) { console.error(e); }
+                const btnText = isVideo ? '⬇ 動画をダウンロード' : '⬇ 画像をダウンロード';
+                if (src) {
+                    dlBtnHtml = '<a href="' + src + '" download class="dl-btn" data-id="' + itemId + '">' + btnText + '</a>';
                 }
                 modalBody.innerHTML = mediaHtml + dlBtnHtml;
                 modal.classList.remove('hidden');
