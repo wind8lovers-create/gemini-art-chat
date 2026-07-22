@@ -70,6 +70,15 @@ document.addEventListener('DOMContentLoaded', () => {
             displayImages = categoryImages.filter(img => img.folderId === currentFolderId);
         }
 
+        const layoutEl = document.querySelector('.layout');
+        if (layoutEl) {
+            if (currentFolderId !== null) {
+                layoutEl.classList.add('in-folder');
+            } else {
+                layoutEl.classList.remove('in-folder');
+            }
+        }
+
         let html = '';
         if (currentFolderId !== null) {
             const currentFolder = allFolders.find(f => f.id === currentFolderId);

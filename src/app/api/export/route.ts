@@ -425,9 +425,9 @@ body {
 
 @media (max-width: 768px) {
   .layout { flex-direction: column; }
-  /* スマホではデフォルトで左のサイドバーを隠すが、クラス付与で表示 */
-  .sidebar { display: none !important; width: 100%; margin-bottom: 16px; box-sizing: border-box; }
-  .sidebar.show-mobile { display: block !important; }
+  /* スマホではデフォルトでサイドバーを表示するが、フォルダ内では隠す */
+  .sidebar { width: 100%; margin-bottom: 16px; box-sizing: border-box; }
+  .layout.in-folder .sidebar { display: none !important; }
   .main-content { padding: 12px; }
   .grid { gap: 16px; grid-template-columns: 1fr; }
   .logo h1 { font-size: 1.1rem; margin: 0; }
@@ -533,6 +533,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         } else {
             displayImages = categoryImages.filter(img => img.folderId === currentFolderId);
+        }
+
+        const layoutEl = document.querySelector('.layout');
+        if (layoutEl) {
+            if (currentFolderId !== null) {
+                layoutEl.classList.add('in-folder');
+            } else {
+                layoutEl.classList.remove('in-folder');
+            }
         }
 
         let html = '';

@@ -40,6 +40,7 @@ export default function PreviewPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [viewsStats, setViewsStats] = useState<Record<string, number>>({});
   const ITEMS_PER_PAGE = 6;
 
   useEffect(() => {
@@ -69,13 +70,30 @@ export default function PreviewPage() {
   useEffect(() => {
     Promise.all([
       fetch('/api/manage').then(res => res.json()),
-      fetch('/api/folders').then(res => res.json())
+      fetch('/api/folders').then(res => res.json()),
+      fetch('https://firestore.googleapis.com/v1/projects/feeling-gallery/databases/(default)/documents/images')
+        .then(res => res.json())
+        .then(data => {
+          const stats: Record<string, number> = {};
+          if (data.documents) {
+            data.documents.forEach((doc: any) => {
+              const id = doc.name.split('/').pop();
+              stats[id] = parseInt(doc.fields?.views?.integerValue || '0', 10);
+            });
+          }
+          return stats;
+        })
+        .catch(err => {
+          console.error("Firebaseデータ取得エラー:", err);
+          return {};
+        })
     ])
-    .then(([imagesData, foldersData]) => {
+    .then(([imagesData, foldersData, statsData]) => {
       // 公開（published）になっているものだけをフィルタリング
       const publishedImages = imagesData.filter((img: ManagedImage) => img.publishStatus === 'published');
       setImages(publishedImages);
       setFolders(foldersData.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0)));
+      setViewsStats(statsData);
       setIsLoading(false);
     })
     .catch(err => {
@@ -190,6 +208,16 @@ export default function PreviewPage() {
                         {img.title}
                       </div>
                     )}
+                    <div style={{
+                      position: 'absolute', top: '12px', right: '12px',
+                      background: 'linear-gradient(135deg, #e91e63, #8a2be2)',
+                      color: 'white', padding: '4px 10px',
+                      borderRadius: '12px', fontSize: '0.85rem', fontWeight: 'bold',
+                      boxShadow: '0 4px 8px rgba(0,0,0,0.4)', zIndex: 20,
+                      pointerEvents: 'none', textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+                    }}>
+                      👁️ {viewsStats[img.id] || 0}
+                    </div>
                     {img.mediaType === 'video' || imageUrl.toLowerCase().endsWith('.mp4') ? (
                       <VideoPlayer src={imageUrl} className={styles.image} />
                     ) : (
