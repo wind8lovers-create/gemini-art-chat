@@ -86,14 +86,14 @@
             } catch(e) { console.error(e); }
         };
 
-        window.firebaseRecordDownload = async (imageId) => {
+        window.firebaseRecordView = async (imageId) => {
             try {
                 const statsRef = doc(db, 'stats', 'global');
-                await updateDoc(statsRef, { downloads: increment(1) }).catch(e => {});
+                await updateDoc(statsRef, { views: increment(1) }).catch(e => {});
                 
                 const imgRef = doc(db, 'images', imageId);
-                await updateDoc(imgRef, { downloads: increment(1) }).catch(async (e) => {
-                    if (e.code === 'not-found') await setDoc(imgRef, { downloads: 1 });
+                await updateDoc(imgRef, { views: increment(1) }).catch(async (e) => {
+                    if (e.code === 'not-found') await setDoc(imgRef, { views: 1 });
                 });
             } catch(e) { console.error(e); }
         };
@@ -104,7 +104,7 @@
                 const snapshot = await getDocs(imagesRef);
                 const popularIds = [];
                 snapshot.forEach(doc => {
-                    if (doc.data().downloads >= 3) {
+                    if (doc.data().views >= 3) {
                         popularIds.push(doc.id);
                     }
                 });

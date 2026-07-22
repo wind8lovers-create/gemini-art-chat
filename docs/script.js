@@ -165,22 +165,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         setTimeout(() => originalVideo.pause(), 10);
                     }
                 }
-                const src = 'assets/' + item.filename;
-                const btnText = isVideo ? '⬇ 動画をダウンロード' : '⬇ 画像をダウンロード';
-                const dlBtnHtml = '<a href="' + src + '" download class="dl-btn" data-id="' + item.id + '">' + btnText + '</a>';
+                // 閲覧数のカウント
+                const itemId = card.getAttribute('data-id');
+                if (window.firebaseRecordView) {
+                    window.firebaseRecordView(itemId);
+                }
                 
-                modalBody.innerHTML = mediaHtml + dlBtnHtml;
+                modalBody.innerHTML = mediaHtml;
                 modal.classList.remove('hidden');
 
-                // ダウンロードボタンのイベント
-                const dlBtn = modalBody.querySelector('.dl-btn');
-                if (dlBtn) {
-                    dlBtn.addEventListener('click', () => {
-                        if (window.firebaseRecordDownload) {
-                            window.firebaseRecordDownload(dlBtn.getAttribute('data-id'));
-                        }
-                    });
-                }
+
             });
 
             const promptContainer = card.querySelector('.prompt-container');

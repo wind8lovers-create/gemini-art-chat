@@ -250,14 +250,14 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
             } catch(e) { console.error(e); }
         };
 
-        window.firebaseRecordDownload = async (imageId) => {
+        window.firebaseRecordView = async (imageId) => {
             try {
                 const statsRef = doc(db, 'stats', 'global');
-                await updateDoc(statsRef, { downloads: increment(1) }).catch(e => {});
+                await updateDoc(statsRef, { views: increment(1) }).catch(e => {});
                 
                 const imgRef = doc(db, 'images', imageId);
-                await updateDoc(imgRef, { downloads: increment(1) }).catch(async (e) => {
-                    if (e.code === 'not-found') await setDoc(imgRef, { downloads: 1 });
+                await updateDoc(imgRef, { views: increment(1) }).catch(async (e) => {
+                    if (e.code === 'not-found') await setDoc(imgRef, { views: 1 });
                 });
             } catch(e) { console.error(e); }
         };
@@ -268,7 +268,7 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
                 const snapshot = await getDocs(imagesRef);
                 const popularIds = [];
                 snapshot.forEach(doc => {
-                    if (doc.data().downloads >= 3) {
+                    if (doc.data().views >= 3) {
                         popularIds.push(doc.id);
                     }
                 });
@@ -610,22 +610,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         setTimeout(() => originalVideo.pause(), 10);
                     }
                 }
-                const src = 'assets/' + item.filename;
-                const btnText = isVideo ? '⬇ 動画をダウンロード' : '⬇ 画像をダウンロード';
-                const dlBtnHtml = '<a href="' + src + '" download class="dl-btn" data-id="' + item.id + '">' + btnText + '</a>';
-                
-                modalBody.innerHTML = mediaHtml + dlBtnHtml;
-                modal.classList.remove('hidden');
-
-                // ダウンロードボタンのイベント
-                const dlBtn = modalBody.querySelector('.dl-btn');
-                if (dlBtn) {
-                    dlBtn.addEventListener('click', () => {
-                        if (window.firebaseRecordDownload) {
-                            window.firebaseRecordDownload(dlBtn.getAttribute('data-id'));
-                        }
-                    });
+                // 閲覧数のカウント
+                const itemId = card.getAttribute('data-id');
+                if (window.firebaseRecordView) {
+                    window.firebaseRecordView(itemId);
                 }
+                
+                modalBody.innerHTML = mediaHtml;
+                modal.classList.remove('hidden');
             });
 
             const promptContainer = card.querySelector('.prompt-container');
