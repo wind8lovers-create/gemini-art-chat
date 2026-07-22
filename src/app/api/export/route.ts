@@ -432,6 +432,7 @@ body {
   border-radius: 12px; font-size: 0.85rem; font-weight: bold;
   box-shadow: 0 4px 8px rgba(0,0,0,0.4); z-index: 20;
   pointer-events: none; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  display: inline-block; width: max-content;
 }
 /* ダウンロードボタンのスタイル */
 .dl-btn {
