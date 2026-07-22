@@ -126,6 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelectorAll('.folder-card').forEach(card => {
             card.addEventListener('click', () => {
+                // プロンプトメモの場合はフォルダを開かせないようにする
+                if (currentCategory === 'prompt') return;
                 currentFolderId = card.getAttribute('data-folder-id');
                 renderGallery();
             });
