@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feeling Gallery</title>
-    <link rel="stylesheet" href="style.css?v=1784688419472">
+    <link rel="stylesheet" href="style.css?v=1784689280985">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -102,19 +102,17 @@
             try {
                 const imagesRef = collection(db, 'images');
                 const snapshot = await getDocs(imagesRef);
-                const popularIds = [];
+                const popularStats = {};
                 snapshot.forEach(doc => {
-                    if (doc.data().views >= 3) {
-                        popularIds.push(doc.id);
-                    }
+                    popularStats[doc.id] = doc.data().views || 0;
                 });
-                return popularIds;
-            } catch(e) { console.error(e); return []; }
+                return popularStats;
+            } catch(e) { console.error(e); return {}; }
         };
 
         window.firebaseRecordVisitor();
     </script>
-    <script src="data.js?v=1784688419472"></script>
-    <script src="script.js?v=1784688419472"></script>
+    <script src="data.js?v=1784689280985"></script>
+    <script src="script.js?v=1784689280985"></script>
 </body>
 </html>

@@ -266,14 +266,12 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
             try {
                 const imagesRef = collection(db, 'images');
                 const snapshot = await getDocs(imagesRef);
-                const popularIds = [];
+                const popularStats = {};
                 snapshot.forEach(doc => {
-                    if (doc.data().views >= 3) {
-                        popularIds.push(doc.id);
-                    }
+                    popularStats[doc.id] = doc.data().views || 0;
                 });
-                return popularIds;
-            } catch(e) { console.error(e); return []; }
+                return popularStats;
+            } catch(e) { console.error(e); return {}; }
         };
 
         window.firebaseRecordVisitor();
@@ -563,7 +561,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 【追加】人気画像のラベル付与
         if (window.firebaseGetPopularImages) {
-            window.firebaseGetPopularImages().then(popularIds => {
+            window.firebaseGetPopularImages().then(popularStats => {
+                const topImagesPerFolder = {};
+                
+                // 全画像の中から、各フォルダの最多再生数(3回以上)を特定
+                galleryData.images.forEach(img => {
+                    const views = popularStats[img.id] || 0;
+                    if (views >= 3) {
+                        const fId = img.folderId || 'root';
+                        // 同じ再生数の場合、先に記録されている(現状トップの)動画を優先するため「>」を使用
+                        if (!topImagesPerFolder[fId] || views > topImagesPerFolder[fId].views) {
+                            topImagesPerFolder[fId] = { id: img.id, views: views };
+                        }
+                    }
+                });
+                
+                const popularIds = Object.values(topImagesPerFolder).map(x => x.id);
+
                 document.querySelectorAll('.card').forEach(card => {
                     const id = card.getAttribute('data-id');
                     if (popularIds.includes(id)) {
@@ -619,6 +633,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 modalBody.innerHTML = mediaHtml;
                 modal.classList.remove('hidden');
+
+                // モーダル表示時に動画を自動再生する
+                if (isVideo) {
+                    const modalVideo = modalBody.querySelector('video');
+                    if (modalVideo) {
+                        modalVideo.play().catch(err => console.error("動画の自動再生に失敗しました:", err));
+                    }
+                }
             });
 
             const promptContainer = card.querySelector('.prompt-container');
