@@ -17,6 +17,7 @@ export default function PromptMemoPage() {
   
   // モーダル用state
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingMemoId, setEditingMemoId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
   const [editTags, setEditTags] = useState('');
@@ -44,22 +45,29 @@ export default function PromptMemoPage() {
     
     // タグをカンマ区切りで配列に
     const tagsArray = editTags.split(',').map(t => t.trim()).filter(t => t);
+    
+    const isEdit = !!editingMemoId;
+    const url = '/api/memos';
+    const method = isEdit ? 'PUT' : 'POST';
+    const body = {
+      ...(isEdit ? { id: editingMemoId } : {}),
+      title: editTitle,
+      content: editContent,
+      tags: tagsArray
+    };
 
     try {
-      const res = await fetch('/api/memos', {
-        method: 'POST',
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: editTitle,
-          content: editContent,
-          tags: tagsArray
-        })
+        body: JSON.stringify(body)
       });
       
       if (res.ok) {
         // 保存成功したらリロード
         fetchMemos();
         setIsModalOpen(false);
+        setEditingMemoId(null);
         setEditTitle('');
         setEditContent('');
         setEditTags('');
@@ -67,6 +75,14 @@ export default function PromptMemoPage() {
     } catch (err) {
       alert("保存に失敗しました");
     }
+  };
+
+  const handleEditClick = (memo: Memo) => {
+    setEditingMemoId(memo.id);
+    setEditTitle(memo.title);
+    setEditContent(memo.content);
+    setEditTags(memo.tags.join(', '));
+    setIsModalOpen(true);
   };
 
   const handleDelete = async (id: string, e: React.MouseEvent) => {
@@ -101,7 +117,13 @@ export default function PromptMemoPage() {
             }}>
               🚀 Pages用に書き出す
             </button>
-            <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
+            <button className="btn btn-primary" onClick={() => {
+              setEditingMemoId(null);
+              setEditTitle('');
+              setEditContent('');
+              setEditTags('');
+              setIsModalOpen(true);
+            }}>
               ＋ 新しいメモ
             </button>
           </div>
@@ -114,7 +136,7 @@ export default function PromptMemoPage() {
         ) : (
           <div className={styles.masonryGrid}>
             {memos.map(memo => (
-              <article key={memo.id} className={`glass-panel ${styles.memoCard}`}>
+              <article key={memo.id} className={`glass-panel ${styles.memoCard}`} onClick={() => handleEditClick(memo)}>
                 <div className={styles.memoHeader}>
                   <h3 className={styles.memoTitle}>{memo.title}</h3>
                 </div>
@@ -145,7 +167,9 @@ export default function PromptMemoPage() {
         {isModalOpen && (
           <div className={styles.modalOverlay} onClick={() => setIsModalOpen(false)}>
             <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
-              <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>新しいメモを作成</h2>
+              <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>
+                {editingMemoId ? 'メモを編集' : '新しいメモを作成'}
+              </h2>
               
               <input 
                 className={styles.inputField}

@@ -551,9 +551,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 ).join('');
                 
                 memoHtml += \`
-                <article class="glass-panel" style="padding: 16px; border-left: 4px solid var(--accent-color); display: flex; flex-direction: column; gap: 12px; transition: transform 0.2s;">
+                <article class="glass-panel memo-card-export" style="padding: 16px; border-left: 4px solid #C800DE; background-color: rgba(90, 20, 200, 1); display: flex; flex-direction: column; gap: 12px; transition: transform 0.2s; cursor: pointer;">
                     <h3 style="margin: 0; font-size: 1.1rem; color: #fff;">\${memo.title}</h3>
-                    <div style="font-size: 0.9rem; color: #ccc; white-space: pre-wrap; line-height: 1.5;">\${memo.content}</div>
+                    <div class="memo-content-text" style="font-size: 0.9rem; color: #8c8c8c; white-space: pre-wrap; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden;">\${memo.content}</div>
                     \${tagHtml ? '<div>' + tagHtml + '</div>' : ''}
                     <div style="font-size: 0.75rem; color: #888; text-align: right; margin-top: auto;">\${new Date(memo.updatedAt).toLocaleDateString()}</div>
                 </article>
@@ -561,6 +561,21 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             memoHtml += '</div>';
             mainContent.innerHTML = memoHtml;
+
+            // プロンプトメモクリック時の展開処理
+            document.querySelectorAll('.memo-card-export').forEach(card => {
+                card.addEventListener('click', () => {
+                    const textDiv = card.querySelector('.memo-content-text');
+                    if (textDiv) {
+                        if (textDiv.style.webkitLineClamp === '5' || textDiv.style.webkitLineClamp === '') {
+                            textDiv.style.webkitLineClamp = 'unset';
+                        } else {
+                            textDiv.style.webkitLineClamp = '5';
+                        }
+                    }
+                });
+            });
+
             return;
         }
 

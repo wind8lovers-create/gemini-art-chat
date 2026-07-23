@@ -66,6 +66,36 @@ export async function POST(request: Request) {
   }
 }
 
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+    if (!body.id) {
+      return NextResponse.json({ success: false, error: 'IDが指定されていません' }, { status: 400 });
+    }
+    const memos = readMemos();
+    const index = memos.findIndex((m: any) => m.id === body.id);
+    if (index === -1) {
+      return NextResponse.json({ success: false, error: 'メモが見つかりません' }, { status: 404 });
+    }
+    
+    memos[index] = {
+      ...memos[index],
+      title: body.title !== undefined ? body.title : memos[index].title,
+      content: body.content !== undefined ? body.content : memos[index].content,
+      tags: body.tags !== undefined ? body.tags : memos[index].tags,
+      updatedAt: new Date().toISOString()
+    };
+    
+    if (writeMemos(memos)) {
+      return NextResponse.json({ success: true, memo: memos[index] });
+    } else {
+      return NextResponse.json({ success: false, error: '書き込みに失敗しました' }, { status: 500 });
+    }
+  } catch (error) {
+    return NextResponse.json({ success: false, error: '不正なリクエスト' }, { status: 400 });
+  }
+}
+
 export async function DELETE(request: Request) {
   try {
     const url = new URL(request.url);
