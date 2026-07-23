@@ -94,12 +94,12 @@ const galleryData = {
     {
       "id": "6bb113d2-c388-436f-86b7-0b687647a2a1",
       "filename": "gemini_generated_video_51d8c7e7.mp4",
-      "prompt": "南国の高級リゾートホテルのプールサイド。青い海とヤシの木が見える背景、夏らしい開放感のある雰囲気。5等分の花嫁の中野二乃が、光沢のあるエナメル素材のピンクと黒のツートンカラーレオタード風コスチュームを着ている。両手にトロピカルジュースを持って、少しうつむき加減で照れたような優しい笑顔。「お待たせ」っていう雰囲気。柔らかな朝の日差し、アニメ調、高精細、鮮やかな色彩、自然なポーズ。\n",
+      "prompt": "（ChatGptと考えたプロンプト)\n南国の高級リゾートホテルのプールサイド。青い海とヤシの木が見える背景、夏らしい開放感のある雰囲気。5等分の花嫁の中野二乃が、光沢のあるエナメル素材のピンクと黒のツートンカラーレオタード風コスチュームを着ている。両手にトロピカルジュースを持って、少しうつむき加減で照れたような優しい笑顔。「お待たせ」っていう雰囲気。柔らかな朝の日差し、アニメ調、高精細、鮮やかな色彩、自然なポーズ。\n",
       "mediaType": "video",
       "sessionTitle": "ChatGPTが考えたプロンプト",
       "category": "prompt",
       "isGenerated": true,
-      "title": "ChatGPTが考えたプロンプト",
+      "title": "二乃　南国リゾート",
       "customComment": "",
       "folderId": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
       "sessionOrder": 0
@@ -112,7 +112,7 @@ const galleryData = {
       "sessionTitle": "ニ乃　火照っているオリジナル",
       "category": "media",
       "isGenerated": true,
-      "title": "ニ乃　火照って湯煙温泉",
+      "title": "ニ乃　湯煙温泉",
       "customComment": "",
       "folderId": "a048a6ee-89d0-4f43-a5e3-baee90fcc486",
       "sessionOrder": 0
@@ -203,7 +203,7 @@ const galleryData = {
       "sessionTitle": "二乃　お待たせドリンク　続き",
       "category": "media",
       "isGenerated": true,
-      "title": "二乃　お待たせドリンク　続き",
+      "title": "二乃　南国リゾート　続き",
       "customComment": "",
       "folderId": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
       "sessionOrder": 1
@@ -215,7 +215,7 @@ const galleryData = {
       "mediaType": "image",
       "sessionTitle": "プライベートビーチの二乃",
       "category": "media",
-      "title": "二乃　高級リゾート ①",
+      "title": "二乃　高級リゾート プール",
       "customComment": "",
       "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
       "sessionOrder": 1
@@ -241,7 +241,7 @@ const galleryData = {
       "sessionTitle": "→プライベートビーチの二乃",
       "category": "media",
       "isGenerated": true,
-      "title": "二乃　高級リゾート　②",
+      "title": "二乃　高級リゾート　夕暮れ",
       "customComment": "",
       "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
       "sessionOrder": 2
@@ -254,7 +254,7 @@ const galleryData = {
       "sessionTitle": "続続続二乃ビキニ花火",
       "category": "media",
       "isGenerated": true,
-      "title": "続続続二乃ビキニ花火",
+      "title": "二乃　南国リゾート夕暮れ花火",
       "customComment": "",
       "folderId": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
       "sessionOrder": 2
@@ -267,7 +267,7 @@ const galleryData = {
       "sessionTitle": "温泉湯船　ニ乃と五樹と四葉がまざってる",
       "category": "media",
       "isGenerated": true,
-      "title": "温泉湯船　ニ乃と五樹と四葉がまざってる",
+      "title": "温泉湯船　ニ乃と五樹と四葉のコラボ",
       "customComment": "",
       "folderId": "a048a6ee-89d0-4f43-a5e3-baee90fcc486",
       "sessionOrder": 2
@@ -293,7 +293,7 @@ const galleryData = {
       "sessionTitle": "ニ乃　車　遊園地",
       "category": "media",
       "isGenerated": true,
-      "title": "ニ乃　車　遊園地",
+      "title": "ニ乃（中学生？）　車　遊園地",
       "customComment": "",
       "folderId": "e13799af-6ac8-42e8-90ae-b946723df896",
       "sessionOrder": 3
@@ -306,7 +306,7 @@ const galleryData = {
       "sessionTitle": "前回の続き　二乃水着",
       "category": "media",
       "isGenerated": true,
-      "title": "前回の続き　かろうじて二乃",
+      "title": "二乃（かろうじて）　南国リゾート",
       "customComment": "",
       "folderId": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
       "sessionOrder": 3
@@ -332,7 +332,7 @@ const galleryData = {
       "sessionTitle": "→→プライベートビーチの二乃",
       "category": "media",
       "isGenerated": true,
-      "title": "二乃　高級リゾート　③",
+      "title": "二乃　高級リゾート　美玖四葉",
       "customComment": "",
       "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
       "sessionOrder": 3
@@ -371,7 +371,7 @@ const galleryData = {
       "sessionTitle": "→プライベートビーチの二乃",
       "category": "media",
       "isGenerated": true,
-      "title": "二乃　高級リゾート　④",
+      "title": "二乃　高級リゾート　花火",
       "customComment": "",
       "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
       "sessionOrder": 4
@@ -384,7 +384,7 @@ const galleryData = {
       "sessionTitle": "五等分の花嫁の中野二乃と、遊園地のコーヒーカップに乗っている.mp4",
       "category": "media",
       "isGenerated": true,
-      "title": "二乃と遊園地のコーヒーカップ",
+      "title": "二乃（小学生）と遊園地のコーヒーカップ",
       "customComment": "",
       "folderId": "e13799af-6ac8-42e8-90ae-b946723df896",
       "sessionOrder": 4
@@ -397,7 +397,7 @@ const galleryData = {
       "sessionTitle": "続前回の続き二乃水着",
       "category": "media",
       "isGenerated": true,
-      "title": "二乃のつもりが上伊那ぼたんに(;'∀')",
+      "title": "二乃というか…上伊那ぼたん？(;'∀')",
       "customComment": "",
       "folderId": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
       "sessionOrder": 4
@@ -410,7 +410,7 @@ const galleryData = {
       "sessionTitle": "背景を夕暮れにしてく... (派生)",
       "category": "media",
       "isGenerated": true,
-      "title": "二乃　高級リゾート　⑤",
+      "title": "二乃　高級リゾート　海岸",
       "customComment": "",
       "folderId": "bfb37e81-5180-4110-83e8-62a9eda17cbe",
       "sessionOrder": 5
@@ -436,7 +436,7 @@ const galleryData = {
       "sessionTitle": "続続二乃水着プール",
       "category": "media",
       "isGenerated": true,
-      "title": "もはや二乃ではないかも",
+      "title": "もはや二乃ではないが嫌いでもない",
       "customComment": "",
       "folderId": "d661bfea-30ac-4734-84bf-c2b91ed94ad6",
       "sessionOrder": 5
@@ -501,7 +501,7 @@ const galleryData = {
       "sessionTitle": "アクスタ二乃が。。",
       "category": "media",
       "isGenerated": true,
-      "title": "二乃が、、声は美玖。。見た目みくるさん？",
+      "title": "二乃から、声は美玖。おムネはみくるさん",
       "customComment": "",
       "folderId": "0504ec68-9e81-469f-a802-75a6da1edae6",
       "sessionOrder": 9007199254740991
