@@ -479,7 +479,7 @@ body {
   .header { padding: 8px 4px !important; justify-content: flex-start !important; }
   .header > div { gap: 4px !important; }
   .logo { flex-shrink: 1; margin-right: auto; }
-  .logo h1 { font-size: 0.9rem; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; max-width: 110px; }
+  .logo h1 { font-size: 0.95rem; white-space: nowrap; }
   .search-input { width: 55px; padding: 4px; font-size: 0.85rem; }
   .search-input:focus { width: 110px; }
   .nav-btn { padding: 4px 6px !important; font-size: 0.9rem !important; }
@@ -496,25 +496,12 @@ body {
 \`;
 
   const scriptJs = \`
-// スマホのズーム（ピンチアウト）を強制的にリセットする関数
-function resetZoom() {
-    const viewport = document.querySelector('meta[name="viewport"]');
-    if (viewport) {
-        const original = viewport.content;
-        viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
-        setTimeout(() => {
-            viewport.content = original;
-        }, 300);
-    }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-    // スマホ表示時にロゴタップでトップに戻る＆ズームリセットする処理
+    // スマホ表示時にロゴタップでトップに戻る処理
     const logo = document.querySelector('.logo');
     if (logo) {
         logo.style.cursor = 'pointer';
         logo.addEventListener('click', () => {
-            resetZoom();
             window.scrollTo({ top: 0, behavior: 'smooth' });
             const searchInput = document.getElementById('global-search');
             if (searchInput) {
@@ -885,7 +872,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     categoryItems.forEach(item => {
         item.addEventListener('click', () => {
-            resetZoom();
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
             const searchInput = document.getElementById('global-search');
