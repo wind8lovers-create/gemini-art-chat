@@ -6,9 +6,14 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 // アプリ全体のタイトルと説明文（ブラウザのタブなどに表示されます）
+// 【変更点】検索エンジンに表示されないように、robots設定（noindex, nofollow）を追加しました
 export const metadata: Metadata = {
   title: "GeminiArtChat - AI画像生成チャット",
   description: "Gemini 2.0 Flashを利用した画像生成＆チャットアプリ",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 /**
