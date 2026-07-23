@@ -183,9 +183,9 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
             <!-- 検索バー追加 -->
-            <input type="text" id="global-search" placeholder="🔍 検索..." class="search-input" />
+            <input type="text" id="global-search" placeholder="🔍..." class="search-input" />
             <!-- サムネ動画再生モード切り替えボタン -->
-            <button id="video-mode-toggle" class="nav-btn" style="font-size: 0.85rem; padding: 4px 8px; white-space: nowrap;" title="動画の再生モードを切り替えます">サムネ:再生(音無)</button>
+            <button id="video-mode-toggle" class="nav-btn" style="font-size: 1.1rem; padding: 4px 8px; white-space: nowrap;" title="動画の再生モードを切り替えます（▶️再生/🔇無音 ⇔ ⏸️停止/🎵音あり）">▶️ 🔇</button>
             <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
             <nav class="nav">
                 <button class="nav-btn active" data-category="media" title="生成画像・動画" style="padding: 4px 8px;">🖼️</button>
@@ -472,12 +472,13 @@ body {
 .search-input {
   background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
   color: #fff; padding: 6px 12px; border-radius: 8px; outline: none;
-  font-family: inherit; transition: 0.2s; width: 120px; font-size: 0.9rem;
+  font-family: inherit; transition: 0.2s; width: 110px; font-size: 0.9rem;
 }
-.search-input:focus { background: rgba(255,255,255,0.2); width: 180px; border-color: var(--accent-color); }
+.search-input:focus { background: rgba(255,255,255,0.2); width: 160px; border-color: var(--accent-color); }
 @media (max-width: 768px) {
-  .search-input { width: 80px; }
-  .search-input:focus { width: 120px; }
+  .search-input { width: 65px; padding: 6px 8px; font-size: 0.85rem; }
+  .search-input:focus { width: 110px; }
+  .logo h1 { font-size: 1rem; }
 }
 .accordion-header {
   background: var(--panel-bg); padding: 12px 16px; border-radius: 8px;
@@ -604,7 +605,7 @@ document.addEventListener('DOMContentLoaded', () => {
         videoModeBtn.addEventListener('click', () => {
             isVideoAutoplay = !isVideoAutoplay;
             // ボタンのテキストを変更
-            videoModeBtn.innerText = isVideoAutoplay ? 'サムネ:再生(音無)' : 'サムネ:停止(音有)';
+            videoModeBtn.innerText = isVideoAutoplay ? '▶️ 🔇' : '⏸️ 🎵';
             showToast(isVideoAutoplay ? '自動再生（無音）モードにしました' : '停止（音声あり）モードにしました');
             
             // ギャラリーを再描画して動画要素を作り直す

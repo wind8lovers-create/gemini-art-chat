@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         videoModeBtn.addEventListener('click', () => {
             isVideoAutoplay = !isVideoAutoplay;
             // ボタンのテキストを変更
-            videoModeBtn.innerText = isVideoAutoplay ? 'サムネ:再生(音無)' : 'サムネ:停止(音有)';
+            videoModeBtn.innerText = isVideoAutoplay ? '▶️ 🔇' : '⏸️ 🎵';
             showToast(isVideoAutoplay ? '自動再生（無音）モードにしました' : '停止（音声あり）モードにしました');
             
             // ギャラリーを再描画して動画要素を作り直す
