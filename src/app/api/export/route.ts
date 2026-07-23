@@ -172,11 +172,52 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 検索エンジン避け -->
+    <meta name="robots" content="noindex, nofollow">
     <title>Feeling Gallery</title>
     <link rel="stylesheet" href="style.css?v=${Date.now()}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- パスワード保護用オーバーレイ -->
+    <div id="password-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#1a1a2e; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; color:white; font-family:Inter, sans-serif;">
+        <div style="background:rgba(30,30,50,0.8); padding:40px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); text-align:center; max-width:400px; width:90%;">
+            <h2 style="margin-top:0; margin-bottom:10px;">アクセス制限</h2>
+            <p style="margin-bottom:20px; font-size:14px; opacity:0.8;">このページを見るにはパスワードが必要です。</p>
+            <input type="password" id="password-input" placeholder="パスワードを入力" style="padding:10px; width:100%; box-sizing:border-box; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.3); color:white; margin-bottom:10px;">
+            <div id="password-error" style="color:#ff4d4f; font-size:12px; margin-bottom:10px; text-align:left; display:none;">パスワードが間違っています。</div>
+            <button id="password-submit" style="padding:10px; width:100%; background:#0070f3; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">送信</button>
+        </div>
+    </div>
+    
+    <script>
+        (function() {
+            const overlay = document.getElementById('password-overlay');
+            const input = document.getElementById('password-input');
+            const submit = document.getElementById('password-submit');
+            const error = document.getElementById('password-error');
+            const CORRECT_PASSWORD = 'gemini'; // ここでパスワードを設定します！
+            
+            // すでにパスワード入力済みならオーバーレイを非表示にする
+            if (sessionStorage.getItem('site_auth') === 'true') {
+                overlay.style.display = 'none';
+            }
+
+            submit.addEventListener('click', function() {
+                if (input.value === CORRECT_PASSWORD) {
+                    sessionStorage.setItem('site_auth', 'true');
+                    overlay.style.display = 'none';
+                    error.style.display = 'none';
+                } else {
+                    error.style.display = 'block';
+                }
+            });
+
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') submit.click();
+            });
+        })();
+    </script>
     <header class="header glass-panel">
         <div class="logo" style="display: flex; align-items: center; gap: 8px;">
             <h1>🎨 Feeling Gallery</h1>

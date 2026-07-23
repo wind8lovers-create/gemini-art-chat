@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-// パスワード保護用のコンポーネントを読み込みます
-import PasswordProtect from "@/components/PasswordProtect/PasswordProtect";
 
 // Google Fontsの「Inter」という綺麗で見やすいフォントを読み込みます
 const inter = Inter({ subsets: ["latin"] });
@@ -43,11 +41,8 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        {/* パスワード保護の仕組みでアプリ全体を包み込みます */}
-        <PasswordProtect>
-          {/* ここに page.tsx の内容が差し込まれます */}
-          {children}
-        </PasswordProtect>
+        {/* ここに page.tsx の内容が差し込まれます */}
+        {children}
       </body>
     </html>
   );
