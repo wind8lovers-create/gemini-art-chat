@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feeling Gallery</title>
-    <link rel="stylesheet" href="style.css?v=1784770166011">
+    <link rel="stylesheet" href="style.css?v=1784785410680">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -13,6 +13,8 @@
             <h1>🎨 Feeling Gallery</h1>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
+            <!-- 検索バー追加 -->
+            <input type="text" id="global-search" placeholder="🔍 検索..." class="search-input" />
             <!-- サムネ動画再生モード切り替えボタン -->
             <button id="video-mode-toggle" class="nav-btn" style="font-size: 0.85rem; padding: 4px 8px; white-space: nowrap;" title="動画の再生モードを切り替えます">サムネ:再生(音無)</button>
             <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
@@ -133,7 +135,7 @@
 
         window.firebaseRecordVisitor();
     </script>
-    <script src="data.js?v=1784770166011"></script>
-    <script src="script.js?v=1784770166011"></script>
+    <script src="data.js?v=1784785410680"></script>
+    <script src="script.js?v=1784785410680"></script>
 </body>
 </html>

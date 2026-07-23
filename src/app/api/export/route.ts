@@ -182,6 +182,8 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
             <h1>🎨 Feeling Gallery</h1>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
+            <!-- 検索バー追加 -->
+            <input type="text" id="global-search" placeholder="🔍 検索..." class="search-input" />
             <!-- サムネ動画再生モード切り替えボタン -->
             <button id="video-mode-toggle" class="nav-btn" style="font-size: 0.85rem; padding: 4px 8px; white-space: nowrap;" title="動画の再生モードを切り替えます">サムネ:再生(音無)</button>
             <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
@@ -467,6 +469,25 @@ body {
   transition: background 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 .dl-btn:hover { background: #26de81; }
+.search-input {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; padding: 6px 12px; border-radius: 8px; outline: none;
+  font-family: inherit; transition: 0.2s; width: 120px; font-size: 0.9rem;
+}
+.search-input:focus { background: rgba(255,255,255,0.2); width: 180px; border-color: var(--accent-color); }
+@media (max-width: 768px) {
+  .search-input { width: 80px; }
+  .search-input:focus { width: 120px; }
+}
+.accordion-header {
+  background: var(--panel-bg); padding: 12px 16px; border-radius: 8px;
+  cursor: pointer; display: flex; justify-content: space-between;
+  align-items: center; margin-top: 16px; margin-bottom: 8px; font-weight: bold;
+  border: 1px solid rgba(255,255,255,0.1); transition: 0.2s;
+}
+.accordion-header:hover { background: rgba(255,255,255,0.1); }
+.accordion-content { display: none; }
+.accordion-content.open { display: block; }
 `;
 
   const scriptJs = `
@@ -521,6 +542,109 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFolderId = null;
     // 動画の再生モード（初期値は自動再生・無音）
     let isVideoAutoplay = true;
+    let searchQuery = '';
+
+    const searchInput = document.getElementById('global-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.trim().toLowerCase();
+            renderGallery();
+        });
+    }
+
+    // メモカードのHTMLを生成する共通関数
+    function createMemoHtml(memo) {
+        const tagHtml = (memo.tags || []).map(tag => 
+            '<span style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-right: 4px;">#' + tag + '</span>'
+        ).join('');
+        
+        return \`
+        <article class="glass-panel memo-card-export" style="padding: 16px; border-left: 4px solid #C800DE; background-color: rgba(80, 40, 140, 1); display: flex; flex-direction: column; gap: 12px; transition: transform 0.2s; cursor: pointer;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                <h3 style="margin: 0; font-size: 1.1rem; color: #bb86fc; flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">\${memo.title}</h3>
+                <div style="font-size: 0.75rem; color: #888; white-space: nowrap; margin-top: 4px;">\${new Date(memo.updatedAt).toLocaleDateString()}</div>
+            </div>
+            <div class="memo-content-text" style="font-size: 0.9rem; color: #8c8c8c; white-space: pre-wrap; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">\${memo.content}</div>
+            \${tagHtml ? '<div style="margin-top: auto;">' + tagHtml + '</div>' : ''}
+        </article>
+        \`;
+    }
+
+    // 画像カードのHTMLを生成する共通関数
+    function createMediaHtml(item) {
+        let mediaHtml = '';
+        if (item.mediaType === 'video') {
+            if (isVideoAutoplay) {
+                mediaHtml = \`<video src="assets/\${item.filename}" autoplay muted loop playsinline class="media"></video>\`;
+            } else {
+                mediaHtml = \`<video src="assets/\${item.filename}" controls playsinline class="media"></video>\`;
+            }
+        } else {
+            mediaHtml = \`<img src="assets/\${item.filename}" alt="generated image" class="media">\`;
+        }
+        
+        const titleOverlay = item.title ? \`<div class="image-title-overlay">\${item.title}</div>\` : '';
+        
+        return \`
+            <div class="card" data-id="\${item.id}">
+                <div class="media-wrapper">\${titleOverlay}\${mediaHtml}</div>
+                <div class="info">
+                    <div class="prompt-container">
+                        <p class="prompt-text prompt-collapsed">\${item.prompt}</p>
+                        <button class="copy-btn hidden">📋 コピー</button>
+                    </div>
+                </div>
+            </div>
+        \`;
+    }
+
+    function renderGallery() {
+        if (searchQuery) {
+            const allImages = galleryData.images || [];
+            const allMemos = galleryData.memos || [];
+            
+            const matchedImages = allImages.filter(item => {
+                const title = (item.title || '').toLowerCase();
+                const prompt = (item.prompt || '').toLowerCase();
+                const comment = (item.customComment || '').toLowerCase();
+                return title.includes(searchQuery) || prompt.includes(searchQuery) || comment.includes(searchQuery);
+            });
+            
+            const matchedMemos = allMemos.filter(memo => {
+                const title = (memo.title || '').toLowerCase();
+                const content = (memo.content || '').toLowerCase();
+                const tags = (memo.tags || []).join(' ').toLowerCase();
+                return title.includes(searchQuery) || content.includes(searchQuery) || tags.includes(searchQuery);
+            });
+
+            let html = \`<div style="margin-bottom: 16px; font-size: 1.2rem; font-weight: bold;">🔍 「\${searchQuery}」の検索結果</div>\`;
+
+            html += \`
+                <div class="accordion-header" onclick="this.nextElementSibling.classList.toggle('open');">
+                    <span>▼ 🖼️ 画像・動画 (\${matchedImages.length}件)</span>
+                </div>
+                <div class="accordion-content \${matchedImages.length > 0 ? 'open' : ''}">
+                    <div class="grid" style="margin-bottom: 24px;">
+                        \${matchedImages.length > 0 ? matchedImages.map(createMediaHtml).join('') : '<div style="color:#888;">見つかりませんでした。</div>'}
+                    </div>
+                </div>
+            \`;
+
+            html += \`
+                <div class="accordion-header" onclick="this.nextElementSibling.classList.toggle('open');">
+                    <span>▼ 💡 プロンプトメモ (\${matchedMemos.length}件)</span>
+                </div>
+                <div class="accordion-content \${matchedMemos.length > 0 ? 'open' : ''}">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                        \${matchedMemos.length > 0 ? matchedMemos.map(createMemoHtml).join('') : '<div style="color:#888;">見つかりませんでした。</div>'}
+                    </div>
+                </div>
+            \`;
+
+            mainContent.innerHTML = html;
+            attachCardEvents();
+            return;
+        }
 
     // サムネ動画モード切り替えのイベント設定
     const videoModeBtn = document.getElementById('video-mode-toggle');
@@ -545,37 +669,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 memoHtml += '<div style="color: #888; padding: 24px; grid-column: 1 / -1;">メモがありません。</div>';
             }
             
-            allMemos.forEach(memo => {
-                const tagHtml = (memo.tags || []).map(tag => 
-                    '<span style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-right: 4px;">#' + tag + '</span>'
-                ).join('');
-                
-                memoHtml += \`
-                <article class="glass-panel memo-card-export" style="padding: 16px; border-left: 4px solid #C800DE; background-color: rgba(80, 40, 140, 1); display: flex; flex-direction: column; gap: 12px; transition: transform 0.2s; cursor: pointer;">
-                    <h3 style="margin: 0; font-size: 1.1rem; color: #bb86fc;">\${memo.title}</h3>
-                    <div class="memo-content-text" style="font-size: 0.9rem; color: #8c8c8c; white-space: pre-wrap; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">\${memo.content}</div>
-                    \${tagHtml ? '<div>' + tagHtml + '</div>' : ''}
-                    <div style="font-size: 0.75rem; color: #888; text-align: right; margin-top: auto;">\${new Date(memo.updatedAt).toLocaleDateString()}</div>
-                </article>
-                \`;
-            });
+            memoHtml += allMemos.map(createMemoHtml).join('');
             memoHtml += '</div>';
             mainContent.innerHTML = memoHtml;
 
-            // プロンプトメモクリック時の展開処理
-            document.querySelectorAll('.memo-card-export').forEach(card => {
-                card.addEventListener('click', () => {
-                    const textDiv = card.querySelector('.memo-content-text');
-                    if (textDiv) {
-                        if (textDiv.style.webkitLineClamp === '3' || textDiv.style.webkitLineClamp === '') {
-                            textDiv.style.webkitLineClamp = 'unset';
-                        } else {
-                            textDiv.style.webkitLineClamp = '3';
-                        }
-                    }
-                });
-            });
-
+            attachCardEvents();
             return;
         }
 
@@ -642,39 +740,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 画像の描画
-        displayImages.forEach(item => {
-            // モードに応じて動画タグの中身を変更
-            let mediaHtml = '';
-            if (item.mediaType === 'video') {
-                if (isVideoAutoplay) {
-                    // 自動再生（無音・ループ）※コントロールバーなし
-                    mediaHtml = \`<video src="assets/\${item.filename}" autoplay muted loop playsinline class="media"></video>\`;
-                } else {
-                    // 停止状態（音声あり・コントロールバーあり）
-                    mediaHtml = \`<video src="assets/\${item.filename}" controls playsinline class="media"></video>\`;
-                }
-            } else {
-                mediaHtml = \`<img src="assets/\${item.filename}" alt="generated image" class="media">\`;
-            }
-            
-            const titleOverlay = item.title ? \`<div class="image-title-overlay">\${item.title}</div>\` : '';
-            
-            html += \`
-                <div class="card" data-id="\${item.id}">
-                    <div class="media-wrapper">\${titleOverlay}\${mediaHtml}</div>
-                    <div class="info">
-                        <div class="prompt-container">
-                            <p class="prompt-text prompt-collapsed">\${item.prompt}</p>
-                            <button class="copy-btn hidden">📋 コピー</button>
-                        </div>
-                    </div>
-                </div>
-            \`;
-        });
-
+        html += displayImages.map(createMediaHtml).join('');
         html += '</div>';
         mainContent.innerHTML = html;
 
+        attachCardEvents();
+    }
+
+    function attachCardEvents() {
         // 【追加】人気画像のラベル付与
         if (window.firebaseGetPopularImages) {
             window.firebaseGetPopularImages().then(popularStats => {
@@ -717,6 +790,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderGallery();
             });
         }
+
+        // プロンプトメモクリック時の展開処理
+        document.querySelectorAll('.memo-card-export').forEach(card => {
+            card.addEventListener('click', () => {
+                const textDiv = card.querySelector('.memo-content-text');
+                if (textDiv) {
+                    if (textDiv.style.webkitLineClamp === '3' || textDiv.style.webkitLineClamp === '') {
+                        textDiv.style.webkitLineClamp = 'unset';
+                    } else {
+                        textDiv.style.webkitLineClamp = '3';
+                    }
+                }
+            });
+        });
 
         document.querySelectorAll('.folder-card').forEach(card => {
             card.addEventListener('click', () => {

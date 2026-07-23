@@ -158,3 +158,22 @@ body {
   transition: background 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 .dl-btn:hover { background: #26de81; }
+.search-input {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; padding: 6px 12px; border-radius: 8px; outline: none;
+  font-family: inherit; transition: 0.2s; width: 120px; font-size: 0.9rem;
+}
+.search-input:focus { background: rgba(255,255,255,0.2); width: 180px; border-color: var(--accent-color); }
+@media (max-width: 768px) {
+  .search-input { width: 80px; }
+  .search-input:focus { width: 120px; }
+}
+.accordion-header {
+  background: var(--panel-bg); padding: 12px 16px; border-radius: 8px;
+  cursor: pointer; display: flex; justify-content: space-between;
+  align-items: center; margin-top: 16px; margin-bottom: 8px; font-weight: bold;
+  border: 1px solid rgba(255,255,255,0.1); transition: 0.2s;
+}
+.accordion-header:hover { background: rgba(255,255,255,0.1); }
+.accordion-content { display: none; }
+.accordion-content.open { display: block; }
