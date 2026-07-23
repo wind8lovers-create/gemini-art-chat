@@ -476,9 +476,13 @@ body {
 }
 .search-input:focus { background: rgba(255,255,255,0.2); width: 160px; border-color: var(--accent-color); }
 @media (max-width: 768px) {
-  .search-input { width: 65px; padding: 6px 8px; font-size: 0.85rem; }
+  .header { padding: 8px 4px !important; justify-content: flex-start !important; }
+  .header > div { gap: 4px !important; }
+  .logo { flex-shrink: 1; margin-right: auto; }
+  .logo h1 { font-size: 0.9rem; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; max-width: 110px; }
+  .search-input { width: 55px; padding: 4px; font-size: 0.85rem; }
   .search-input:focus { width: 110px; }
-  .logo h1 { font-size: 1rem; }
+  .nav-btn { padding: 4px 6px !important; font-size: 0.9rem !important; }
 }
 .accordion-header {
   background: var(--panel-bg); padding: 12px 16px; border-radius: 8px;
@@ -489,35 +493,41 @@ body {
 .accordion-header:hover { background: rgba(255,255,255,0.1); }
 .accordion-content { display: none; }
 .accordion-content.open { display: block; }
-`;
+\`;
 
-  const scriptJs = `
+  const scriptJs = \`
+// スマホのズーム（ピンチアウト）を強制的にリセットする関数
+function resetZoom() {
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+        const original = viewport.content;
+        viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        setTimeout(() => {
+            viewport.content = original;
+        }, 300);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    // スマホ表示時にロゴタップでサイドバーを開閉する処理
+    // スマホ表示時にロゴタップでトップに戻る＆ズームリセットする処理
     const logo = document.querySelector('.logo');
-    const sidebar = document.querySelector('.sidebar');
-    if (logo && sidebar) {
+    if (logo) {
         logo.style.cursor = 'pointer';
-        logo.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                sidebar.classList.toggle('show-mobile');
-                e.stopPropagation(); // 外側クリック判定がすぐ発火しないように伝播を止める
+        logo.addEventListener('click', () => {
+            resetZoom();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const searchInput = document.getElementById('global-search');
+            if (searchInput) {
+                searchInput.value = '';
+                searchQuery = '';
             }
-        });
-
-        // 画面のどこかをクリックしたらサイドバーを閉じる
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && sidebar.classList.contains('show-mobile')) {
-                // 上部のアイコン、文字列のリンク、ロゴ以外をクリックした場合に閉じる
-                const isNavBtn = e.target.closest('.nav-btn');
-                const isCategoryItem = e.target.closest('.category-item');
-                const isLogo = e.target.closest('.logo');
-                const isLink = e.target.closest('a');
-                
-                if (!isNavBtn && !isCategoryItem && !isLogo && !isLink) {
-                    sidebar.classList.remove('show-mobile');
-                }
-            }
+            currentCategory = 'media';
+            currentFolderId = null;
+            const categoryItems = document.querySelectorAll('.category-item, .nav-btn[data-category]');
+            categoryItems.forEach(i => i.classList.remove('active'));
+            const mediaBtn = document.querySelector('.nav-btn[data-category="media"]');
+            if (mediaBtn) mediaBtn.classList.add('active');
+            renderGallery();
         });
     }
 
@@ -875,6 +885,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     categoryItems.forEach(item => {
         item.addEventListener('click', () => {
+            resetZoom();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            const searchInput = document.getElementById('global-search');
+            if (searchInput) {
+                searchInput.value = '';
+                searchQuery = '';
+            }
+
             const selectedCategory = item.getAttribute('data-category');
             categoryItems.forEach(i => i.classList.remove('active'));
             document.querySelectorAll(\`[data-category="\${selectedCategory}"]\`).forEach(i => i.classList.add('active'));
