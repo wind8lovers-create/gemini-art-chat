@@ -106,22 +106,36 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
+    // サムネ動画モード切り替えのイベント設定
+    const videoModeBtn = document.getElementById('video-mode-toggle');
+    if (videoModeBtn) {
+        videoModeBtn.addEventListener('click', () => {
+            isVideoAutoplay = !isVideoAutoplay;
+            // ボタンのテキストを変更
+            videoModeBtn.innerText = isVideoAutoplay ? 'サムネ:再生(音無)' : 'サムネ:停止(音有)';
+            showToast(isVideoAutoplay ? '自動再生（無音）モードにしました' : '停止（音声あり）モードにしました');
+            
+            // ギャラリーを再描画して動画要素を作り直す
+            renderGallery();
+        });
+    }
+
     function renderGallery() {
         if (searchQuery) {
             const allImages = galleryData.images || [];
             const allMemos = galleryData.memos || [];
             
             const matchedImages = allImages.filter(item => {
-                const title = (item.title || '').toLowerCase();
-                const prompt = (item.prompt || '').toLowerCase();
-                const comment = (item.customComment || '').toLowerCase();
+                const title = String(item.title || '').toLowerCase();
+                const prompt = String(item.prompt || '').toLowerCase();
+                const comment = String(item.customComment || '').toLowerCase();
                 return title.includes(searchQuery) || prompt.includes(searchQuery) || comment.includes(searchQuery);
             });
             
             const matchedMemos = allMemos.filter(memo => {
-                const title = (memo.title || '').toLowerCase();
-                const content = (memo.content || '').toLowerCase();
-                const tags = (memo.tags || []).join(' ').toLowerCase();
+                const title = String(memo.title || '').toLowerCase();
+                const content = String(memo.content || '').toLowerCase();
+                const tags = Array.isArray(memo.tags) ? memo.tags.join(' ').toLowerCase() : String(memo.tags || '').toLowerCase();
                 return title.includes(searchQuery) || content.includes(searchQuery) || tags.includes(searchQuery);
             });
 
@@ -154,21 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-    // サムネ動画モード切り替えのイベント設定
-    const videoModeBtn = document.getElementById('video-mode-toggle');
-    if (videoModeBtn) {
-        videoModeBtn.addEventListener('click', () => {
-            isVideoAutoplay = !isVideoAutoplay;
-            // ボタンのテキストを変更
-            videoModeBtn.innerText = isVideoAutoplay ? 'サムネ:再生(音無)' : 'サムネ:停止(音有)';
-            showToast(isVideoAutoplay ? '自動再生（無音）モードにしました' : '停止（音声あり）モードにしました');
-            
-            // ギャラリーを再描画して動画要素を作り直す
-            renderGallery();
-        });
-    }
-
-    function renderGallery() {
         if (currentCategory === 'prompt') {
             const allMemos = galleryData.memos || [];
             let memoHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; padding-bottom: 40px;">';
