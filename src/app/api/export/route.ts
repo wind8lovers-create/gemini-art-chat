@@ -198,8 +198,14 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
         <!-- サイドバー -->
         <aside class="sidebar glass-panel">
             <ul class="category-list">
-                <li class="category-item active" data-category="media">生成画像・動画<br><small>(AI Generated Media)</small></li>
-                <li class="category-item" data-category="prompt">プロンプトメモ<br><small>(Prompt Memo)</small></li>
+                <li class="category-item active" data-category="media" style="display: flex; align-items: baseline; gap: 8px;">
+                    <span style="font-size: 1.1rem; white-space: nowrap;">生成画像・動画</span>
+                    <small style="opacity: 0.7; font-size: 0.8rem; white-space: nowrap;">(by Gemini)</small>
+                </li>
+                <li class="category-item" data-category="prompt" style="display: flex; align-items: baseline; gap: 8px;">
+                    <span style="font-size: 1.1rem; white-space: nowrap;">プロンプトめも</span>
+                    <small style="opacity: 0.7; font-size: 0.8rem; white-space: nowrap;">(AI Insights)</small>
+                </li>
             </ul>
 
             <div class="sidebar-footer" style="text-align: center; font-size: 0.75rem; line-height: 1.4;">
@@ -887,6 +893,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth <= 768) {
                 const title = item.getAttribute('title') || item.innerText.split('\\n')[0];
                 showToast(title);
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar) sidebar.classList.remove('show-mobile');
             }
             
             currentCategory = selectedCategory;

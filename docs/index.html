@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feeling Gallery</title>
-    <link rel="stylesheet" href="style.css?v=1784787438619">
+    <link rel="stylesheet" href="style.css?v=1784788397900">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -29,8 +29,14 @@
         <!-- サイドバー -->
         <aside class="sidebar glass-panel">
             <ul class="category-list">
-                <li class="category-item active" data-category="media">生成画像・動画<br><small>(AI Generated Media)</small></li>
-                <li class="category-item" data-category="prompt">プロンプトメモ<br><small>(Prompt Memo)</small></li>
+                <li class="category-item active" data-category="media" style="display: flex; align-items: baseline; gap: 8px;">
+                    <span style="font-size: 1.1rem; white-space: nowrap;">生成画像・動画</span>
+                    <small style="opacity: 0.7; font-size: 0.8rem; white-space: nowrap;">(by Gemini)</small>
+                </li>
+                <li class="category-item" data-category="prompt" style="display: flex; align-items: baseline; gap: 8px;">
+                    <span style="font-size: 1.1rem; white-space: nowrap;">プロンプトめも</span>
+                    <small style="opacity: 0.7; font-size: 0.8rem; white-space: nowrap;">(AI Insights)</small>
+                </li>
             </ul>
 
             <div class="sidebar-footer" style="text-align: center; font-size: 0.75rem; line-height: 1.4;">
@@ -135,7 +141,7 @@
 
         window.firebaseRecordVisitor();
     </script>
-    <script src="data.js?v=1784787438619"></script>
-    <script src="script.js?v=1784787438619"></script>
+    <script src="data.js?v=1784788397900"></script>
+    <script src="script.js?v=1784788397900"></script>
 </body>
 </html>

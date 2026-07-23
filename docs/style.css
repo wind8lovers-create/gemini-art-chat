@@ -576,6 +576,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth <= 768) {
                 const title = item.getAttribute('title') || item.innerText.split('\n')[0];
                 showToast(title);
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar) sidebar.classList.remove('show-mobile');
             }
             
             currentCategory = selectedCategory;
