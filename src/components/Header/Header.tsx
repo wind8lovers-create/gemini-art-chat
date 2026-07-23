@@ -91,6 +91,10 @@ export default function Header({ onLogoClick }: { onLogoClick?: () => void }) {
             <span className={styles.navIcon}>👀</span>
             <span className={styles.navText}>プレビュー</span>
           </Link>
+          <Link href="/prompt-memo" className="btn btn-secondary">
+            <span className={styles.navIcon}>📝</span>
+            <span className={styles.navText}>メモ</span>
+          </Link>
           <button className="btn btn-secondary" onClick={() => setIsSettingsOpen(true)}>
             <span className={styles.navIcon}>⚙️</span>
             <span className={styles.navText}>設定</span>

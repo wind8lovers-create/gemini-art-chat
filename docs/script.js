@@ -67,7 +67,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderGallery() {
         if (currentCategory === 'prompt') {
-            mainContent.innerHTML = '<div style="padding: 80px 24px; font-size: 1.5rem; color: #888; text-align: center; font-weight: bold;">プロンプトめも</div>';
+            const allMemos = galleryData.memos || [];
+            let memoHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; padding-bottom: 40px;">';
+            
+            if (allMemos.length === 0) {
+                memoHtml += '<div style="color: #888; padding: 24px; grid-column: 1 / -1;">メモがありません。</div>';
+            }
+            
+            allMemos.forEach(memo => {
+                const tagHtml = (memo.tags || []).map(tag => 
+                    '<span style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-right: 4px;">#' + tag + '</span>'
+                ).join('');
+                
+                memoHtml += `
+                <article class="glass-panel" style="padding: 16px; border-left: 4px solid var(--accent-color); display: flex; flex-direction: column; gap: 12px; transition: transform 0.2s;">
+                    <h3 style="margin: 0; font-size: 1.1rem; color: #fff;">${memo.title}</h3>
+                    <div style="font-size: 0.9rem; color: #ccc; white-space: pre-wrap; line-height: 1.5;">${memo.content}</div>
+                    ${tagHtml ? '<div>' + tagHtml + '</div>' : ''}
+                    <div style="font-size: 0.75rem; color: #888; text-align: right; margin-top: auto;">${new Date(memo.updatedAt).toLocaleDateString()}</div>
+                </article>
+                `;
+            });
+            memoHtml += '</div>';
+            mainContent.innerHTML = memoHtml;
             return;
         }
 
