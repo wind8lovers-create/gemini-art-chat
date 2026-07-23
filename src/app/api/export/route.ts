@@ -7,167 +7,167 @@ const DOCS_DIR = path.join(process.cwd(), 'docs');
 const ASSETS_DIR = path.join(DOCS_DIR, 'assets');
 
 export async function POST() {
-  try {
-    // docsとassetsディレクトリがなければ作成
-    await fs.mkdir(DOCS_DIR, { recursive: true });
-    await fs.mkdir(ASSETS_DIR, { recursive: true });
+    try {
+        // docsとassetsディレクトリがなければ作成
+        await fs.mkdir(DOCS_DIR, { recursive: true });
+        await fs.mkdir(ASSETS_DIR, { recursive: true });
 
-    const entries = await fs.readdir(DATA_DIR, { withFileTypes: true }).catch(() => []);
-    const exportData: any[] = [];
-    
-    // 現在のassets内のファイル一覧を取得
-    const existingAssets = new Set(await fs.readdir(ASSETS_DIR).catch(() => []));
+        const entries = await fs.readdir(DATA_DIR, { withFileTypes: true }).catch(() => []);
+        const exportData: any[] = [];
 
-    for (const entry of entries) {
-      if (entry.isDirectory()) {
-        const metadataPath = path.join(DATA_DIR, entry.name, 'metadata.json');
-        const messagesPath = path.join(DATA_DIR, entry.name, 'messages.json');
-        
-        try {
-          const metadataStr = await fs.readFile(metadataPath, 'utf-8');
-          const metadata = JSON.parse(metadataStr);
-          
-          // フォルダ情報を取得して、公開状態を確認
-          const foldersDataRaw = await fs.readFile(path.join(process.cwd(), 'data', 'folders.json'), 'utf-8').catch(() => '[]');
-          const folders = JSON.parse(foldersDataRaw);
-          const folderMap = new Map(folders.map((f: any) => [f.id, f]));
-          const folder = metadata.folderId ? folderMap.get(metadata.folderId) : null;
-          const isFolderPublished = folder?.isPublished === true;
-          
-          const messagesStr = await fs.readFile(messagesPath, 'utf-8');
-          const messages = JSON.parse(messagesStr);
+        // 現在のassets内のファイル一覧を取得
+        const existingAssets = new Set(await fs.readdir(ASSETS_DIR).catch(() => []));
 
-          if (Array.isArray(messages)) {
-            for (const msg of messages) {
-              // アップロード画像
-              const inputStatus = msg.inputImage?.publishStatus;
-              if (msg.inputImage && inputStatus === 'published') {
-                const isVideo = msg.inputImage.mimeType?.startsWith('video/');
-                const ext = isVideo ? '.mp4' : '.png';
-                const filename = `${msg.id}${ext}`;
-                
-                exportData.push({
-                  id: msg.id,
-                  filename: filename,
-                  prompt: msg.text || 'アップロード画像',
-                  mediaType: isVideo ? 'video' : 'image',
-                  sessionTitle: metadata.title,
-                  category: metadata.title.includes('物語') ? 'story' : metadata.title.includes('プロンプト') ? 'prompt' : 'media',
-                  dataUri: msg.inputImage.data,
-                  title: msg.inputImage.title || '',
-                  customComment: msg.inputImage.customComment || '',
-                  folderId: metadata.folderId || null,
-                  sessionOrder: metadata.order ?? Number.MAX_SAFE_INTEGER
-                });
-              }
+        for (const entry of entries) {
+            if (entry.isDirectory()) {
+                const metadataPath = path.join(DATA_DIR, entry.name, 'metadata.json');
+                const messagesPath = path.join(DATA_DIR, entry.name, 'messages.json');
 
-              // 生成画像
-              if (msg.generatedImages && Array.isArray(msg.generatedImages)) {
-                for (const img of msg.generatedImages) {
-                  const imgStatus = img.publishStatus;
-                  if (imgStatus === 'published') {
-                    const isVideo = img.mediaType === 'video' || img.filename.endsWith('.mp4');
-                    exportData.push({
-                      id: img.id,
-                      filename: img.filename,
-                      prompt: img.prompt,
-                      mediaType: isVideo ? 'video' : 'image',
-                      sessionTitle: metadata.title,
-                      category: metadata.title.includes('物語') ? 'story' : metadata.title.includes('プロンプト') ? 'prompt' : 'media',
-                      sessionId: entry.name,
-                      isGenerated: true,
-                      title: img.title || '',
-                      customComment: img.customComment || '',
-                      folderId: metadata.folderId || null,
-                      sessionOrder: metadata.order ?? Number.MAX_SAFE_INTEGER
-                    });
-                  }
+                try {
+                    const metadataStr = await fs.readFile(metadataPath, 'utf-8');
+                    const metadata = JSON.parse(metadataStr);
+
+                    // フォルダ情報を取得して、公開状態を確認
+                    const foldersDataRaw = await fs.readFile(path.join(process.cwd(), 'data', 'folders.json'), 'utf-8').catch(() => '[]');
+                    const folders = JSON.parse(foldersDataRaw);
+                    const folderMap = new Map(folders.map((f: any) => [f.id, f]));
+                    const folder = metadata.folderId ? folderMap.get(metadata.folderId) : null;
+                    const isFolderPublished = folder?.isPublished === true;
+
+                    const messagesStr = await fs.readFile(messagesPath, 'utf-8');
+                    const messages = JSON.parse(messagesStr);
+
+                    if (Array.isArray(messages)) {
+                        for (const msg of messages) {
+                            // アップロード画像
+                            const inputStatus = msg.inputImage?.publishStatus;
+                            if (msg.inputImage && inputStatus === 'published') {
+                                const isVideo = msg.inputImage.mimeType?.startsWith('video/');
+                                const ext = isVideo ? '.mp4' : '.png';
+                                const filename = `${msg.id}${ext}`;
+
+                                exportData.push({
+                                    id: msg.id,
+                                    filename: filename,
+                                    prompt: msg.text || 'アップロード画像',
+                                    mediaType: isVideo ? 'video' : 'image',
+                                    sessionTitle: metadata.title,
+                                    category: metadata.title.includes('物語') ? 'story' : metadata.title.includes('プロンプト') ? 'prompt' : 'media',
+                                    dataUri: msg.inputImage.data,
+                                    title: msg.inputImage.title || '',
+                                    customComment: msg.inputImage.customComment || '',
+                                    folderId: metadata.folderId || null,
+                                    sessionOrder: metadata.order ?? Number.MAX_SAFE_INTEGER
+                                });
+                            }
+
+                            // 生成画像
+                            if (msg.generatedImages && Array.isArray(msg.generatedImages)) {
+                                for (const img of msg.generatedImages) {
+                                    const imgStatus = img.publishStatus;
+                                    if (imgStatus === 'published') {
+                                        const isVideo = img.mediaType === 'video' || img.filename.endsWith('.mp4');
+                                        exportData.push({
+                                            id: img.id,
+                                            filename: img.filename,
+                                            prompt: img.prompt,
+                                            mediaType: isVideo ? 'video' : 'image',
+                                            sessionTitle: metadata.title,
+                                            category: metadata.title.includes('物語') ? 'story' : metadata.title.includes('プロンプト') ? 'prompt' : 'media',
+                                            sessionId: entry.name,
+                                            isGenerated: true,
+                                            title: img.title || '',
+                                            customComment: img.customComment || '',
+                                            folderId: metadata.folderId || null,
+                                            sessionOrder: metadata.order ?? Number.MAX_SAFE_INTEGER
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.warn(`[Export] Error reading session ${entry.name}`, e);
                 }
-              }
             }
-          }
-        } catch (e) {
-          console.warn(`[Export] Error reading session ${entry.name}`, e);
         }
-      }
-    }
 
-    // ファイルのコピー処理（差分同期）
-    for (const item of exportData) {
-      if (!existingAssets.has(item.filename)) {
-        console.log(`[Export] Copying new asset: ${item.filename}`);
-        const destPath = path.join(ASSETS_DIR, item.filename);
-        
-        if (item.isGenerated) {
-          const srcPath = path.join(DATA_DIR, item.sessionId, 'images', item.filename);
-          try {
-            await fs.copyFile(srcPath, destPath);
-            existingAssets.add(item.filename);
-          } catch (e) {
-            console.error(`[Export] Failed to copy generated image: ${srcPath}`, e);
-          }
-        } else if (item.dataUri) {
-          try {
-            const base64Data = item.dataUri.split(',')[1];
-            const buffer = Buffer.from(base64Data, 'base64');
-            await fs.writeFile(destPath, buffer);
-            existingAssets.add(item.filename);
-          } catch (e) {
-            console.error(`[Export] Failed to save uploaded data to ${item.filename}`, e);
-          }
+        // ファイルのコピー処理（差分同期）
+        for (const item of exportData) {
+            if (!existingAssets.has(item.filename)) {
+                console.log(`[Export] Copying new asset: ${item.filename}`);
+                const destPath = path.join(ASSETS_DIR, item.filename);
+
+                if (item.isGenerated) {
+                    const srcPath = path.join(DATA_DIR, item.sessionId, 'images', item.filename);
+                    try {
+                        await fs.copyFile(srcPath, destPath);
+                        existingAssets.add(item.filename);
+                    } catch (e) {
+                        console.error(`[Export] Failed to copy generated image: ${srcPath}`, e);
+                    }
+                } else if (item.dataUri) {
+                    try {
+                        const base64Data = item.dataUri.split(',')[1];
+                        const buffer = Buffer.from(base64Data, 'base64');
+                        await fs.writeFile(destPath, buffer);
+                        existingAssets.add(item.filename);
+                    } catch (e) {
+                        console.error(`[Export] Failed to save uploaded data to ${item.filename}`, e);
+                    }
+                }
+            }
+
+            delete item.dataUri;
+            delete item.sessionId;
         }
-      }
-      
-      delete item.dataUri;
-      delete item.sessionId;
+
+        // フォルダ情報を取得して追加する
+        const foldersDataRaw = await fs.readFile(path.join(process.cwd(), 'data', 'folders.json'), 'utf-8').catch(() => '[]');
+        let foldersDataExport = JSON.parse(foldersDataRaw);
+        foldersDataExport = foldersDataExport.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
+
+        // image はセッションの並び順（order）を優先し、同じセッション内では古い順（ID昇順）で表示
+        exportData.sort((a, b) => {
+            const orderA = a.sessionOrder;
+            const orderB = b.sessionOrder;
+            if (orderA !== orderB) {
+                return orderA - orderB;
+            }
+            return a.id.localeCompare(b.id);
+        });
+
+        // メモデータを読み込む
+        const memosDataRaw = await fs.readFile(path.join(process.cwd(), 'src', 'data', 'memos.json'), 'utf-8').catch(() => '[]');
+        const memosData = JSON.parse(memosDataRaw);
+
+        const finalExportData = {
+            folders: foldersDataExport,
+            images: exportData,
+            memos: memosData
+        };
+
+        const dataJsContent = `const galleryData = ${JSON.stringify(finalExportData, null, 2)};`;
+        await fs.writeFile(path.join(DOCS_DIR, 'data.js'), dataJsContent, 'utf-8');
+
+        const packageJsonPath = path.join(process.cwd(), 'package.json');
+        const packageJsonRaw = await fs.readFile(packageJsonPath, 'utf-8').catch(() => '{}');
+        const packageJson = JSON.parse(packageJsonRaw);
+        const nextVersion = (packageJson.dependencies?.next || '').replace(/[\^~]/g, '');
+        const reactVersion = (packageJson.dependencies?.react || '').replace(/[\^~]/g, '');
+
+        await generateStaticFiles(nextVersion, reactVersion);
+
+        return NextResponse.json({ success: true, count: exportData.length });
+    } catch (error) {
+        console.error('Export Error:', error);
+        return NextResponse.json({ error: 'Export failed' }, { status: 500 });
     }
-
-    // フォルダ情報を取得して追加する
-    const foldersDataRaw = await fs.readFile(path.join(process.cwd(), 'data', 'folders.json'), 'utf-8').catch(() => '[]');
-    let foldersDataExport = JSON.parse(foldersDataRaw);
-    foldersDataExport = foldersDataExport.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
-    
-    // image はセッションの並び順（order）を優先し、同じセッション内では古い順（ID昇順）で表示
-    exportData.sort((a, b) => {
-      const orderA = a.sessionOrder;
-      const orderB = b.sessionOrder;
-      if (orderA !== orderB) {
-        return orderA - orderB;
-      }
-      return a.id.localeCompare(b.id);
-    });
-
-    // メモデータを読み込む
-    const memosDataRaw = await fs.readFile(path.join(process.cwd(), 'src', 'data', 'memos.json'), 'utf-8').catch(() => '[]');
-    const memosData = JSON.parse(memosDataRaw);
-
-    const finalExportData = {
-      folders: foldersDataExport,
-      images: exportData,
-      memos: memosData
-    };
-
-    const dataJsContent = `const galleryData = ${JSON.stringify(finalExportData, null, 2)};`;
-    await fs.writeFile(path.join(DOCS_DIR, 'data.js'), dataJsContent, 'utf-8');
-
-    const packageJsonPath = path.join(process.cwd(), 'package.json');
-    const packageJsonRaw = await fs.readFile(packageJsonPath, 'utf-8').catch(() => '{}');
-    const packageJson = JSON.parse(packageJsonRaw);
-    const nextVersion = (packageJson.dependencies?.next || '').replace(/[\^~]/g, '');
-    const reactVersion = (packageJson.dependencies?.react || '').replace(/[\^~]/g, '');
-
-    await generateStaticFiles(nextVersion, reactVersion);
-
-    return NextResponse.json({ success: true, count: exportData.length });
-  } catch (error) {
-    console.error('Export Error:', error);
-    return NextResponse.json({ error: 'Export failed' }, { status: 500 });
-  }
 }
 
 async function generateStaticFiles(nextVersion: string = '', reactVersion: string = '') {
-  const timestamp = Date.now();
-  const indexHtml = `<!DOCTYPE html>
+    const timestamp = Date.now();
+    const indexHtml = `<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -196,7 +196,7 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
             const input = document.getElementById('password-input');
             const submit = document.getElementById('password-submit');
             const error = document.getElementById('password-error');
-            const CORRECT_PASSWORD = 'gemini'; // ここでパスワードを設定します！
+            const CORRECT_PASSWORD = 'nino'; // ここでパスワードを設定します！
             
             // すでにパスワード入力済みならオーバーレイを非表示にする
             if (sessionStorage.getItem('site_auth') === 'true') {
@@ -356,7 +356,7 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
 </body>
 </html>`;
 
-  const styleCss = `
+    const styleCss = `
 :root {
   --bg-color: #1a1a2e;
   --panel-bg: rgba(30, 30, 50, 0.7);
@@ -951,7 +951,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 `;
 
-  await fs.writeFile(path.join(DOCS_DIR, 'index.html'), indexHtml, 'utf-8');
-  await fs.writeFile(path.join(DOCS_DIR, 'style.css'), styleCss, 'utf-8');
-  await fs.writeFile(path.join(DOCS_DIR, 'script.js'), scriptJs, 'utf-8');
+    await fs.writeFile(path.join(DOCS_DIR, 'index.html'), indexHtml, 'utf-8');
+    await fs.writeFile(path.join(DOCS_DIR, 'style.css'), styleCss, 'utf-8');
+    await fs.writeFile(path.join(DOCS_DIR, 'script.js'), scriptJs, 'utf-8');
 }
