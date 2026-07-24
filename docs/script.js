@@ -41,8 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentCategory = 'media';
     let currentFolderId = null;
-    // 動画の再生モード（初期値は自動再生・無音）
-    let isVideoAutoplay = true;
     let searchQuery = '';
 
     const searchInput = document.getElementById('global-search');
@@ -97,20 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
-    }
-
-    // サムネ動画モード切り替えのイベント設定
-    const videoModeBtn = document.getElementById('video-mode-toggle');
-    if (videoModeBtn) {
-        videoModeBtn.addEventListener('click', () => {
-            isVideoAutoplay = !isVideoAutoplay;
-            // ボタンのテキストを変更
-            videoModeBtn.innerText = isVideoAutoplay ? '▶️ 🔇' : '⏸️ 🎵';
-            showToast(isVideoAutoplay ? '自動再生（無音）モードにしました' : '停止（音声あり）モードにしました');
-            
-            // ギャラリーを再描画して動画要素を作り直す
-            renderGallery();
-        });
     }
 
     function renderGallery() {
