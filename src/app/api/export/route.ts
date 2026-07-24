@@ -238,8 +238,6 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
         <div style="display: flex; align-items: center; gap: 8px;">
             <!-- 検索バー追加 -->
             <input type="text" id="global-search" placeholder="🔍..." class="search-input" />
-            <!-- サムネ動画再生モード切り替えボタン -->
-            <button id="video-mode-toggle" class="nav-btn" style="font-size: 1.1rem; padding: 4px 8px; white-space: nowrap;" title="動画の再生モードを切り替えます（▶️再生/🔇無音 ⇔ ⏸️停止/🎵音あり）">▶️ 🔇</button>
             <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
             <nav class="nav">
                 <button class="nav-btn active" data-category="media" title="生成画像・動画" style="padding: 4px 8px;">🖼️</button>
@@ -598,8 +596,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentCategory = 'media';
     let currentFolderId = null;
-    // 動画の再生モード（初期値は自動再生・無音）
-    let isVideoAutoplay = true;
     let searchQuery = '';
 
     const searchInput = document.getElementById('global-search');
@@ -654,20 +650,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         \`;
-    }
-
-    // サムネ動画モード切り替えのイベント設定
-    const videoModeBtn = document.getElementById('video-mode-toggle');
-    if (videoModeBtn) {
-        videoModeBtn.addEventListener('click', () => {
-            isVideoAutoplay = !isVideoAutoplay;
-            // ボタンのテキストを変更
-            videoModeBtn.innerText = isVideoAutoplay ? '▶️ 🔇' : '⏸️ 🎵';
-            showToast(isVideoAutoplay ? '自動再生（無音）モードにしました' : '停止（音声あり）モードにしました');
-            
-            // ギャラリーを再描画して動画要素を作り直す
-            renderGallery();
-        });
     }
 
     function renderGallery() {

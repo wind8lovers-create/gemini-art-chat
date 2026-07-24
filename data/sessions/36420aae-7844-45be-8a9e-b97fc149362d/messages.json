@@ -1,0 +1,19 @@
+[
+  {
+    "id": "aaee3770-0e37-46f9-ba17-bfb95d7b3052",
+    "sender": "ai",
+    "text": "\n",
+    "timestamp": "2026-07-24T02:00:55.522Z",
+    "generatedImages": [
+      {
+        "id": "de4928fa-bff4-4816-abc8-ef7f574d4896",
+        "filename": "Screenshot_20260723-150314.png",
+        "prompt": "\n",
+        "version": 1,
+        "parentImageId": null,
+        "mediaType": "image",
+        "title": "開発画面"
+      }
+    ]
+  }
+]
