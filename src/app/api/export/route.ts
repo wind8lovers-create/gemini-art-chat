@@ -54,8 +54,8 @@ export async function POST() {
                             prompt: msg.text || 'アップロード画像',
                             mediaType: isVideo ? 'video' : 'image',
                             sessionTitle: metadata.title,
-                            // 🕵️‍♂️ QA修正: 「物語」は表示されないため一旦「media」に統合
-                            category: metadata.title.includes('プロンプト') ? 'prompt' : 'media',
+                            // 🕵️‍♂️ QA修正: タイトルに「プロンプト」が含まれていても画像・動画として表示する
+                            category: 'media',
                             dataUri: msg.inputImage.data,
                             title: msg.inputImage.title || '',
                             customComment: msg.inputImage.customComment || '',
@@ -75,8 +75,8 @@ export async function POST() {
                                     prompt: img.prompt,
                                     mediaType: isVideo ? 'video' : 'image',
                                     sessionTitle: metadata.title,
-                                    // 🕵️‍♂️ QA修正: 「物語」は表示されないため一旦「media」に統合
-                                    category: metadata.title.includes('プロンプト') ? 'prompt' : 'media',
+                                    // 🕵️‍♂️ QA修正: タイトルに「プロンプト」が含まれていても画像・動画として表示する
+                                    category: 'media',
                                     sessionId: entry.name,
                                     isGenerated: true,
                                     title: img.title || '',
