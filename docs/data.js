@@ -96,8 +96,8 @@ const galleryData = {
       "filename": "gemini_generated_video_51d8c7e7.mp4",
       "prompt": "（ChatGptと考えたプロンプト)\n南国の高級リゾートホテルのプールサイド。青い海とヤシの木が見える背景、夏らしい開放感のある雰囲気。5等分の花嫁の中野二乃が、光沢のあるエナメル素材のピンクと黒のツートンカラーレオタード風コスチュームを着ている。両手にトロピカルジュースを持って、少しうつむき加減で照れたような優しい笑顔。「お待たせ」っていう雰囲気。柔らかな朝の日差し、アニメ調、高精細、鮮やかな色彩、自然なポーズ。\n",
       "mediaType": "video",
-      "sessionTitle": "ChatGPTが考えたプロンプト",
-      "category": "prompt",
+      "sessionTitle": "ChatGPTが考えた",
+      "category": "media",
       "isGenerated": true,
       "title": "二乃　南国リゾート",
       "customComment": "",
@@ -527,13 +527,6 @@ const galleryData = {
       "updatedAt": "2026-07-23T00:35:26.588Z"
     },
     {
-      "id": "1784766975436gowhin2",
-      "title": "てすと２",
-      "content": "使い勝手はなかなか良さそうです。今アイドルを見ています。",
-      "tags": [],
-      "updatedAt": "2026-07-23T00:36:15.436Z"
-    },
-    {
       "id": "1784767344229p15bfcg",
       "title": "test3",
       "content": "<画像動画生成AI>\n-Gemini 3.1 Pro-\nNano Banana Pro\nNano Banana 2\nVeo 3.1\n\n<開発環境>\nNext.js v16.2.10 / React v19.2.4\nGemini Pro Vision\nAntigravity AI\nGitHub\n\nこの、環境ですが、普段は、スマホで簡単に一言で動画再生。\n\n最近はAIにプロンプトを考えてもらっています\n\nまたシチュエーションを考えることはありますがそれさえもAIに考えてもらっています\n\nですので動画再生自体は5分で終わります。。\n\n\nただしどうしても作りたい動画や画像があった場合正確に伝えるプロンプトを理解してないと作れないものがあるのでそのためにこのページを用意しました。\n",
@@ -541,15 +534,6 @@ const galleryData = {
         "目的"
       ],
       "updatedAt": "2026-07-23T00:42:24.229Z"
-    },
-    {
-      "id": "17848589152116mbcbz0",
-      "title": "テスト用",
-      "content": "内容です。\n",
-      "tags": [
-        "GmailImport"
-      ],
-      "updatedAt": "2026-07-24T02:08:35.211Z"
     },
     {
       "id": "1784858982484a27morc",
