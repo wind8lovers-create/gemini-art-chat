@@ -98,7 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
-    function renderGallery() {
+    window.renderGallery = function renderGallery() {
+        if (!window.galleryData) return; // 復号待ちの場合はスキップ
+        const galleryData = window.galleryData;
+
         if (searchQuery) {
             const allImages = galleryData.images || [];
             const allMemos = galleryData.memos || [];
@@ -388,5 +391,5 @@ document.addEventListener('DOMContentLoaded', () => {
     modalClose.addEventListener('click', () => { modal.classList.add('hidden'); modalBody.innerHTML = ''; });
     modal.addEventListener('click', (e) => { if (e.target === modal) { modal.classList.add('hidden'); modalBody.innerHTML = ''; }});
 
-    if (typeof galleryData !== 'undefined') renderGallery();
+    if (window.galleryData) window.renderGallery();
 });

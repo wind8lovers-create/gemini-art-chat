@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
+import crypto from 'crypto';
 
 const DATA_DIR = path.join(process.cwd(), 'data', 'sessions');
 const DOCS_DIR = path.join(process.cwd(), 'docs');
@@ -18,77 +19,77 @@ export async function POST() {
         // 現在のassets内のファイル一覧を取得
         const existingAssets = new Set(await fs.readdir(ASSETS_DIR).catch(() => []));
 
+        // 📂 デッドコードハンター＆高速化: フォルダ情報を最初に1回だけ取得する
+        const foldersDataRaw = await fs.readFile(path.join(process.cwd(), 'data', 'folders.json'), 'utf-8').catch(() => '[]');
+        let foldersDataExport = JSON.parse(foldersDataRaw);
+        foldersDataExport = foldersDataExport.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
+
         for (const entry of entries) {
-            if (entry.isDirectory()) {
-                const metadataPath = path.join(DATA_DIR, entry.name, 'metadata.json');
-                const messagesPath = path.join(DATA_DIR, entry.name, 'messages.json');
+            // 🧹 リファクタリング: ディレクトリでない場合は早めにスキップ（ネストを浅くする）
+            if (!entry.isDirectory()) continue;
 
-                try {
-                    const metadataStr = await fs.readFile(metadataPath, 'utf-8');
-                    const metadata = JSON.parse(metadataStr);
+            const metadataPath = path.join(DATA_DIR, entry.name, 'metadata.json');
+            const messagesPath = path.join(DATA_DIR, entry.name, 'messages.json');
 
-                    // フォルダ情報を取得して、公開状態を確認
-                    const foldersDataRaw = await fs.readFile(path.join(process.cwd(), 'data', 'folders.json'), 'utf-8').catch(() => '[]');
-                    const folders = JSON.parse(foldersDataRaw);
-                    const folderMap = new Map(folders.map((f: any) => [f.id, f]));
-                    const folder = metadata.folderId ? folderMap.get(metadata.folderId) : null;
-                    const isFolderPublished = folder?.isPublished === true;
+            try {
+                const metadataStr = await fs.readFile(metadataPath, 'utf-8');
+                const metadata = JSON.parse(metadataStr);
 
-                    const messagesStr = await fs.readFile(messagesPath, 'utf-8');
-                    const messages = JSON.parse(messagesStr);
+                const messagesStr = await fs.readFile(messagesPath, 'utf-8');
+                const messages = JSON.parse(messagesStr);
 
-                    if (Array.isArray(messages)) {
-                        for (const msg of messages) {
-                            // アップロード画像
-                            const inputStatus = msg.inputImage?.publishStatus;
-                            if (msg.inputImage && inputStatus === 'published') {
-                                const isVideo = msg.inputImage.mimeType?.startsWith('video/');
-                                const ext = isVideo ? '.mp4' : '.png';
-                                const filename = `${msg.id}${ext}`;
+                // 🧹 リファクタリング: messagesが配列でない場合は早めにスキップ
+                if (!Array.isArray(messages)) continue;
 
+                for (const msg of messages) {
+                    // アップロード画像
+                    if (msg.inputImage && msg.inputImage.publishStatus === 'published') {
+                        const isVideo = msg.inputImage.mimeType?.startsWith('video/');
+                        const ext = isVideo ? '.mp4' : '.png';
+                        const filename = `${msg.id}${ext}`;
+
+                        exportData.push({
+                            id: msg.id,
+                            filename: filename,
+                            prompt: msg.text || 'アップロード画像',
+                            mediaType: isVideo ? 'video' : 'image',
+                            sessionTitle: metadata.title,
+                            // 🕵️‍♂️ QA修正: 「物語」は表示されないため一旦「media」に統合
+                            category: metadata.title.includes('プロンプト') ? 'prompt' : 'media',
+                            dataUri: msg.inputImage.data,
+                            title: msg.inputImage.title || '',
+                            customComment: msg.inputImage.customComment || '',
+                            folderId: metadata.folderId || null,
+                            sessionOrder: metadata.order ?? Number.MAX_SAFE_INTEGER
+                        });
+                    }
+
+                    // 生成画像
+                    if (msg.generatedImages && Array.isArray(msg.generatedImages)) {
+                        for (const img of msg.generatedImages) {
+                            if (img.publishStatus === 'published') {
+                                const isVideo = img.mediaType === 'video' || img.filename.endsWith('.mp4');
                                 exportData.push({
-                                    id: msg.id,
-                                    filename: filename,
-                                    prompt: msg.text || 'アップロード画像',
+                                    id: img.id,
+                                    filename: img.filename,
+                                    prompt: img.prompt,
                                     mediaType: isVideo ? 'video' : 'image',
                                     sessionTitle: metadata.title,
-                                    category: metadata.title.includes('物語') ? 'story' : metadata.title.includes('プロンプト') ? 'prompt' : 'media',
-                                    dataUri: msg.inputImage.data,
-                                    title: msg.inputImage.title || '',
-                                    customComment: msg.inputImage.customComment || '',
+                                    // 🕵️‍♂️ QA修正: 「物語」は表示されないため一旦「media」に統合
+                                    category: metadata.title.includes('プロンプト') ? 'prompt' : 'media',
+                                    sessionId: entry.name,
+                                    isGenerated: true,
+                                    title: img.title || '',
+                                    customComment: img.customComment || '',
                                     folderId: metadata.folderId || null,
                                     sessionOrder: metadata.order ?? Number.MAX_SAFE_INTEGER
                                 });
                             }
-
-                            // 生成画像
-                            if (msg.generatedImages && Array.isArray(msg.generatedImages)) {
-                                for (const img of msg.generatedImages) {
-                                    const imgStatus = img.publishStatus;
-                                    if (imgStatus === 'published') {
-                                        const isVideo = img.mediaType === 'video' || img.filename.endsWith('.mp4');
-                                        exportData.push({
-                                            id: img.id,
-                                            filename: img.filename,
-                                            prompt: img.prompt,
-                                            mediaType: isVideo ? 'video' : 'image',
-                                            sessionTitle: metadata.title,
-                                            category: metadata.title.includes('物語') ? 'story' : metadata.title.includes('プロンプト') ? 'prompt' : 'media',
-                                            sessionId: entry.name,
-                                            isGenerated: true,
-                                            title: img.title || '',
-                                            customComment: img.customComment || '',
-                                            folderId: metadata.folderId || null,
-                                            sessionOrder: metadata.order ?? Number.MAX_SAFE_INTEGER
-                                        });
-                                    }
-                                }
-                            }
                         }
                     }
-                } catch (e) {
-                    console.warn(`[Export] Error reading session ${entry.name}`, e);
                 }
+            } catch (e) {
+                console.warn(`[Export] Error reading session ${entry.name}`, e);
             }
         }
 
@@ -122,11 +123,6 @@ export async function POST() {
             delete item.sessionId;
         }
 
-        // フォルダ情報を取得して追加する
-        const foldersDataRaw = await fs.readFile(path.join(process.cwd(), 'data', 'folders.json'), 'utf-8').catch(() => '[]');
-        let foldersDataExport = JSON.parse(foldersDataRaw);
-        foldersDataExport = foldersDataExport.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
-
         // image はセッションの並び順（order）を優先し、同じセッション内では古い順（ID昇順）で表示
         exportData.sort((a, b) => {
             const orderA = a.sessionOrder;
@@ -147,18 +143,9 @@ export async function POST() {
             memos: memosData
         };
 
-        const dataJsContent = `const galleryData = ${JSON.stringify(finalExportData, null, 2)};`;
-        await fs.writeFile(path.join(DOCS_DIR, 'data.js'), dataJsContent, 'utf-8');
-
-        const packageJsonPath = path.join(process.cwd(), 'package.json');
-        const packageJsonRaw = await fs.readFile(packageJsonPath, 'utf-8').catch(() => '{}');
-        const packageJson = JSON.parse(packageJsonRaw);
-        const nextVersion = (packageJson.dependencies?.next || '').replace(/[\^~]/g, '');
-        const reactVersion = (packageJson.dependencies?.react || '').replace(/[\^~]/g, '');
-
-        // 設定の読み込みを追加
+        // 🔐 セキュリティ修正: 設定の読み込みを追加してパスワードを取得する
         const settingsPath = path.join(process.cwd(), 'data', 'app_settings.json');
-        let pagesPassword = 'nino';
+        let pagesPassword = '';
         try {
             const settingsRaw = await fs.readFile(settingsPath, 'utf-8');
             const settings = JSON.parse(settingsRaw);
@@ -166,6 +153,38 @@ export async function POST() {
                 pagesPassword = settings.pagesPassword;
             }
         } catch (e) { }
+
+        let dataJsContent = '';
+        if (pagesPassword) {
+            // 🔐 AES-GCM (256-bit) 暗号化
+            const algorithm = 'aes-256-gcm';
+            const key = crypto.createHash('sha256').update(pagesPassword).digest();
+            const iv = crypto.randomBytes(12);
+            const cipher = crypto.createCipheriv(algorithm, key, iv);
+            
+            const jsonString = JSON.stringify(finalExportData);
+            let encrypted = cipher.update(jsonString, 'utf8', 'base64');
+            encrypted += cipher.final('base64');
+            const authTag = cipher.getAuthTag().toString('base64');
+
+            dataJsContent = `// 🔒 Encrypted Gallery Data
+const encryptedGalleryData = {
+    iv: "${iv.toString('base64')}",
+    authTag: "${authTag}",
+    data: "${encrypted}"
+};
+window.galleryData = null; // 復号成功後に代入されます
+`;
+        } else {
+            dataJsContent = `window.galleryData = ${JSON.stringify(finalExportData, null, 2)};`;
+        }
+        await fs.writeFile(path.join(DOCS_DIR, 'data.js'), dataJsContent, 'utf-8');
+
+        const packageJsonPath = path.join(process.cwd(), 'package.json');
+        const packageJsonRaw = await fs.readFile(packageJsonPath, 'utf-8').catch(() => '{}');
+        const packageJson = JSON.parse(packageJsonRaw);
+        const nextVersion = (packageJson.dependencies?.next || '').replace(/[\^~]/g, '');
+        const reactVersion = (packageJson.dependencies?.react || '').replace(/[\^~]/g, '');
 
         await generateStaticFiles(nextVersion, reactVersion, pagesPassword);
 
@@ -186,7 +205,7 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
     <!-- 検索エンジン避け -->
     <meta name="robots" content="noindex, nofollow">
     <title>Feeling Gallery</title>
-    <link rel="stylesheet" href="style.css?v=${Date.now()}">
+    <link rel="stylesheet" href="style.css?v=${timestamp}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -195,10 +214,10 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
     <div id="password-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#1a1a2e; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; color:white; font-family:Inter, sans-serif;">
         <div style="background:rgba(30,30,50,0.8); padding:40px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); text-align:center; max-width:400px; width:90%;">
             <h2 style="margin-top:0; margin-bottom:10px;">アクセス制限</h2>
-            <p style="margin-bottom:20px; font-size:14px; opacity:0.8;">このページを見るにはパスワードが必要です。</p>
+            <p style="margin-bottom:20px; font-size:14px; opacity:0.8;">このページは暗号化されています。<br>パスワードを入力してデータを復号してください。</p>
             <input type="password" id="password-input" placeholder="パスワードを入力" style="padding:10px; width:100%; box-sizing:border-box; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.3); color:white; margin-bottom:10px;">
             <div id="password-error" style="color:#ff4d4f; font-size:12px; margin-bottom:10px; text-align:left; display:none;">パスワードが間違っています。</div>
-            <button id="password-submit" style="padding:10px; width:100%; background:#0070f3; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">送信</button>
+            <button id="password-submit" style="padding:10px; width:100%; background:#0070f3; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">送信して復号</button>
         </div>
     </div>
     
@@ -208,21 +227,85 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
             const input = document.getElementById('password-input');
             const submit = document.getElementById('password-submit');
             const error = document.getElementById('password-error');
-            const CORRECT_PASSWORD = '${pagesPassword}';
             
-            // すでにパスワード入力済みならオーバーレイを非表示にする
-            if (sessionStorage.getItem('site_auth') === 'true') {
-                overlay.style.display = 'none';
+            function base64ToArrayBuffer(base64) {
+                const binaryString = window.atob(base64);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                return bytes;
             }
 
-            submit.addEventListener('click', function() {
-                if (input.value === CORRECT_PASSWORD) {
-                    sessionStorage.setItem('site_auth', 'true');
+            async function decryptData(password) {
+                try {
+                    if (typeof encryptedGalleryData === 'undefined') return true;
+
+                    const encoder = new TextEncoder();
+                    const passwordData = encoder.encode(password);
+                    const hashBuffer = await window.crypto.subtle.digest('SHA-256', passwordData);
+                    
+                    const key = await window.crypto.subtle.importKey(
+                        'raw',
+                        hashBuffer,
+                        { name: 'AES-GCM' },
+                        false,
+                        ['decrypt']
+                    );
+
+                    const iv = base64ToArrayBuffer(encryptedGalleryData.iv);
+                    const authTag = base64ToArrayBuffer(encryptedGalleryData.authTag);
+                    const encryptedData = base64ToArrayBuffer(encryptedGalleryData.data);
+
+                    const ciphertext = new Uint8Array(encryptedData.length + authTag.length);
+                    ciphertext.set(encryptedData, 0);
+                    ciphertext.set(authTag, encryptedData.length);
+
+                    const decryptedBuffer = await window.crypto.subtle.decrypt(
+                        { name: 'AES-GCM', iv: iv },
+                        key,
+                        ciphertext
+                    );
+
+                    const decoder = new TextDecoder();
+                    const jsonString = decoder.decode(decryptedBuffer);
+                    window.galleryData = JSON.parse(jsonString);
+                    return true;
+                } catch (e) {
+                    console.error("Decryption failed", e);
+                    return false;
+                }
+            }
+
+            async function tryUnlock(password) {
+                if (!password) return;
+                const originalText = submit.innerText;
+                submit.innerText = '復号中...';
+                submit.disabled = true;
+
+                const success = await decryptData(password);
+                
+                submit.innerText = originalText;
+                submit.disabled = false;
+
+                if (success) {
+                    sessionStorage.setItem('site_auth_pass', password);
                     overlay.style.display = 'none';
                     error.style.display = 'none';
+                    if (window.renderGallery) window.renderGallery();
                 } else {
                     error.style.display = 'block';
                 }
+            }
+
+            const savedPass = sessionStorage.getItem('site_auth_pass');
+            if (savedPass) {
+                // 自動復号
+                tryUnlock(savedPass).catch(console.error);
+            }
+
+            submit.addEventListener('click', function() {
+                tryUnlock(input.value);
             });
 
             input.addEventListener('keypress', function(e) {
@@ -653,7 +736,10 @@ document.addEventListener('DOMContentLoaded', () => {
         \`;
     }
 
-    function renderGallery() {
+    window.renderGallery = function renderGallery() {
+        if (!window.galleryData) return; // 復号待ちの場合はスキップ
+        const galleryData = window.galleryData;
+
         if (searchQuery) {
             const allImages = galleryData.images || [];
             const allMemos = galleryData.memos || [];
@@ -943,7 +1029,7 @@ document.addEventListener('DOMContentLoaded', () => {
     modalClose.addEventListener('click', () => { modal.classList.add('hidden'); modalBody.innerHTML = ''; });
     modal.addEventListener('click', (e) => { if (e.target === modal) { modal.classList.add('hidden'); modalBody.innerHTML = ''; }});
 
-    if (typeof galleryData !== 'undefined') renderGallery();
+    if (window.galleryData) window.renderGallery();
 });
 `;
 
