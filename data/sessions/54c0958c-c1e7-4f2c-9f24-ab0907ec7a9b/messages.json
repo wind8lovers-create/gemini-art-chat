@@ -12,7 +12,8 @@
         "version": 1,
         "parentImageId": null,
         "mediaType": "video",
-        "title": "葉月の画像から動画へ"
+        "title": "葉月の画像から動画へ",
+        "publishStatus": "published"
       }
     ]
   }
