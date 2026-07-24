@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 画像カードのHTMLを生成する共通関数
     function createMediaHtml(item) {
         let mediaHtml = '';
+        const isVideoAutoplay = true; // 未定義エラーを防ぐためにデフォルトで自動再生にする
         if (item.mediaType === 'video') {
             if (isVideoAutoplay) {
                 mediaHtml = `<video src="assets/${item.filename}" autoplay muted loop playsinline class="media"></video>`;
