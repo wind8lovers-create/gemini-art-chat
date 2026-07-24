@@ -209,7 +209,7 @@ export default function PreviewPage() {
                       </div>
                     )}
                     <div style={{
-                      position: 'absolute', top: '12px', right: '12px',
+                      position: 'absolute', top: '12px', left: '12px',
                       background: 'linear-gradient(135deg, #e91e63, #8a2be2)',
                       color: 'white', padding: '4px 10px',
                       borderRadius: '12px', fontSize: '0.85rem', fontWeight: 'bold',

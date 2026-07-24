@@ -7,6 +7,8 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
   const [snippets, setSnippets] = useState<PromptSnippet[]>([]);
   const [theme, setTheme] = useState<'dark' | 'purple'>('dark');
   const [isVideoEnabled, setIsVideoEnabled] = useState(true);
+  const [pagesPassword, setPagesPassword] = useState('nino');
+  const [promptMemoImportMode, setPromptMemoImportMode] = useState<'all' | 'keyword' | 'none'>('all');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -25,10 +27,24 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
       .then(res => res.json())
       .then(data => {
         setSnippets(data);
-        setIsLoading(false);
       })
       .catch(err => {
         console.error('定型文の取得エラー:', err);
+      });
+
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.pagesPassword !== undefined) {
+          setPagesPassword(data.pagesPassword);
+        }
+        if (data && data.promptMemoImportMode !== undefined) {
+          setPromptMemoImportMode(data.promptMemoImportMode);
+        }
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error('設定の取得エラー:', err);
         setIsLoading(false);
       });
   }, []);
@@ -61,7 +77,14 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
       });
       window.dispatchEvent(new Event('snippetsUpdated'));
 
-      // 2. テーマとその他の保存と適用
+      // 2. パスワード等全体設定の保存
+      await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pagesPassword, promptMemoImportMode })
+      });
+
+      // 3. テーマとその他の保存と適用
       localStorage.setItem('app-theme', theme);
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('isVideoEnabled', isVideoEnabled ? 'true' : 'false');
@@ -150,6 +173,80 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
                 オフ（画像のみ）
               </label>
             </div>
+          </div>
+
+          <hr className={styles.divider} />
+
+          {/* Gmailテキストメールのメモ保存設定セクション */}
+          <div className={styles.section}>
+            <h3>📧 Gmailテキストメールの自動保存</h3>
+            <p className={styles.description}>
+              画像や動画がないテキストのみのメールを受信した際、プロンプトメモに自動保存するか設定します。
+            </p>
+            <div className={styles.themeSelector} style={{ flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
+              <label className={`${styles.themeOption} ${promptMemoImportMode === 'all' ? styles.activeTheme : ''}`} style={{ width: '100%', justifyContent: 'flex-start' }}>
+                <input 
+                  type="radio" 
+                  name="promptMemoImportMode" 
+                  value="all" 
+                  checked={promptMemoImportMode === 'all'}
+                  onChange={() => setPromptMemoImportMode('all')}
+                  className={styles.hiddenRadio}
+                />
+                <span className="material-symbols-outlined" style={{ marginRight: '8px' }}>download</span>
+                すべて受信（テキストのみのメールもすべて保存）
+              </label>
+              <label className={`${styles.themeOption} ${promptMemoImportMode === 'keyword' ? styles.activeTheme : ''}`} style={{ width: '100%', justifyContent: 'flex-start' }}>
+                <input 
+                  type="radio" 
+                  name="promptMemoImportMode" 
+                  value="keyword" 
+                  checked={promptMemoImportMode === 'keyword'}
+                  onChange={() => setPromptMemoImportMode('keyword')}
+                  className={styles.hiddenRadio}
+                />
+                <span className="material-symbols-outlined" style={{ marginRight: '8px' }}>filter_alt</span>
+                キーワード（『プロンプトめも』が含まれる場合のみ保存）
+              </label>
+              <label className={`${styles.themeOption} ${promptMemoImportMode === 'none' ? styles.activeTheme : ''}`} style={{ width: '100%', justifyContent: 'flex-start' }}>
+                <input 
+                  type="radio" 
+                  name="promptMemoImportMode" 
+                  value="none" 
+                  checked={promptMemoImportMode === 'none'}
+                  onChange={() => setPromptMemoImportMode('none')}
+                  className={styles.hiddenRadio}
+                />
+                <span className="material-symbols-outlined" style={{ marginRight: '8px' }}>block</span>
+                スキップ（添付ファイルがないメールは取り込まない）
+              </label>
+            </div>
+          </div>
+
+          <hr className={styles.divider} />
+
+          {/* GitHub Pages パスワード設定セクション */}
+          <div className={styles.section}>
+            <h3>🔒 GitHub Pages パスワード設定</h3>
+            <p className={styles.description}>
+              「GitHub Pages用に書き出す」を実行した際に適用される、ページの閲覧パスワードを設定します。空欄にするとパスワードは不要になります。
+            </p>
+            <input
+              type="text"
+              placeholder="パスワードを入力（例：nino）"
+              value={pagesPassword}
+              onChange={(e) => setPagesPassword(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '10px',
+                borderRadius: '8px',
+                border: '1px solid rgba(255,255,255,0.2)',
+                background: 'rgba(0,0,0,0.3)',
+                color: 'white',
+                fontFamily: 'inherit',
+                boxSizing: 'border-box'
+              }}
+            />
           </div>
 
           <hr className={styles.divider} />

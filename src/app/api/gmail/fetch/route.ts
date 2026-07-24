@@ -1,7 +1,10 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { getImapClient, parseEmail } from '@/lib/gmailHelper';
-import { getImportedEmails } from '@/lib/importedEmails';
+import { getImportedEmails, addImportedEmail } from '@/lib/importedEmails';
 import { getCache, saveCache, cleanupCache } from '@/lib/gmailCache';
+import { readMemos, writeMemos } from '@/lib/memos';
+import fs from 'fs/promises';
+import path from 'path';
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,6 +16,16 @@ export async function GET(request: NextRequest) {
 
     let lock = await client.getMailboxLock('INBOX');
     const emails = [];
+
+    // 設定を読み込む
+    let settings = { promptMemoImportMode: 'all' };
+    try {
+      const settingsPath = path.join(process.cwd(), 'data', 'app_settings.json');
+      const fileContents = await fs.readFile(settingsPath, 'utf-8');
+      settings = { ...settings, ...JSON.parse(fileContents) };
+    } catch (e) {
+      // ファイルがない場合はデフォルト
+    }
 
     try {
       // 送信者に 'kiz' が含まれるものを検索
@@ -59,7 +72,32 @@ export async function GET(request: NextRequest) {
           a.contentType.startsWith('image/') || a.contentType.startsWith('video/')
         );
 
-        if (!targetAttachment) continue;
+        if (!targetAttachment) {
+          // 画像/動画がない場合、設定に従ってプロンプトメモに保存するか判定
+          if (settings.promptMemoImportMode !== 'none' && !isImported) {
+            const subject = parsed.subject || '無題';
+            const bodyText = parsed.text || '';
+            const isKeywordMatch = subject.includes('プロンプトめも') || bodyText.includes('プロンプトめも');
+            
+            if (settings.promptMemoImportMode === 'all' || (settings.promptMemoImportMode === 'keyword' && isKeywordMatch)) {
+              // プロンプトメモとして保存
+              const memos = readMemos();
+              const newMemo = {
+                id: Date.now().toString() + Math.random().toString(36).substring(2, 9),
+                title: subject,
+                content: bodyText,
+                tags: ['GmailImport'],
+                updatedAt: new Date().toISOString()
+              };
+              memos.push(newMemo);
+              writeMemos(memos);
+              
+              // 2回目以降に取り込まれないように記録する
+              await addImportedEmail(uidStr);
+            }
+          }
+          continue;
+        }
 
         const emailData = {
           uid: uidStr,

@@ -156,7 +156,18 @@ export async function POST() {
         const nextVersion = (packageJson.dependencies?.next || '').replace(/[\^~]/g, '');
         const reactVersion = (packageJson.dependencies?.react || '').replace(/[\^~]/g, '');
 
-        await generateStaticFiles(nextVersion, reactVersion);
+        // 設定の読み込みを追加
+        const settingsPath = path.join(process.cwd(), 'data', 'app_settings.json');
+        let pagesPassword = 'nino';
+        try {
+            const settingsRaw = await fs.readFile(settingsPath, 'utf-8');
+            const settings = JSON.parse(settingsRaw);
+            if (settings.pagesPassword !== undefined) {
+                pagesPassword = settings.pagesPassword;
+            }
+        } catch (e) { }
+
+        await generateStaticFiles(nextVersion, reactVersion, pagesPassword);
 
         return NextResponse.json({ success: true, count: exportData.length });
     } catch (error) {
@@ -165,7 +176,7 @@ export async function POST() {
     }
 }
 
-async function generateStaticFiles(nextVersion: string = '', reactVersion: string = '') {
+async function generateStaticFiles(nextVersion: string = '', reactVersion: string = '', pagesPassword: string = 'nino') {
     const timestamp = Date.now();
     const indexHtml = `<!DOCTYPE html>
 <html lang="ja">
@@ -179,6 +190,7 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    ${pagesPassword ? `
     <!-- パスワード保護用オーバーレイ -->
     <div id="password-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#1a1a2e; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; color:white; font-family:Inter, sans-serif;">
         <div style="background:rgba(30,30,50,0.8); padding:40px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); text-align:center; max-width:400px; width:90%;">
@@ -196,7 +208,7 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
             const input = document.getElementById('password-input');
             const submit = document.getElementById('password-submit');
             const error = document.getElementById('password-error');
-            const CORRECT_PASSWORD = 'nino'; // ここでパスワードを設定します！
+            const CORRECT_PASSWORD = '${pagesPassword}';
             
             // すでにパスワード入力済みならオーバーレイを非表示にする
             if (sessionStorage.getItem('site_auth') === 'true') {
@@ -218,6 +230,7 @@ async function generateStaticFiles(nextVersion: string = '', reactVersion: strin
             });
         })();
     </script>
+    ` : ''}
     <header class="header glass-panel">
         <div class="logo" style="display: flex; align-items: center; gap: 8px;">
             <h1>🎨 Feeling Gallery</h1>
@@ -500,7 +513,7 @@ body {
 #toast.show { opacity: 1; }
 /* 人気バッジのスタイル */
 .popular-badge {
-  position: absolute; top: 12px; right: 12px;
+  position: absolute; top: 12px; left: 12px;
   background: linear-gradient(135deg, var(--accent-color), #8a2be2);
   color: white; padding: 4px 10px;
   border-radius: 12px; font-size: 0.85rem; font-weight: bold;
@@ -540,9 +553,9 @@ body {
 .accordion-header:hover { background: rgba(255,255,255,0.1); }
 .accordion-content { display: none; }
 .accordion-content.open { display: block; }
-\`;
+`;
 
-  const scriptJs = \`
+  const scriptJs = `
 document.addEventListener('DOMContentLoaded', () => {
     // スマホ表示時にロゴタップでトップに戻る処理
     const logo = document.querySelector('.logo');

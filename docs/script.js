@@ -1,30 +1,23 @@
 
 document.addEventListener('DOMContentLoaded', () => {
-    // スマホ表示時にロゴタップでサイドバーを開閉する処理
+    // スマホ表示時にロゴタップでトップに戻る処理
     const logo = document.querySelector('.logo');
-    const sidebar = document.querySelector('.sidebar');
-    if (logo && sidebar) {
+    if (logo) {
         logo.style.cursor = 'pointer';
-        logo.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                sidebar.classList.toggle('show-mobile');
-                e.stopPropagation(); // 外側クリック判定がすぐ発火しないように伝播を止める
+        logo.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const searchInput = document.getElementById('global-search');
+            if (searchInput) {
+                searchInput.value = '';
+                searchQuery = '';
             }
-        });
-
-        // 画面のどこかをクリックしたらサイドバーを閉じる
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && sidebar.classList.contains('show-mobile')) {
-                // 上部のアイコン、文字列のリンク、ロゴ以外をクリックした場合に閉じる
-                const isNavBtn = e.target.closest('.nav-btn');
-                const isCategoryItem = e.target.closest('.category-item');
-                const isLogo = e.target.closest('.logo');
-                const isLink = e.target.closest('a');
-                
-                if (!isNavBtn && !isCategoryItem && !isLogo && !isLink) {
-                    sidebar.classList.remove('show-mobile');
-                }
-            }
+            currentCategory = 'media';
+            currentFolderId = null;
+            const categoryItems = document.querySelectorAll('.category-item, .nav-btn[data-category]');
+            categoryItems.forEach(i => i.classList.remove('active'));
+            const mediaBtn = document.querySelector('.nav-btn[data-category="media"]');
+            if (mediaBtn) mediaBtn.classList.add('active');
+            renderGallery();
         });
     }
 
@@ -382,6 +375,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     categoryItems.forEach(item => {
         item.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            const searchInput = document.getElementById('global-search');
+            if (searchInput) {
+                searchInput.value = '';
+                searchQuery = '';
+            }
+
             const selectedCategory = item.getAttribute('data-category');
             categoryItems.forEach(i => i.classList.remove('active'));
             document.querySelectorAll(`[data-category="${selectedCategory}"]`).forEach(i => i.classList.add('active'));
@@ -389,6 +390,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth <= 768) {
                 const title = item.getAttribute('title') || item.innerText.split('\n')[0];
                 showToast(title);
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar) sidebar.classList.remove('show-mobile');
             }
             
             currentCategory = selectedCategory;

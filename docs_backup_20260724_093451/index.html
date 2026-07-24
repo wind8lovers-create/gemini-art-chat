@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 検索エンジン避け -->
+    <meta name="robots" content="noindex, nofollow">
+    <title>Feeling Gallery</title>
+    <link rel="stylesheet" href="style.css?v=1784853027321">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- パスワード保護用オーバーレイ -->
+    <div id="password-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#1a1a2e; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; color:white; font-family:Inter, sans-serif;">
+        <div style="background:rgba(30,30,50,0.8); padding:40px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); text-align:center; max-width:400px; width:90%;">
+            <h2 style="margin-top:0; margin-bottom:10px;">アクセス制限</h2>
+            <p style="margin-bottom:20px; font-size:14px; opacity:0.8;">このページを見るにはパスワードが必要です。</p>
+            <input type="password" id="password-input" placeholder="パスワードを入力" style="padding:10px; width:100%; box-sizing:border-box; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.3); color:white; margin-bottom:10px;">
+            <div id="password-error" style="color:#ff4d4f; font-size:12px; margin-bottom:10px; text-align:left; display:none;">パスワードが間違っています。</div>
+            <button id="password-submit" style="padding:10px; width:100%; background:#0070f3; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">送信</button>
+        </div>
+    </div>
+    
+    <script>
+        (function() {
+            const overlay = document.getElementById('password-overlay');
+            const input = document.getElementById('password-input');
+            const submit = document.getElementById('password-submit');
+            const error = document.getElementById('password-error');
+            const CORRECT_PASSWORD = 'nino'; // ここでパスワードを設定します！
+            
+            // すでにパスワード入力済みならオーバーレイを非表示にする
+            if (sessionStorage.getItem('site_auth') === 'true') {
+                overlay.style.display = 'none';
+            }
+
+            submit.addEventListener('click', function() {
+                if (input.value === CORRECT_PASSWORD) {
+                    sessionStorage.setItem('site_auth', 'true');
+                    overlay.style.display = 'none';
+                    error.style.display = 'none';
+                } else {
+                    error.style.display = 'block';
+                }
+            });
+
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') submit.click();
+            });
+        })();
+    </script>
+    <header class="header glass-panel">
+        <div class="logo" style="display: flex; align-items: center; gap: 8px;">
+            <h1>🎨 Feeling Gallery</h1>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <!-- 検索バー追加 -->
+            <input type="text" id="global-search" placeholder="🔍..." class="search-input" />
+            <!-- サムネ動画再生モード切り替えボタン -->
+            <button id="video-mode-toggle" class="nav-btn" style="font-size: 1.1rem; padding: 4px 8px; white-space: nowrap;" title="動画の再生モードを切り替えます（▶️再生/🔇無音 ⇔ ⏸️停止/🎵音あり）">▶️ 🔇</button>
+            <!-- ヘッダー内のカテゴリ切り替えナビゲーション -->
+            <nav class="nav">
+                <button class="nav-btn active" data-category="media" title="生成画像・動画" style="padding: 4px 8px;">🖼️</button>
+                <button class="nav-btn" data-category="prompt" title="プロンプトメモ" style="padding: 4px 8px;">💡</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="layout">
+        <!-- サイドバー -->
+        <aside class="sidebar glass-panel">
+            <ul class="category-list">
+                <li class="category-item active" data-category="media" style="display: flex; align-items: baseline; gap: 8px;">
+                    <span style="font-size: 1.1rem; white-space: nowrap;">生成画像・動画</span>
+                    <small style="opacity: 0.7; font-size: 0.8rem; white-space: nowrap;">(by Gemini)</small>
+                </li>
+                <li class="category-item" data-category="prompt" style="display: flex; align-items: baseline; gap: 8px;">
+                    <span style="font-size: 1.1rem; white-space: nowrap;">プロンプトめも</span>
+                    <small style="opacity: 0.7; font-size: 0.8rem; white-space: nowrap;">(AI Insights)</small>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer" style="text-align: center; font-size: 0.75rem; line-height: 1.4;">
+                <p style="margin: 0;"><strong>&lt;画像動画生成AI&gt;</strong><br>
+                -Gemini 3.1 Pro-<br>
+                Nano Banana Pro<br>
+                Nano Banana 2<br>
+                Veo 3.1<br>
+                <br>
+                <strong>&lt;開発環境&gt;</strong><br>
+                Next.js v16.2.10 / React v19.2.4<br>
+                Gemini Pro Vision<br>
+                Antigravity AI<br>
+                <a href="https://github.com/wind8lovers-create/gemini-art-chat" target="_blank" rel="noopener" style="color: #ccc; text-decoration: underline;">GitHub</a>
+                <br><br>
+                -Hazuki-kiz-<br>
+                <img src="assets/a104e18c-528e-4d68-9f9c-a17c481c064d.png" alt="Hazuki" style="width: 100%; max-width: 120px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 4px;" />
+                </p>
+            </div>
+        </aside>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <div id="gallery-grid" class="grid"></div>
+        </main>
+    </div>
+
+    <!-- モーダル -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="modal-close" class="modal-close">✕</button>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK & 初期化 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, updateDoc, increment, collection, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQJ1faA_vWSiEpcAgQNl4Yqgk20z-1x-M",
+            authDomain: "feeling-gallery.firebaseapp.com",
+            projectId: "feeling-gallery",
+            storageBucket: "feeling-gallery.firebasestorage.app",
+            messagingSenderId: "66103896954",
+            appId: "1:66103896954:web:14b3c4d252a2dde34644c3"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.firebaseRecordVisitor = async () => {
+            try {
+                const statsRef = doc(db, 'stats', 'global');
+                
+                // 過去に訪問したことがあるかチェック
+                if (localStorage.getItem('hasVisited')) {
+                    // 訪問済みの場合、現在の訪問者数を取得
+                    const docSnap = await getDoc(statsRef);
+                    if (docSnap.exists()) {
+                        const currentCount = docSnap.data().visitors || 0;
+                        // 1000未満ならまだ「PVモード」としてカウントを増やす
+                        if (currentCount < 1000) {
+                            await updateDoc(statsRef, { visitors: increment(1) });
+                        }
+                        // 1000以上の場合は、もう「1人1回モード」なので何もしない
+                    }
+                } else {
+                    // 初回訪問なら必ずカウントを増やし、訪問済みのメモを残す
+                    await updateDoc(statsRef, { visitors: increment(1) }).catch(async (e) => {
+                        if (e.code === 'not-found') await setDoc(statsRef, { visitors: 1, downloads: 0 });
+                    });
+                    localStorage.setItem('hasVisited', 'true');
+                }
+            } catch(e) { console.error(e); }
+        };
+
+        window.firebaseRecordView = async (imageId) => {
+            try {
+                const statsRef = doc(db, 'stats', 'global');
+                await updateDoc(statsRef, { views: increment(1) }).catch(e => {});
+                
+                const imgRef = doc(db, 'images', imageId);
+                await updateDoc(imgRef, { views: increment(1) }).catch(async (e) => {
+                    if (e.code === 'not-found') await setDoc(imgRef, { views: 1 });
+                });
+            } catch(e) { console.error(e); }
+        };
+
+        window.firebaseGetPopularImages = async () => {
+            try {
+                const imagesRef = collection(db, 'images');
+                const snapshot = await getDocs(imagesRef);
+                const popularStats = {};
+                snapshot.forEach(doc => {
+                    popularStats[doc.id] = doc.data().views || 0;
+                });
+                return popularStats;
+            } catch(e) { console.error(e); return {}; }
+        };
+
+        window.firebaseRecordVisitor();
+    </script>
+    <script src="data.js?v=1784853027321"></script>
+    <script src="script.js?v=1784853027321"></script>
+</body>
+</html>
