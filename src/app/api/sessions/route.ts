@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   // 画面から「どんなタイトルにするか」を受け取ります
   // 例： { title: "猫の絵を描く" }
   const body = await req.json();
-  const title = body.title || "新しいチャット";
+  const title = body.title || "新規コンテンツ";
 
   // 新しい会話部屋のプロフィール（ルール）を作ります
   const newSession: Session = {

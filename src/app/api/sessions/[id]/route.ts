@@ -18,7 +18,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   const session = await getSession(sessionId);
   if (!session) {
     // 見つからなければ 404（Not Found）エラーを返す
-    return NextResponse.json({ error: 'お探しのチャット履歴が見つかりません。' }, { status: 404 });
+    return NextResponse.json({ error: 'お探しのコンテンツが見つかりません。' }, { status: 404 });
   }
   
   // 過去のメッセージのやり取りを全て取得する
@@ -62,7 +62,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   // まず今の部屋の情報を取得
   const session = await getSession(sessionId);
   if (!session) {
-    return NextResponse.json({ error: 'お探しのチャット履歴が見つかりません。' }, { status: 404 });
+    return NextResponse.json({ error: 'お探しのコンテンツが見つかりません。' }, { status: 404 });
   }
   
   // 画面から「どこを変えるか」の指示を受け取る（例： { title: "犬の絵に変更" }）

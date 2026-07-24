@@ -127,7 +127,7 @@ export default function PreviewPage() {
     <>
       <Header />
       <main className={styles.container}>
-        <h1 className={styles.title}>👀 Pages表示イメージ（プレビュー）</h1>
+        <h1 className={styles.title}>👀 Pages イメージプレビュー</h1>
         {currentFolderId !== null ? (
           <div style={{ marginBottom: '20px' }}>
             <button onClick={() => setCurrentFolderId(null)} className="btn btn-secondary" style={{ marginRight: '10px' }}>

@@ -81,7 +81,7 @@ export default function Sidebar({
       const res = await fetch('/api/sessions', { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: '新しいチャット' }),
+        body: JSON.stringify({ title: '新規コンテンツ' }),
       });
       const newSession = await res.json();
       setSessions(prev => [newSession, ...prev]);
@@ -131,7 +131,7 @@ export default function Sidebar({
 
   const handleDeleteSession = async (sessionId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (window.confirm('このチャット履歴を完全に削除しますか？\n（関連する画像も削除されます）')) {
+    if (window.confirm('このコンテンツを完全に削除しますか？\n（関連する画像も削除されます）')) {
       try {
         const res = await fetch(`/api/sessions/${sessionId}`, { method: 'DELETE' });
         if (res.ok) {
@@ -148,7 +148,7 @@ export default function Sidebar({
 
   const handleDeleteFolder = async (folderId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (window.confirm('このフォルダを削除しますか？\n（中のチャット履歴は外に出るだけで削除されません）')) {
+    if (window.confirm('このフォルダを削除しますか？\n（中のコンテンツは外に出るだけで削除されません）')) {
       try {
         const res = await fetch(`/api/folders/${folderId}`, { method: 'DELETE' });
         if (res.ok) {
@@ -407,7 +407,7 @@ export default function Sidebar({
             style={{ cursor: 'pointer', margin: 0, display: 'flex', alignItems: 'center', gap: '4px' }}
             title="メニューを開く"
           >
-            🖼️ アルバム <span style={{ fontSize: '12px', opacity: 0.7 }}>▼</span>
+            🖼️ わーくすぺーす <span style={{ fontSize: '12px', opacity: 0.7 }}>▼</span>
           </h2>
           {isMenuOpen && (
             <>
@@ -417,10 +417,10 @@ export default function Sidebar({
                   📁 新規フォルダ作成
                 </button>
                 <button className="btn btn-secondary" onClick={() => { setIsMenuOpen(false); createNewSession(); }} style={{ width: '100%', textAlign: 'left', padding: '8px', fontSize: '14px', color: 'pink' }}>
-                  💬 新しいチャット
+                  💬 新規コンテンツ
                 </button>
                 <hr style={{ borderTop: '1px solid var(--border-color)', margin: '4px 0' }} />
-                <button className={styles.btnSecondary} onClick={() => { setIsMenuOpen(false); window.location.href = '/import'; }} style={{ width: '100%', textAlign: 'left', border: 'none', background: 'transparent', color: 'var(--text-color)', cursor: 'pointer', padding: '4px' }}>
+                <button className="btn btn-secondary" onClick={() => { setIsMenuOpen(false); window.location.href = '/import'; }} style={{ width: '100%', textAlign: 'left', padding: '8px', fontSize: '14px', color: 'rgb(40, 180, 40)', fontWeight: 'bold' }}>
                   📧 Gmail取込み
                 </button>
                 <button className="btn btn-secondary" onClick={() => { setIsMenuOpen(false); fetch('/api/explorer'); }} style={{ width: '100%', textAlign: 'left', padding: '8px', fontSize: '14px', color: 'pink' }}>
@@ -530,7 +530,7 @@ export default function Sidebar({
         </div>
 
         {sessions.length === 0 && folders.length === 0 && (
-          <div className={styles.empty}>チャット履歴がありません</div>
+          <div className={styles.empty}>コンテンツがありません</div>
         )}
       </div>
     </aside>

@@ -237,7 +237,7 @@ export default function ImageWithActions({
               <button 
                 className={styles.actionBtn} 
                 onClick={handleFork} 
-                title="この画像をベースに新しいチャットを始める"
+                title="この画像をベースに新規コンテンツを作成する"
                 disabled={isForking}
               >
                 {isForking ? '⏳' : '🌱'}

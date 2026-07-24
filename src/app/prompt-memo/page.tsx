@@ -105,8 +105,7 @@ export default function PromptMemoPage() {
       <main className={styles.container}>
         <div className={styles.header}>
           <h1 className={styles.title}>
-            <span className="material-symbols-outlined text-primary">notes</span>
-            プロンプトメモ (Lumina Notes)
+            📝 Pages めもプレビュー
           </h1>
           <div className={styles.actions}>
             <button className="btn" onClick={async () => {
